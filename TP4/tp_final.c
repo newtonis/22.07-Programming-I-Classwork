@@ -1,24 +1,27 @@
-/// Ariel Nowik
-/// Marcelo Regueira
-/// Joaquin mestanza
+/* TP4 - GRUPO 3 */
+/* El Juego de la Vida*/
+
+/// 	Ariel Nowik
+/// 	Marcelo Regueira
+/// 	Joaquin Mestanza
 
 #include <stdio.h>
 
 #define M 6 // Cantidad de filas
 #define N 6 // Cantidad de columnas
-#define MIN_NB 2 // configuracion minima y maxima cantidad de vecinos para una celda ser viva o muerta
+#define MIN_NB 2 // Configuracion minima y maxima de la cantidad de vecinos para una celda ser viva o muerta
 #define MAX_NB 3
-#define ALIVE '*'
+#define ALIVE '*' // Simbologia adoptada para identificar celulas vivas y muertas
 #define DEAD ' '
 
-#define CNT_NBOURS 8 // cantidad de vecinos de una celda (usada en una matriz para el funcionamiento del juego)
+#define CNT_NBOURS 8 // Cantidad de vecinos de una celda (usada en una matriz para el funcionamiento del juego)
 
 
-#define INPUT_ERR -1 // codigos de error input
+#define INPUT_ERR -1 // Codigos de error input
 #define INPUT_ENTER -2
 
 // Criterio: la matrix hardcodeada se declara global. De esta forma
-// est cerca del principio del programa y es facil modificarla rapido
+// esta cerca del principio del programa y es facil modificarla rapido
 
 char seed_matrix[M][N] = {
 	{' ',' ',' ',' ',' ',' '},
@@ -65,7 +68,6 @@ int main(){
 		output_world(game_matrix);
 		printf("Escriba la cantidad de iteraciones a realizar\n");
 		printf("(Escribir 0 para terminar el programa) \n");
-		printf("(Presionar enter para que sea una sola iteracion) \n");
 		printf("\n");
 		printf("Iteraciones: ");
 		int it = leer_numero();
@@ -115,7 +117,7 @@ int next_cell_ev (int i,int j,char mat[][M]){
 		case ALIVE: // If the cell is ALIVE
 			if((cant_vecinos < MIN_NB) || (cant_vecinos > MAX_NB)){
 				new_state = DEAD;
-			}else{
+			}else if((cant_vecinos == MIN_NB) || (cant_vecinos == MAX_NB)){
 				new_state = ALIVE;
 			}
 		break;
@@ -134,8 +136,8 @@ int cnt_nbours(int i, int j,char mat[][N]){
     int k;
     int ans = 0;
 
-	int mv_i[CNT_NBOURS] = {1, 1, 0,-1,-1,-1, 0,1};
-	int mv_j[CNT_NBOURS] = {0,-1,-1,-1 ,0, 1,-1,1};
+	int mv_i[CNT_NBOURS] = {1, 1, 0,-1,-1,-1,0,1};
+	int mv_j[CNT_NBOURS] = {0,-1,-1,-1 ,0, 1,1,1}; // OJO
 
     for(k = 0 ;k < CNT_NBOURS;k++){
         ans += (mat[ i + mv_i[k] ][ j + mv_j[k] ]) == ALIVE;
@@ -171,7 +173,7 @@ void init_game(char mat[][N]){
 }
 
 int leer_numero(){
-	int ans = 0; // en el cado de que el usuario solo presione enter
+	int ans = 0; // en el caso de que el usuario solo presione enter
 	int abort = 0;
 	int f_enter = 1; // flag para controlar si el usuario solo escribe enter
 
