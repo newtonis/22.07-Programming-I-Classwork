@@ -46,8 +46,6 @@ int next_cell_ev(int i,int j,char mat[][M]); // si estamos en la iteracion i, no
 
 int cnt_nbours(int i, int j,char mat[][N]); // cotar la cantidad de vecinos vivos de una celda
 
-int is_boundary(int i,int j); // esta una celda esta en el borde?
-
 int leer_numero(); // leer un entero de la entrada estandar
 
 int main(){
@@ -95,11 +93,7 @@ void finalize_evolution(char mat[][N]){ // actualizamos cada casillero por separ
 
 	for (i = 0;i < M;i++){
 		for (j = 0;j < N;j++){
-			if (is_boundary(i , j)){ // esta en el borde?
-				aux_next[i][j] = DEAD; 
-			}else{
-				aux_next[i][j] = next_cell_ev(i,j,mat); // estudiamos el estado de la celda segun las reglas
-			}
+			aux_next[i][j] = next_cell_ev(i,j,mat); // estudiamos el estado de la celda segun las reglas
 		}
 	}
 	copy_matrix(aux_next , mat); // ahora si se actualiza la matriz del juego
@@ -140,20 +134,14 @@ int cnt_nbours(int i, int j,char mat[][N]){
 	int mv_j[CNT_NBOURS] = {0,-1,-1,-1 ,0, 1,1,1}; // OJO
 
     for(k = 0 ;k < CNT_NBOURS;k++){
-        ans += (mat[ i + mv_i[k] ][ j + mv_j[k] ]) == ALIVE;
+		int n_i = i + mv_i[k];
+		int n_j = j + mv_j[k];
+		if (n_i >= 0 && n_i <= M && n_j >= 0 && n_j <= N){        
+        	ans += (mat[ i + mv_i[k] ][ j + mv_j[k] ]) == ALIVE;
+    	}
     }
 
     return ans;
-}
-
-int is_boundary(int i,int j){
-	int ans = 0;
-	if (i <= 0 || i >= M){
-		ans = 1;
-	}else if (j <= 0 || j >= N){
-		ans = 1;
-	}
-	return ans;
 }
 
 void output_world(char mat[][N]){
