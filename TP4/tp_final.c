@@ -15,6 +15,9 @@
 #define DEAD ' '
 #define IS_ENTER 1
 #define NOT_ENTER 0
+#define TRUE 1
+#define FALSE 0
+#define BASE_NUM 10 
 
 #define CNT_NBOURS 8 // Cantidad de vecinos de una celda (usada en una matriz para el funcionamiento del juego)
 
@@ -59,13 +62,15 @@ int next_cell_ev(int i,int j,char mat[][M]);
    cantidad de celulas vecinas vivas que posee en las 8 celdas de alrededor. */
 int cnt_nbours(int i, int j,char mat[][N]);
 
-/* leer_numero: leer un entero de la entrada estandar */
+/* leer_numero: lee un entero de la entrada estandar (teclado), devuelve el numero 
+   ingresado en formato decimal. */
 int leer_numero(); 
+
 
 int main(){
 	char game_matrix[M][N];
+	
 	init_game(game_matrix);
-
 
 	printf("Bienvenido al juego de la vida \n");
 	printf("Configuracion: %dx%d \n",M,N);
@@ -73,12 +78,12 @@ int main(){
 	printf("\n");
 
 	int i = 0;
-	int cont = 1;
+	int cont = TRUE;
 
 	while (cont){
 		printf("Estado del juego: (iteracion %d) \n",i);
 		output_world(game_matrix);
-		printf("Escriba la cantidad de iteraciones a realizar\n");
+		printf("Escriba la cantidad de iteraciones a realizar en formato decimal\n");
 		printf("(Escribir 0 para terminar el programa) \n");
 		printf("\n");
 		printf("Iteraciones: ");
@@ -96,7 +101,7 @@ int main(){
 				}
 			}
 		}else if (it == 0){
-			cont = 0;
+			cont = FALSE;
 		}
 	}
 }
@@ -144,8 +149,8 @@ int cnt_nbours(int i, int j,char mat[][N]){
     int k;
     int ans = 0;
 
-	int mv_i[CNT_NBOURS] = {1, 1, 0,-1,-1,-1,0,1};
-	int mv_j[CNT_NBOURS] = {0,-1,-1,-1 ,0, 1,1,1}; 
+	int mv_i[CNT_NBOURS] = {1, 1, 0,-1,-1,-1,0,1}; // Desplazamiento horizontal
+	int mv_j[CNT_NBOURS] = {0,-1,-1,-1 ,0, 1,1,1}; // Desplazamiento vertical
 
     for(k = 0 ;k < CNT_NBOURS;k++){
 		int n_i = i + mv_i[k];
@@ -176,20 +181,20 @@ void init_game(char mat[][N]){
 
 int leer_numero(){
 	int ans = 0; // En el caso de que el usuario solo presione enter
-	int abort = 0;
+	int abort = FALSE;
 	int f_enter = IS_ENTER; // Flag para controlar si el usuario solo escribe enter
 
 	char c;
 	while ( (c = getchar()) != '\n'){
 		if (c >= '0' && c <= '9'){
-			ans *= 10;
+			ans *= BASE_NUM; // En este caso la base numerica es 10
 			ans += (c - '0');
 		}else{
-			abort = 1; // Seguiremos iterando para vaciar el buffer
+			abort = TRUE; // Seguiremos iterando para vaciar el buffer
 		}
 		f_enter = NOT_ENTER;
 	} 
-	if (abort){
+	if (abort == TRUE){
 		ans = INPUT_ERR;
 	}
 	if (f_enter == IS_ENTER){
