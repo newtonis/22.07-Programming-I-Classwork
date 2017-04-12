@@ -1,0 +1,43 @@
+#include <stdio.h>
+
+/* Trabajo Practico 2: Ejercicio 7
+Integrantes: 
+Marcelo Regueira
+Mestanza Joaquin
+Nowik Ariel
+
+Dado un numero determinado, en este caso declarado como la constante NUMBER 
+se imprime en pantalla si el numero es primo o no.
+
+
+nota 1: Los numeros menores o iguales a 1 no se consideraran ni primos,
+ni compuestos.
+NOTA 2: La demora del programa es proporcional a la raiz cuadrada del numero.			
+*/
+
+#define NUMBER  883
+
+int main(){
+
+	int num = NUMBER;
+	int i;
+	char ready = 0; // flag que al final del programa me indica si NUMBER es primo o no 
+
+	if(num <= 1){
+			printf("numero invalido\n");   // entrada valida?
+		}else{
+
+			for(i=2;i*i<=num;i++){			//Si lo es, iteramos buscando si los naturales comprendidos (x) entre 2<=x<=num-1
+							// revisando si num es divisible por ellos,ya que los casos 1 y si mismo no me aportan ningun
+				if(num%i==0){		// dato para ver si es primo o no.
+					ready=1;		// Si se encuentra algun numero por el cual num es divisible significa que no es primo, 
+				}			// por ende cambiamos el estado de "ready" a 1
+			}
+
+		if(ready==0){					  // una vez que se termina de iterar reviso si el flag cambio de estado  
+			printf("el numero %d es primo\n",num);    // si cambio significa que es primo sino, no lo es.
+		}else{
+			printf("el numero %d no es primo\n",num);
+		}
+	}
+}
