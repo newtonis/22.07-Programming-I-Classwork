@@ -161,10 +161,10 @@ int check_make_word(char str1[],int sz1,char str2[],int sz2){
 	get_let_freq(freq1 , str1 , sz1 );
 	get_let_freq(freq2 , str2 , sz2 );
 	int i;
-	int ans = 1;
+	int ans = TRUE;
 	for (i = 0;ans && i < CNT_LET;i++){
 		if (freq1[ (int)valid_let[i] ] < freq2[ (int)valid_let[i] ]){ // there are not enough letters
-			ans = 0;
+			ans = FALSE;
 		}
 	}
 	return ans;
