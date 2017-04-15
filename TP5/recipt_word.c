@@ -5,7 +5,7 @@
 #define CNT_LET 52
 #define CNT_ASCI 256
 
-enum {ERR_SZ,ERR_CHAR_VALID,VALID};
+enum {ERR_SZ,ERR_CHAR_VALID,ERR_EMPTY ,VALID };
 enum {FALSE , TRUE};
 
 // The array valid_let is global because its for read only purposes
@@ -66,6 +66,7 @@ void loop_input(int is_valid[]){
 	char str1[WORD_LIMIT] , str2[WORD_LIMIT];
 	int sz1,sz2;
 	
+	
 	loop_read_word(str1,"Insert first word: " ,&sz1 , is_valid);
 	loop_read_word(str2,"Insert second word: ",&sz2 , is_valid);
 
@@ -97,21 +98,6 @@ void loop_continue(int *end){
 	}
 }
 
-
-int check_make_word(char str1[],int sz1,char str2[],int sz2){
-	int freq1[CNT_ASCI] , freq2[CNT_ASCI];
-	get_let_freq(freq1 , str1 , sz1 );
-	get_let_freq(freq2 , str2 , sz2 );
-	int i;
-	int ans = 1;
-	for (i = 0;ans && i < CNT_LET;i++){
-		if (freq1[ (int)valid_let[i] ] < freq2[ (int)valid_let[i] ]){ // there are not enough letters
-			ans = 0;
-		}
-	}
-	return ans;
-}
-
 void loop_read_word(char str[],char msg[], int *sz , int is_valid[]){
 	int end = 0;
 	while (!end){
@@ -125,6 +111,8 @@ void loop_read_word(char str[],char msg[], int *sz , int is_valid[]){
 			case ERR_SZ:
 				printf("Max size exceeded: %d>%d\n",*sz,WORD_LIMIT);
 			break;
+			case ERR_EMPTY:
+				printf("No word inserted\n");
 			case VALID:
 				end = 1;
 			break;
@@ -156,6 +144,19 @@ void recipt_word (char str[],int *sz){
 	*sz = i;
 }
 
+int check_make_word(char str1[],int sz1,char str2[],int sz2){
+	int freq1[CNT_ASCI] , freq2[CNT_ASCI];
+	get_let_freq(freq1 , str1 , sz1 );
+	get_let_freq(freq2 , str2 , sz2 );
+	int i;
+	int ans = 1;
+	for (i = 0;ans && i < CNT_LET;i++){
+		if (freq1[ (int)valid_let[i] ] < freq2[ (int)valid_let[i] ]){ // there are not enough letters
+			ans = 0;
+		}
+	}
+	return ans;
+}
 void process_valid(int is_valid[] ,char let_list[] , int let_list_sz){
 	init_null_arr(is_valid , let_list_sz);
 	int i = 0;
@@ -168,6 +169,8 @@ int valid_word(char word[], int word_sz , int is_valid[]){
 	int ans;
 	if (word_sz > WORD_LIMIT){
 		ans = ERR_SZ;
+	}else if(word_sz == 0){
+		ans = ERR_EMPTY;
 	}else{
 		int i;
 		ans = VALID;
