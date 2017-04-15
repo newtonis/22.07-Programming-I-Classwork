@@ -84,7 +84,7 @@ void loop_continue(int *end){
 		char str[SMALL_SZ];
 		int sz;
 		recipt_word(str,&sz,SMALL_SZ);
-		if (sz >= 1){
+		if (sz >= 2){
 			printf("Invalid answer\n");
 		}else{
 			char c = str[0];
