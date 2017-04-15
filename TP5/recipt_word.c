@@ -11,48 +11,32 @@
 #define C_LET (26*2)
 #define C_ASCI 256
 
-/* init_null_array: recieves the reference of where an
-   array is stored and its length, and sets all the
-   elements to 0. */
-void init_null_array(char array[], int arr_size);
 
-/* recipt_word: receives the reference of the array where 
-   the word will be stored, a reference to the array of
-   the number of chars of the same type contained, and the 
-   number of the word (1, 2, etc.). */
-void recipt_word (char string_src[], char chars[C_ASCI], int num);
+enum {FALSE , TRUE};
 
-/* welcome_print: prints a message with initial instructions
-   to the final user. It needs a define with the max. number
-   of letters. */
+// sets all array elements to 0
+void init_null_arr(char arr[], int sz);
+
+// reads from input one word. sz=0 if no word entered
+void recipt_word (char str[], int *sz);
+
 void welcome_print(void);
 
-/* validate_word: receives a reference to the array where
-   the word is stored and checks if contains a symbol or 
-   character not allowed. It returns a pointer with the 
-   result of the check process: WORD_OK or ERR_CHAR. */
-void validate_word(char src_word[], int *w_state);
+// checks a word to be valid, if all chars are valid letters
+void valid_word(char word[],int word_sz);
 
-/*is_valid: tells me if a specific character is in the
-valid range of the alphabet*/
-
-char is_valid(char a);
-
-/* The array valid_let is global because its for read only
-   purposes.*/
+// The array valid_let is global because its for read only purposes
 char valid_let[C_LET] = 
 {'a','b','c','d','e',
 'f','g','h','i','j',
 'k','l','m','n','o',
 'p','q','r','s','t',
-'u','v','w','x','y',
-'z',
+'u','v','w','x','y','z',
 'A','B','C','D','E',
 'F','G','H','I','J',
 'K','L','M','N','O',
 'P','Q','R','S','T',
-'U','V','W','X','Y',
-'Z'};
+'U','V','W','X','Y','Z'};
 
 int main()
 {
@@ -63,7 +47,7 @@ int main()
 	char word_1[WORD_LIMIT], w1_chars[C_ASCI]; 
 	//char word_2[WORD_LIMIT], w2_chars[C_ASCI];
 
-	init_null_array(w1_chars, C_ASCI);
+	init_null_arr(w1_chars, C_ASCI);
 
 	welcome_print();
 
@@ -80,58 +64,43 @@ int main()
 }
 
 void welcome_print(void){
-
 	printf("Welcome to the Anagram Search Program\n");
 	printf("-------------------------------------\n\n");
 	printf("Enter words in spanish with a length of no more than %d letters.\n", WORD_LIMIT); 
 	printf("DO NOT include numbers or strange symbols.\n");
 }
 
-void recipt_word (char string_src[], char chars[C_ASCI], int num){
+void recipt_word (char str[],int *sz){
+	int i = 0;
+	while((aux_var = getchar()) != '\n'){
+		str[i] = aux_var;
+		i++;
+	}
+	*sz = i;
+}
 
-	int i = START, aux_var = 0, control = WAIT;
+void process_valid(int is_valid[]){
+	init_null_arr(is_valid , str);
+	int i = 0;
+	for (i = 0;i < C_LET;i++){
+		is_valid[ valid_let[i] ] = TRUE;
+	}
+}
 
-	while(control == WAIT){
-		printf("Enter the word number %d: ", num);
-		while((aux_var = getchar()) != '\n'){ // While is not ENTER
-			string_src[i] = aux_var;
-			chars[aux_var]++;
-			i++;
-		}
-
-		if(i != START){ // At least 1 character entered
-			string_src[i] = '\n';
-			control = INFO_OK;
+int valid_word(char word[], int word_sz , int is_valid[]){
+	int i;
+	ans = FALSE;
+	for(i = 0;!ans && i < word_sz;i++){
+		if (is_valid[word[i]]){
+			ans = TRUE;
 		}
 	}
-
-	i = START;
+	return ans;	
 }
 
-void validate_word(char src_word[], int *w_state){
+void init_null_arr(char arr[], int sz){
 	int i;
-	for(i=0; i<C_ASCI; i++){
-		if( ( is_valid( src_word[i] ) ) == ERR_CHAR){
-			*w_state = ERR_CHAR;
-		}else{
-			*w_state = WORD_OK;
-		}
-	}	
-}
-
-char is_valid(char a){
-	int ans;
-	if(('A'<= a)&& (a<= 'z')){
-		ans=WORD_OK;
-	}else{
-		ans=ERR_CHAR;
+	for(i = 0; i < sz; i++){
+		arr[i] = 0;
 	}
-	return ans;
-}
-
-void init_null_array(char array[], int arr_size){
-
-	int i;
-	for(i = 0; i < arr_size; i++)
-		array[i] = 0;
 }
