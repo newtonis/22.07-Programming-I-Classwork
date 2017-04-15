@@ -142,7 +142,7 @@ void welcome_print(){
 	printf("-------------------------------------\n\n");
 }
 
-void recipt_word (char str[],int *sz,int max_sz){
+void recipt_word (char str[],int *sz,int max_sz){ // we write up to [0,max_sz] index with terminator
 	int i = 0;
 	char aux_var;
 	*sz = 0;
@@ -152,7 +152,9 @@ void recipt_word (char str[],int *sz,int max_sz){
 		}
 		i++;
 	}
-	str[i] = '\0';
+	if (i <= max_sz){
+		str[i] = '\0';
+	}
 	*sz = i;
 }
 
