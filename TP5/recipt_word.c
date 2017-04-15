@@ -21,6 +21,10 @@ char valid_let[CNT_LET] =
 'P','Q','R','S','T',
 'U','V','W','X','Y','Z'};
 
+//updates the array char_freq which contains how many 
+// times has letter showed up in a the array word
+void updt_let(char char_freq[],char word[],int word_sz);
+
 
 // sets all array elements to 0
 void init_null_arr(int arr[], int sz);
@@ -127,3 +131,10 @@ void init_null_arr(int arr[], int sz){
 		arr[i] = 0;
 	}
 }
+
+void updt_let(char char_freq[],char word[], int word_sz){          
+	int i;							
+	for( i=0; i<word_sz ; i++ ){    								      
+			char_freq[(int)(word [i])]++;		           		
+	}									
+}		
