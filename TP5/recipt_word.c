@@ -49,6 +49,8 @@ void loop_input(int is_valid[]);
 void loop_continue(int *end); // end of program?
 
 int main(){
+	freopen("input.in","r",stdin);
+	
 	int is_valid[CNT_ASCI];
 	process_valid(is_valid , valid_let , CNT_ASCI); // compute valid letters table (is_valid)
 
