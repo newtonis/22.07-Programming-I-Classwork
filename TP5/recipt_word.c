@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #define WORD_LIMIT 20
+#define SMALL_SZ 1
 
 #define CNT_LET 52
 #define CNT_ASCI 256
@@ -80,21 +81,28 @@ void loop_continue(int *end){
 	int ask = 1;
 	while (ask){
 		printf("Continue(y/n)?:");
-		char c = getchar();
-		switch (c){
-			case 'n':
-			case 'N':					
-				*end = 1;
-				ask = 0;
-			break;
-			case 'Y':
-			case 'y':
-				*end = 0;
-				ask = 0;
-			break;
-			default:
-				printf("Invalid answer\n");
-			break;
+		char str[SMALL_SZ];
+		int sz;
+		recipt_word(str,&sz,SMALL_SZ);
+		if (sz >= 1){
+			printf("Invalid answer\n");
+		}else{
+			char c = str[0];
+			switch (c){
+				case 'n':
+				case 'N':					
+					*end = 1;
+					ask = 0;
+				break;
+				case 'Y':
+				case 'y':
+					*end = 0;
+					ask = 0;
+				break;
+				default:
+					printf("Invalid answer\n");
+				break;
+			}
 		}
 	}
 }
