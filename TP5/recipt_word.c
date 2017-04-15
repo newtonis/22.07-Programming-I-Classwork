@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #define WORD_LIMIT 20
 
@@ -49,6 +50,7 @@ void loop_input(int is_valid[]);
 void loop_continue(int *end); // end of program?
 
 int main(){
+
 	int is_valid[CNT_ASCI];
 	process_valid(is_valid , valid_let , CNT_ASCI); // compute valid letters table (is_valid)
 
@@ -65,7 +67,6 @@ int main(){
 void loop_input(int is_valid[]){
 	char str1[WORD_LIMIT] , str2[WORD_LIMIT];
 	int sz1,sz2;
-	
 	
 	loop_read_word(str1,"Insert first word: " ,&sz1 , is_valid);
 	loop_read_word(str2,"Insert second word: ",&sz2 , is_valid);
@@ -143,6 +144,7 @@ void recipt_word (char str[],int *sz,int max_sz){
 		}
 		i++;
 	}
+	str[i] = '\0';
 	*sz = i;
 }
 
