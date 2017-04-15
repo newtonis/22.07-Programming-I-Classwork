@@ -2,8 +2,8 @@
 
 #define WORD_LIMIT 20
 
-#define CNT_LET (52)
-#define CNT_ASCI (256)
+#define CNT_LET 52
+#define CNT_ASCI 256
 
 enum {ERR_SZ,ERR_CHAR_VALID,VALID};
 enum {FALSE , TRUE};
@@ -29,7 +29,6 @@ void recipt_word (char str[], int *sz);
 void welcome_print();
 // checks a word to be valid, if all chars are valid letters
 int valid_word(char word[], int word_sz , int is_valid[]);
-
 // convert letter list to asci table (valid letters value is 1)
 void process_valid(int is_valid[] ,char let_list[] , int let_list_sz);
 
@@ -37,9 +36,8 @@ void process_valid(int is_valid[] ,char let_list[] , int let_list_sz);
 void loop_read_word(char str[],char msg[], int *sz , int is_valid[]);
 
 int main(){
-	// compute valid letters table
 	int is_valid[CNT_ASCI];
-	process_valid(is_valid , valid_let , CNT_ASCI);
+	process_valid(is_valid , valid_let , CNT_ASCI); // compute valid letters table
 
 	char str1[WORD_LIMIT] , str2[WORD_LIMIT];
 	int sz1, sz2;
