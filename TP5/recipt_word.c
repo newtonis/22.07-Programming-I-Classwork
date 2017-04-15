@@ -1,15 +1,9 @@
 #include <stdio.h>
 
-#define WAIT_WORD -3
-#define WORD_OK -2
-#define START 0
-#define WAIT 1
-#define INFO_OK 2
-#define IS_ENTER 3
 #define WORD_LIMIT 20
 
-#define CNT_LET (26*2)
-#define CNT_ASCI 256
+#define CNT_LET (52)
+#define CNT_ASCI (256)
 
 enum {ERR_SZ,ERR_CHAR_VALID,VALID};
 enum {FALSE , TRUE};
@@ -40,7 +34,7 @@ int valid_word(char word[], int word_sz , int is_valid[]);
 void process_valid(int is_valid[] ,char let_list[] , int let_list_sz);
 
 // ask user word until it gives a valid one
-void loop_read_word(int str[],char msg[], int *sz , int is_valid[]);
+void loop_read_word(char str[],char msg[], int *sz , int is_valid[]);
 
 int main(){
 	// compute valid letters table
@@ -52,18 +46,14 @@ int main(){
 
 	welcome_print();
 	
-	loop_read_word(str1,"Insert first word:\n",&sz1 , is_valid);
-	
+	loop_read_word(str1,"Insert first word: " ,&sz1 , is_valid);
+	loop_read_word(str2,"Insert second word: ",&sz2 , is_valid);
 
-	printf("Insert second word: ");
-	recipt_word(str2,&sz2);
-	
-
-	//printf("%d %d",valid1,valid2);
+	printf("%s %s \n",str1,str2);
 	return 0;
 }
 
-void loop_read_word(int str[],char msg[], int *sz , int is_valid[]){
+void loop_read_word(char str[],char msg[], int *sz , int is_valid[]){
 	int end = 0;
 	while (!end){
 		printf("%s", msg);
@@ -71,10 +61,10 @@ void loop_read_word(int str[],char msg[], int *sz , int is_valid[]){
 		int valid = valid_word(str,*sz,is_valid);
 		switch (valid){
 			case ERR_CHAR_VALID:
-				printf("Not valid character inserted\n");
+				printf("Invalid character inserted\n");
 			break;
 			case ERR_SZ:
-				printf("Max size exceeded: %d>%d\n",sz,WORD_LIMIT);
+				printf("Max size exceeded: %d>%d\n",*sz,WORD_LIMIT);
 			break;
 			case VALID:
 				end = 1;
@@ -99,6 +89,7 @@ void welcome_print(){
 void recipt_word (char str[],int *sz){
 	int i = 0;
 	char aux_var;
+	*sz = 0;
 	while((aux_var = getchar()) != '\n'){
 		str[i] = aux_var;
 		i++;
@@ -120,10 +111,10 @@ int valid_word(char word[], int word_sz , int is_valid[]){
 		ans = ERR_SZ;
 	}else{
 		int i;
-		ans = ERR_CHAR_VALID;
-		for(i = 0;(ans!=VALID) && i < word_sz;i++){
-			if (is_valid[ (int)word[i] ]){
-				ans = VALID;
+		ans = VALID;
+		for(i = 0;(ans==VALID) && i < word_sz;i++){
+			if (!is_valid[ (int)word[i] ]){
+				ans = ERR_CHAR_VALID;
 			}
 		}
 	}
