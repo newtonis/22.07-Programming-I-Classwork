@@ -11,9 +11,9 @@
 #define C_LET (26*2)
 #define C_ASCI 256
 
-/* init_null_array: recives the reference of where an
-   array is stored and his lenght, and sets all the
-   elements in 0. */
+/* init_null_array: recieves the reference of where an
+   array is stored and its length, and sets all the
+   elements to 0. */
 void init_null_array(char array[], int arr_size);
 
 /* recipt_word: receives the reference of the array where 
@@ -31,7 +31,12 @@ void welcome_print(void);
    the word is stored and checks if contains a symbol or 
    character not allowed. It returns a pointer with the 
    result of the check process: WORD_OK or ERR_CHAR. */
-//void validate_word(char src_word[], int *w_state);
+void validate_word(char src_word[], int *w_state);
+
+/*is_valid: tells me if a specific character is in the
+valid range of the alphabet*/
+
+char is_valid(char a);
 
 /* The array valid_let is global because its for read only
    purposes.*/
@@ -53,7 +58,7 @@ int main()
 {
 	enum{W1 = 1, W2};
 
-	int h = 0, state = WAIT_WORD;
+	int state = WAIT_WORD;
 
 	char word_1[WORD_LIMIT], w1_chars[C_ASCI]; 
 	//char word_2[WORD_LIMIT], w2_chars[C_ASCI];
@@ -78,7 +83,7 @@ void welcome_print(void){
 
 	printf("Welcome to the Anagram Search Program\n");
 	printf("-------------------------------------\n\n");
-	printf("Enter words in spanish with a lenght of no more than %d letters.\n", WORD_LIMIT); 
+	printf("Enter words in spanish with a length of no more than %d letters.\n", WORD_LIMIT); 
 	printf("DO NOT include numbers or strange symbols.\n");
 }
 
@@ -104,8 +109,24 @@ void recipt_word (char string_src[], char chars[C_ASCI], int num){
 }
 
 void validate_word(char src_word[], int *w_state){
+	int i;
+	for(i=0; i<C_ASCI; i++){
+		if( ( is_valid( src_word[i] ) ) == ERR_CHAR){
+			*w_state = ERR_CHAR;
+		}else{
+			*w_state = WORD_OK;
+		}
+	}	
+}
 
-	
+char is_valid(char a){
+	int ans;
+	if(('A'<= a)&& (a<= 'z')){
+		ans=WORD_OK;
+	}else{
+		ans=ERR_CHAR;
+	}
+	return ans;
 }
 
 void init_null_array(char array[], int arr_size){
