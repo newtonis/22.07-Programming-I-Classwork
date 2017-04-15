@@ -139,8 +139,9 @@ void recipt_word (char str[],int *sz,int max_sz){
 	*sz = 0;
 	while((aux_var = getchar()) != '\n'){
 		if (i < max_sz){
-			str[i++] = aux_var;
+			str[i] = aux_var;
 		}
+		i++;
 	}
 	*sz = i;
 }
