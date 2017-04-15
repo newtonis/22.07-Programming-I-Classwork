@@ -152,7 +152,7 @@ void recipt_word (char str[],int *sz,int max_sz){
 		}
 		i++;
 	}
-	if (i <= max_sz){ // we write up to [0,max_sz] index with terminator
+	if (i <= max_sz){ // there is enough space for terminator
 		str[i] = '\0';
 	}
 	*sz = i; /// we return total characters inserted no matter we did't add extra ones
@@ -165,8 +165,8 @@ int check_make_word(char str1[],int sz1,char str2[],int sz2){
 	int i;
 	int ans = TRUE;
 	for (i = 0;ans && i < CNT_LET;i++){
-		if (freq1[ (int)valid_let[i] ] < freq2[ (int)valid_let[i] ]){ // there are not enough letters
-			ans = FALSE;
+		if (freq1[ (int)valid_let[i] ] < freq2[ (int)valid_let[i] ]){ 
+			ans = FALSE; // there are not enough letters of that type
 		}
 	}
 	return ans;
