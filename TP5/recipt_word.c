@@ -66,7 +66,7 @@ int main(){
 }
 
 void loop_input(int is_valid[]){
-	char str1[WORD_LIMIT] , str2[WORD_LIMIT];
+	char str1[WORD_LIMIT+1] , str2[WORD_LIMIT+1]; //need the terminator
 	int sz1,sz2;
 	
 	loop_read_word(str1,"Insert first word: " ,&sz1 , is_valid);
@@ -81,7 +81,7 @@ void loop_continue(int *end){
 	int ask = 1;
 	while (ask){
 		printf("Continue(y/n)?:");
-		char str[SMALL_SZ];
+		char str[SMALL_SZ+1];
 		int sz;
 		recipt_word(str,&sz,SMALL_SZ);
 		if (sz == 0 || sz >= 2){
