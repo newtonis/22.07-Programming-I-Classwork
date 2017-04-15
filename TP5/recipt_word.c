@@ -52,7 +52,7 @@ int main(){
 	int is_valid[CNT_ASCI];
 	process_valid(is_valid , valid_let , CNT_ASCI); // compute valid letters table (is_valid)
 
-
+	welcome_print();
 	int end = 0;
 	do{
 		loop_input(is_valid);
@@ -65,8 +65,6 @@ int main(){
 void loop_input(int is_valid[]){
 	char str1[WORD_LIMIT] , str2[WORD_LIMIT];
 	int sz1,sz2;
-
-	welcome_print();
 	
 	loop_read_word(str1,"Insert first word: " ,&sz1 , is_valid);
 	loop_read_word(str2,"Insert second word: ",&sz2 , is_valid);
