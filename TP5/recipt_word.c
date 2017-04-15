@@ -36,7 +36,7 @@ void welcome_print();
 // ask user word until it gives a valid one
 void loop_read_word(char str[],char msg[], int *sz , int is_valid[]);
 // reads from input one word. sz=0 if no word entered
-void recipt_word (char str[], int *sz);
+void recipt_word (char str[], int *sz, int max_sz);
 
 
 // get how many times each character is on a word
@@ -102,7 +102,7 @@ void loop_read_word(char str[],char msg[], int *sz , int is_valid[]){
 	int end = 0;
 	while (!end){
 		printf("%s", msg);
-		recipt_word(str,sz);
+		recipt_word(str,sz,WORD_LIMIT);
 		int valid = valid_word(str,*sz,is_valid);
 		switch (valid){
 			case ERR_CHAR_VALID:
@@ -133,13 +133,14 @@ void welcome_print(){
 	printf("-------------------------------------\n\n");
 }
 
-void recipt_word (char str[],int *sz){
+void recipt_word (char str[],int *sz,int max_sz){
 	int i = 0;
 	char aux_var;
 	*sz = 0;
 	while((aux_var = getchar()) != '\n'){
-		str[i] = aux_var;
-		i++;
+		if (i < max_sz){
+			str[i++] = aux_var;
+		}
 	}
 	*sz = i;
 }
