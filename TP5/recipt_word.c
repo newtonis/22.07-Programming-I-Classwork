@@ -21,38 +21,97 @@ char valid_let[CNT_LET] =
 'P','Q','R','S','T',
 'U','V','W','X','Y','Z'};
 
-//updates the array char_freq which contains how many 
-// times has letter showed up in a the array word
-void updt_let(char char_freq[],char word[],int word_sz);
-
 
 // sets all array elements to 0
 void init_null_arr(int arr[], int sz);
-// reads from input one word. sz=0 if no word entered
-void recipt_word (char str[], int *sz);
-void welcome_print();
-// checks a word to be valid, if all chars are valid letters
-int valid_word(char word[], int word_sz , int is_valid[]);
+
+
 // convert letter list to asci table (valid letters value is 1)
 void process_valid(int is_valid[] ,char let_list[] , int let_list_sz);
+// checks a word to be valid, if all chars are valid letters
+int valid_word(char word[], int word_sz , int is_valid[]);
 
+
+void welcome_print();
 // ask user word until it gives a valid one
 void loop_read_word(char str[],char msg[], int *sz , int is_valid[]);
+// reads from input one word. sz=0 if no word entered
+void recipt_word (char str[], int *sz);
+
+
+// get how many times each character is on a word
+void get_let_freq(int char_freq[],char word[],int word_sz);
+// check if I can make one word with the other
+int check_make_word(char str1[],int sz1,char str2[],int sz2);
+
+
+void loop_input(int is_valid[]);
+void loop_continue(int *end); // end of program?
 
 int main(){
 	int is_valid[CNT_ASCI];
-	process_valid(is_valid , valid_let , CNT_ASCI); // compute valid letters table
+	process_valid(is_valid , valid_let , CNT_ASCI); // compute valid letters table (is_valid)
 
+
+	int end = 0;
+	do{
+		loop_input(is_valid);
+		loop_continue(&end);
+	}while (!end);
+	
+	return 0;
+}
+
+void loop_input(int is_valid[]){
 	char str1[WORD_LIMIT] , str2[WORD_LIMIT];
-	int sz1, sz2;
+	int sz1,sz2;
 
 	welcome_print();
 	
 	loop_read_word(str1,"Insert first word: " ,&sz1 , is_valid);
 	loop_read_word(str2,"Insert second word: ",&sz2 , is_valid);
 
-	printf("%s %s \n",str1,str2);
-	return 0;
+	int ans = check_make_word(str1,sz1,str2,sz2);
+	printf("Can '%s' be formed with '%s' letters: %s\n",str1,str2,ans?"YES":"NO");
+
+}
+
+void loop_continue(int *end){
+	int ask = 1;
+	while (ask){
+		printf("Continue(y/n)?:");
+		char c = getchar();
+		switch (c){
+			case 'n':
+			case 'N':					
+				*end = 1;
+				ask = 0;
+			break;
+			case 'Y':
+			case 'y':
+				*end = 0;
+				ask = 0;
+			break;
+			default:
+				printf("Invalid answer\n");
+			break;
+		}
+	}
+}
+
+
+int check_make_word(char str1[],int sz1,char str2[],int sz2){
+	int freq1[CNT_ASCI] , freq2[CNT_ASCI];
+	get_let_freq(freq1 , str1 , sz1 );
+	get_let_freq(freq2 , str2 , sz2 );
+	int i;
+	int ans = 1;
+	for (i = 0;ans && i < CNT_LET;i++){
+		if (freq1[ (int)valid_let[i] ] < freq2[ (int)valid_let[i] ]){ // there are not enough letters
+			ans = 0;
+		}
+	}
+	return ans;
 }
 
 void loop_read_word(char str[],char msg[], int *sz , int is_valid[]){
@@ -123,16 +182,17 @@ int valid_word(char word[], int word_sz , int is_valid[]){
 	return ans;	
 }
 
+void get_let_freq(int char_freq[],char word[], int word_sz){          
+	init_null_arr(char_freq , CNT_ASCI);
+	int i;							
+	for(i = 0;i < word_sz;i++){    								      
+		char_freq[(int)(word[i])]++;		           		
+	}									
+}		
+
 void init_null_arr(int arr[], int sz){
 	int i;
 	for(i = 0; i < sz; i++){
 		arr[i] = 0;
 	}
 }
-
-void updt_let(char char_freq[],char word[], int word_sz){          
-	int i;							
-	for( i=0; i<word_sz ; i++ ){    								      
-			char_freq[(int)(word [i])]++;		           		
-	}									
-}		
