@@ -39,6 +39,9 @@ int valid_word(char word[], int word_sz , int is_valid[]);
 // convert letter list to asci table (valid letters value is 1)
 void process_valid(int is_valid[] ,char let_list[] , int let_list_sz);
 
+// ask user word until it gives a valid one
+void loop_read_word(int str[],char msg[], int *sz , int is_valid[]);
+
 int main(){
 	// compute valid letters table
 	int is_valid[CNT_ASCI];
@@ -48,16 +51,36 @@ int main(){
 	int sz1, sz2;
 
 	welcome_print();
-	printf("Insert first word: ");
-	recipt_word(str1,&sz1);
+	
+	loop_read_word(str1,"Insert first word:\n",&sz1 , is_valid);
+	
+
 	printf("Insert second word: ");
 	recipt_word(str2,&sz2);
 	
-	int valid1 = valid_word(str1 , sz1 , is_valid);
-	int valid2 = valid_word(str2 , sz2 , is_valid);
 
-	printf("%d %d",valid1,valid2);
+	//printf("%d %d",valid1,valid2);
 	return 0;
+}
+
+void loop_read_word(int str[],char msg[], int *sz , int is_valid[]){
+	int end = 0;
+	while (!end){
+		printf("%s", msg);
+		recipt_word(str,sz);
+		int valid = valid_word(str,*sz,is_valid);
+		switch (valid){
+			case ERR_CHAR_VALID:
+				printf("Not valid character inserted\n");
+			break;
+			case ERR_SZ:
+				printf("Max size exceeded: %d>%d\n",sz,WORD_LIMIT);
+			break;
+			case VALID:
+				end = 1;
+			break;
+		}
+	}
 }
 
 void welcome_print(){
