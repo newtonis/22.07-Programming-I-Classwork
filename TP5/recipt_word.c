@@ -122,6 +122,7 @@ void loop_read_word(char str[],char msg[], int *sz , int is_valid[]){
 			break;
 			case ERR_EMPTY:
 				printf("No word inserted\n");
+			break;
 			case VALID:
 				end = 1;
 			break;
