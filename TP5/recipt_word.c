@@ -142,20 +142,20 @@ void welcome_print(){
 	printf("-------------------------------------\n\n");
 }
 
-void recipt_word (char str[],int *sz,int max_sz){ // we write up to [0,max_sz] index with terminator
+void recipt_word (char str[],int *sz,int max_sz){ 
 	int i = 0;
 	char aux_var;
 	*sz = 0;
 	while((aux_var = getchar()) != '\n'){
-		if (i < max_sz){
+		if (i < max_sz){ // we can't store them, there is not enough memory
 			str[i] = aux_var;
 		}
 		i++;
 	}
-	if (i <= max_sz){
+	if (i <= max_sz){ // we write up to [0,max_sz] index with terminator
 		str[i] = '\0';
 	}
-	*sz = i;
+	*sz = i; /// we return total characters inserted no matter we did't add extra ones
 }
 
 int check_make_word(char str1[],int sz1,char str2[],int sz2){
