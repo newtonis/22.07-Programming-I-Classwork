@@ -2,7 +2,6 @@
 #define ERR -1
 #define NO_ERR 0
 
-
 float calc_res(float x, float y, char op);
 float add(float a,float b);
 float sub(float a,float b);
@@ -10,9 +9,10 @@ float mult(float a,float b);
 float div(float a,float b);
 
 
-float (∗actions[MAX_OPERATORS]) (float ,float) = {add,sub,mult};
+float (∗actions[MAX_OPERATORS]) (float ,float) = {add,sub,mult,div};
 
 int main(){
+	
 
 }
 
