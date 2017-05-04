@@ -2,29 +2,33 @@
 
 
 int validate(char *input){ // is an input a decimal number?
-	int i = 0;
-	int dot = 0;
-	int err = 0;
-	while (input[i]){
-		if (input[i] >= '0' && input[i] <= '9'){
-			// nice!
-		}else if (input[i] == '.'){
-			dot ++;
-		}else{
-			err = 1;
+	int valid = 1;
+	if (!input[0]){
+		valid = 0;
+	}else{
+		int i = 0;
+		int dot = 0;
+		while (input[i]){
+			if (input[i] >= '0' && input[i] <= '9'){
+				// nice!
+			}else if (input[i] == '.'){
+				dot ++;
+			}else{
+				valid = 0;
+			}
+			i ++ ;
 		}
-		i ++ ;
-	}
-	if (dot >= 1){
-		err = 1;
-	}
-	return err;
+		if (dot >= 2){
+			valid = 0;
+		}
+		printf("%d %d \n",dot , valid);
+	} 
+	return valid;
 }
-void str_2_float( char *input , double *ans , int *err){
+void str_2_float( char *input , double *v_ans , int *err){
 	/// convert input string to float. Err = 1 in case of invalid string
 	int valid = validate( input );
 	if (!valid){
-		printf("Hello \n");
 		*err = 1;
 	}else{
 		enum {READ_INT , READ_DEC};
@@ -35,11 +39,10 @@ void str_2_float( char *input , double *ans , int *err){
 		double ans = 0;
 		double mul = 0.1;
 		while (input[i]){
-			printf("%c \n",input[i]);
 			switch (st){
 				case READ_INT:
 					if (input[i] != '.'){
-						ans = ans * 10 + (double)(input[i] - '0');
+						ans = ans * 10.0 + (double)(input[i] - '0');
 					}else{
 						st = READ_DEC;
 					}
@@ -51,7 +54,7 @@ void str_2_float( char *input , double *ans , int *err){
 			}
 			i ++;
 		}
-		*input = ans;
+		*v_ans = ans;
 	}
 }
 
@@ -66,9 +69,8 @@ void receive_word (char str[],int *sz,int max_sz){
 		}
 		i++;
 	}
-	if (i <= max_sz){ // there is enough space for terminator
-		str[i] = '\0';
-	}
+	str[i] = '\0';
+	
 	*sz = i; // we return total characters inserted no matter we did't add extra ones
 }
 
