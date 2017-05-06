@@ -5,6 +5,7 @@
 #define ASCI 256
 #define ERR -1
 #define MAX_STR_SZ 100
+#define CODE_SUCCESS '&'
 
 enum {SYMBOL_MODE , LETTER_MODE , ALL_ENABLED};
 
@@ -19,10 +20,10 @@ void receive_word (char str[],int *sz,int max_sz);
 
 void read_line(char *str , int *sz);
 
-void process_command(char *input,int sz,char *ans,int *n_ans);
+void process_command(char *input,int sz,char *ans,double *n_ans);
 
 void read_command_operation(char *input,int sz,char *ans);
-void read_number_operation(char *input,int sz,char *ans,int *n_ans);
+void read_number_operation(char *input,int sz,char *ans,double *n_ans);
 
 void remove_spaces(char *str ,int *sz);
 
@@ -87,14 +88,18 @@ int main(){
 	while (!end){
 		char input_line[MAX_STR_SZ];
 		int sz;
+		printf("==>");
 		read_line(input_line,&sz); 
 		
 		char ans[MAX_STR_SZ] ;
-		int n_ans;
-		process_command(input_line,sz,ans,n_ans);
+		double n_ans;
+		process_command(input_line,sz,ans,&n_ans);
 		if (ans[0] == 'e'){
 			end = 1;
 		}else{
+			if (ans[0] == CODE_SUCCESS){
+				printf("%f \n",n_ans);
+			}
 			printf("%s \n",ans);
 		}
 	}
@@ -174,12 +179,12 @@ float calc_res(float x, float y, char op,int *p2err){
 
 /// Functions to read user input ///
 
-void process_command(char *input,int sz,char *ans){
+void process_command(char *input,int sz,char *ans,double *n_ans){
 	remove_spaces(input , &sz);
 	if (input[0] == 'c'){
 		read_command_operation(input,sz,ans);
 	}else{
-		read_number_operation(input,sz,ans);
+		read_number_operation(input,sz,ans,n_ans);
 	}
 }
 
@@ -200,7 +205,7 @@ void read_command_operation(char *input,int sz, char *ans){
 int is_number_type(char a){
 	return a == '.' || (a >= '0' && a <= '9');
 }
-void read_number_operation(char *input,int sz,char *ans){
+void read_number_operation(char *input,int sz,char *ans,double *n_ans){
 	char number_a[MAX_STR_SZ] , number_b[MAX_STR_SZ];
 	int pnt_a = 0, pnt_b = 0;
 	char op;
@@ -240,7 +245,8 @@ void read_number_operation(char *input,int sz,char *ans){
 				if (num_ans != num_ans){ // ans is Nan
 					ans = "Math error";
 				}else{
-					//float2str( ans , num_ans );
+					ans[0] = CODE_SUCCESS;
+					*n_ans = num_ans;
 				}
 			}
 		}
