@@ -11,6 +11,9 @@ float add(float a,float b);
 float sub(float a,float b);
 float mult(float a,float b);
 float div(float a,float b);
+float and(float a, float b);
+float or(float a,float b);
+float xor(float a,float b);
 
 void set_operations_symbol(int mode); 
 
@@ -29,9 +32,9 @@ int main(){
 	int op_mode = SYMBOL_MODE;
 	set_operations_symbol(op_mode);
 	
-	float x =0.2;
-	float y =0.0;
-	char op = '/';
+	float x =17.;
+	float y =1.;
+	char op = '&';
 	printf("%lf\n",calc_res(x,y,op) );	
 
 }
@@ -39,7 +42,7 @@ int main(){
 float calc_res(float x, float y, char op){
 
 	float ans;
-
+// HAY QUE INICIAR TODO EL ARRAY OP EN ERR
 		if( ( operators[(int)op] != ERR )){	
 			ans=(actions[operators[(int)op]])(x,y);
 		
@@ -50,19 +53,13 @@ float calc_res(float x, float y, char op){
 }
 
 float add(float a,float b){
-	float ans;
-	ans= a+b;
-	return ans;
+	return a+b;
 }
 float sub(float a,float b){
-	float ans;
-	ans= a-b;
-	return ans;
+	return a-b;
 }
 float mul(float a,float b){
-	float ans;
-	ans= a*b;
-	return ans;
+	return a*b;
 }
 
 float div(float a,float b){
@@ -77,6 +74,16 @@ float div(float a,float b){
 	return ans;	
 }
 
+float and(float a, float b){
+	return ( (int) a ) & ( (int) b );
+}
+float or(float a,float b){
+	return ( (int) a ) | ( (int) b ); 
+}
+float xor(float a,float b){
+	return ( (int) a ) ^ ( (int) b );
+}
+
 
 
 void set_operations_symbol(int mode){
@@ -89,12 +96,19 @@ void set_operations_symbol(int mode){
 			add_operation('-', sub); // sub function 
 			add_operation('*', mul); // mul function
 			add_operation('/', div);
+			add_operation('&', and);
+			add_operation('|', or);
+			add_operation('^', xor);
+			
 		break;
 		case LETTER_MODE:
 			add_operation('a', add); // add function
 			add_operation('s', sub); // sub function 
 			add_operation('m', mul); // mul function
 			add_operation('d', div);
+			add_operation('n', and);
+			add_operation('o', or);
+			add_operation('x', xor);
 		break;
 	}
 }
@@ -103,7 +117,6 @@ void add_operation(char o, float (*a)(float, float)){
 
 	operators[(int)o] = op_asign;
 	actions[op_asign] = a;
-
 	op_asign++;
 }
 
