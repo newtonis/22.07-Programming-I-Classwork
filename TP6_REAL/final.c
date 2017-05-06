@@ -1,7 +1,9 @@
 #include <stdio.h>
+#include <math.h>
 
 #define MAX_OP 20
 #define ASCI 256
+#define ERR -1
 
 enum {SYMBOL_MODE , LETTER_MODE , ALL_ENABLED};
 
@@ -14,11 +16,21 @@ int validate(char *input);
 void str_2_float( char *input , double *v_ans , int *err);
 void receive_word (char str[],int *sz,int max_sz);
 
+void read_line(char *str , int *sz);
+
+int process_command(char *input,int sz,char *ans);
+
+int read_command_operation(char *input,int sz,char *ans);
+int read_number_operation(char *input,int sz,char *ans);
+
+void remove_spaces(char *str ,int *sz);
+
 
 //// operations ////
-float add(float a, float b);
-float sub(float a, float b);
-float mul(float a, float b);
+float add (float a,float b);
+float sub (float a,float b);
+float mul (float a,float b);
+float div (float a,float b);
 
 //// GLOBAL VARIABLES ////
 int cnt_op; // which mode is enabled
@@ -39,6 +51,52 @@ int letters[letters_sz] =
  'K','L','M','N','O',
  'P','Q','R','S','T',
  'U','V','W','X','Y','Z'};
+
+
+
+
+
+int main(){
+	cnt_op = 0;
+
+	/// Add normal functions
+	add_operation('+', add); 
+	add_operation('-', sub);
+	add_operation('*', mul); 
+	add_operation('/', div);
+	
+	/// Add their letter clones
+	add_operation('a', add); 
+	add_operation('s', sub);
+	add_operation('m', mul);
+	add_operation('d', div);
+}
+
+
+float add(float a,float b){
+	return a+b;
+}
+float sub(float a,float b){
+	return a-b;
+}
+float mul(float a,float b){
+	return a*b;
+}
+
+float div(float a,float b){
+	float ans;
+	if(b != 0){
+		ans = a / b;
+	}else{
+		ans = NAN; // not a number
+	}
+	return ans;	
+}
+
+
+
+
+
 
 void set(int arr[] , int n,int v){// set all arr values to v 
 	int i;
@@ -71,9 +129,72 @@ void add_operation(char o, float (*a)(float, float)){
 }
 
 
+float calc_res(float x, float y, char op,int *p2err){
+	float ans;
+
+	if( enabled_chars[(int)op] && ( operators[(int)op] != ERR) ){	
+		ans = (actions[operators[(int)op]])(x,y);
+		*p2err = 0;
+	}else{
+		*p2err = ERR;
+	}
+	return ans;
+}
+
+
 
 
 /// Functions to read user input ///
+
+void read_line(char *str , int *sz){ // process a user line of commands
+	*sz = 0;
+	char c;	
+	while ((c = getchar()) != '\n'){
+		str[*sz++] = c;
+	}
+}
+
+int process_command(char *input,int sz,char *ans){
+	remove_spaces(input , &sz);
+	if (input[0] == 'c'){
+		read_command_operation(input,sz);
+	}else{
+		read_number_operation(input,sz);
+	}
+}
+
+int read_command_operation(char *input,int sz, char *ans){
+	if (sz < 2){
+		*ans = "Error, no mode specified ";
+	}else if (input[1] == '0'){
+		set_operations_symbol(ALL_ENABLED);
+		*ans = "Both symbols and letters are now valid";
+	}else if(input[1] == '1'){
+		set_operations_symbol(SYMBOL_MODE);
+		*ans = "Symbol mode enabled";
+	}else if(input[1] == '2'){
+		set_operations_symbol(LETTER_MODE);
+		*ans = "Letters mode enabled";
+	}
+}
+int read_number_operation(char *input,int sz){
+	
+}
+
+void remove_spaces(char *str ,int *sz){
+	char ans[MAX_STR_SZ];
+	int i = 0 , j = 0;
+	for (i = 0;i < *sz;i++){
+		if (str[i] != " "){
+			ans[j++] = str[i];
+		}
+	}
+	*sz = j;
+	for (i = 0;i < *sz;i++){
+		str[i] = ans[j];
+	} 
+}
+
 
 int validate(char *input){ // is an input a decimal number?
 	int valid = 1;
@@ -160,19 +281,3 @@ void receive_word (char str[],int *sz,int max_sz){
 }
 
 
-int main(){
-	cnt_op = 0;
-
-	/// Add normal functions
-	add_operation('+', add); 
-	add_operation('-', sub);
-	add_operation('*', mul); 
-	
-	/// Add their letter clones
-	add_operation('a', add); 
-	add_operation('s', sub);
-	add_operation('m', mul);
-
-
-	
-}
