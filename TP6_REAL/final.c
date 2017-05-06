@@ -4,6 +4,7 @@
 #define MAX_OP 20
 #define ASCI 256
 #define ERR -1
+#define MAX_STR_SZ 100
 
 enum {SYMBOL_MODE , LETTER_MODE , ALL_ENABLED};
 
@@ -18,10 +19,10 @@ void receive_word (char str[],int *sz,int max_sz);
 
 void read_line(char *str , int *sz);
 
-int process_command(char *input,int sz,char *ans);
+void process_command(char *input,int sz,char *ans,int *n_ans);
 
-int read_command_operation(char *input,int sz,char *ans);
-int read_number_operation(char *input,int sz,char *ans);
+void read_command_operation(char *input,int sz,char *ans);
+void read_number_operation(char *input,int sz,char *ans,int *n_ans);
 
 void remove_spaces(char *str ,int *sz);
 
@@ -70,6 +71,33 @@ int main(){
 	add_operation('s', sub);
 	add_operation('m', mul);
 	add_operation('d', div);
+
+	printf("Welcome to calculator \n");
+	printf("Type [number][op][number] \n");
+
+	printf("c2 => enable letter operators \n");
+	printf("c1 => enable number operators \n");
+	printf("c0 => enable all operators \n");
+	printf("e => Exit \n");
+
+	printf("Default commands : ,Add(+),Substract(-),Multiply(*),Divide(-) \n"); 
+
+	int end = 0;
+	
+	while (!end){
+		char input_line[MAX_STR_SZ];
+		int sz;
+		read_line(input_line,&sz); 
+		
+		char ans[MAX_STR_SZ] ;
+		int n_ans;
+		process_command(input_line,sz,ans,n_ans);
+		if (ans[0] == 'e'){
+			end = 1;
+		}else{
+			printf("%s \n",ans);
+		}
+	}
 }
 
 
@@ -146,34 +174,35 @@ float calc_res(float x, float y, char op,int *p2err){
 
 /// Functions to read user input ///
 
-int process_command(char *input,int sz,char *ans){
+void process_command(char *input,int sz,char *ans){
 	remove_spaces(input , &sz);
 	if (input[0] == 'c'){
-		read_command_operation(input,sz);
+		read_command_operation(input,sz,ans);
 	}else{
-		read_number_operation(input,sz);
+		read_number_operation(input,sz,ans);
 	}
 }
 
-int read_command_operation(char *input,int sz, char *ans){
+void read_command_operation(char *input,int sz, char *ans){
 	if (sz < 2){
-		*ans = "Error, no mode specified ";
+		ans = "Error, no mode specified ";
 	}else if (input[1] == '0'){
 		set_operations_symbol(ALL_ENABLED);
-		*ans = "Both symbols and letters are now valid";
+		ans = "Both symbols and letters are now valid";
 	}else if(input[1] == '1'){
 		set_operations_symbol(SYMBOL_MODE);
-		*ans = "Symbol mode enabled";
+		ans = "Symbol mode enabled";
 	}else if(input[1] == '2'){
 		set_operations_symbol(LETTER_MODE);
-		*ans = "Letters mode enabled";
+		ans = "Letters mode enabled";
 	}
 }
 int is_number_type(char a){
 	return a == '.' || (a >= '0' && a <= '9');
 }
-int read_number_operation(char *input,int sz,int *ans){
-	char *number_a , number_b , pnt_a = 0, pnt_b = 0;
+void read_number_operation(char *input,int sz,char *ans){
+	char number_a[MAX_STR_SZ] , number_b[MAX_STR_SZ];
+	int pnt_a = 0, pnt_b = 0;
 	char op;
 	int pnt = 0;
 	if (input[pnt] == '+' || input[pnt] == '-') pnt ++; // it may be a starting + or -
@@ -182,28 +211,37 @@ int read_number_operation(char *input,int sz,int *ans){
 		number_a[pnt_a++] = input[pnt++];
 	}
 	if (pnt == sz){ // invalid!, nothing more than one number
-		*err = "Invalid input";
+		ans = "Invalid input";
 	}else{ 
 		op = input[pnt++];	
 		if (pnt == sz){ // invalid, no second number
-			*ans = "Invalid input";
+			ans = "Invalid input";
 		}else{
 			while (pnt < sz){
 				number_b[pnt_b++] = input[pnt++];
 			}
 			// process input numbers
-			float num_a , num_b ;
+			double num_a , num_b ;
 			int err_a, err_b;
 
-			str_2_float( number_a , num_a , err_a);
-			str_2_float( number_b , num_b , err_b);
+			str_2_float( number_a , &num_a , &err_a);
+			str_2_float( number_b , &num_b , &err_b);
 
 			if (err_a == ERR || err_b == ERR){
-				*ans = "Invalid input (numbers are not readable)"; // invalid numbers1
+				ans = "Invalid input (numbers are not readable)"; // invalid numbers1
 			}else{
 				int err;
-				calc_res(float x, float y, char op,int *err);
 
+				float num_ans = calc_res(num_a, num_b , op , &err);
+
+				if (err == ERR){
+					ans = "Invalid input (invalid operation) ";
+				}
+				if (num_ans != num_ans){ // ans is Nan
+					ans = "Math error";
+				}else{
+					//float2str( ans , num_ans );
+				}
 			}
 		}
 	}
@@ -215,7 +253,7 @@ void remove_spaces(char *str ,int *sz){
 	char ans[MAX_STR_SZ];
 	int i = 0 , j = 0;
 	for (i = 0;i < *sz;i++){
-		if (str[i] != " "){
+		if (str[i] != ' '){
 			ans[j++] = str[i];
 		}
 	}
@@ -252,6 +290,8 @@ int validate(char *input){ // is an input a decimal number?
 	} 
 	return valid;
 }
+
+
 void str_2_float( char *input , double *v_ans , int *err){
 	/// convert input string to float. Err = 1 in case of invalid string
 	int valid = validate( input );
@@ -295,12 +335,12 @@ void str_2_float( char *input , double *v_ans , int *err){
 }
 
 /// scan a word from keyboard.
-void receive_word (char str[],int *sz,int max_sz){ 
+void read_line (char *str,int *sz){ 
 	int i = 0;
 	char aux_var;
 	*sz = 0;
 	while((aux_var = getchar()) != '\n'){
-		if (i < max_sz){ // we can't store them, there is not enough memory
+		if (i < MAX_STR_SZ){ // we can't store them, there is not enough memory
 			str[i] = aux_var;
 		}
 		i++;
