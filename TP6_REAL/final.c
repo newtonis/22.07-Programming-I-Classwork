@@ -146,14 +146,6 @@ float calc_res(float x, float y, char op,int *p2err){
 
 /// Functions to read user input ///
 
-void read_line(char *str , int *sz){ // process a user line of commands
-	*sz = 0;
-	char c;	
-	while ((c = getchar()) != '\n'){
-		str[*sz++] = c;
-	}
-}
-
 int process_command(char *input,int sz,char *ans){
 	remove_spaces(input , &sz);
 	if (input[0] == 'c'){
@@ -177,8 +169,46 @@ int read_command_operation(char *input,int sz, char *ans){
 		*ans = "Letters mode enabled";
 	}
 }
-int read_number_operation(char *input,int sz){
-	
+int is_number_type(char a){
+	return a == '.' || (a >= '0' && a <= '9');
+}
+int read_number_operation(char *input,int sz,int *ans){
+	char *number_a , number_b , pnt_a = 0, pnt_b = 0;
+	char op;
+	int pnt = 0;
+	if (input[pnt] == '+' || input[pnt] == '-') pnt ++; // it may be a starting + or -
+
+	while (pnt < sz && (is_number_type(input[pnt])) ){ // number characters
+		number_a[pnt_a++] = input[pnt++];
+	}
+	if (pnt == sz){ // invalid!, nothing more than one number
+		*err = "Invalid input";
+	}else{ 
+		op = input[pnt++];	
+		if (pnt == sz){ // invalid, no second number
+			*ans = "Invalid input";
+		}else{
+			while (pnt < sz){
+				number_b[pnt_b++] = input[pnt++];
+			}
+			// process input numbers
+			float num_a , num_b ;
+			int err_a, err_b;
+
+			str_2_float( number_a , num_a , err_a);
+			str_2_float( number_b , num_b , err_b);
+
+			if (err_a == ERR || err_b == ERR){
+				*ans = "Invalid input (numbers are not readable)"; // invalid numbers1
+			}else{
+				int err;
+				calc_res(float x, float y, char op,int *err);
+
+			}
+		}
+	}
+
+
 }
 
 void remove_spaces(char *str ,int *sz){
@@ -226,7 +256,7 @@ void str_2_float( char *input , double *v_ans , int *err){
 	/// convert input string to float. Err = 1 in case of invalid string
 	int valid = validate( input );
 	if (!valid){
-		*err = 1;
+		*err = ERR;
 	}else{
 		enum {READ_INT , READ_DEC};
 		*err = 0;
