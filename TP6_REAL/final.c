@@ -64,6 +64,7 @@ int letters[letters_sz] =
 
 int main(){
 	set(operators,ASCI,ERR); // fill operators table with default ERR
+	set_operations_symbol(ALL_ENABLED);
 
 	cnt_op = 0;
 
@@ -87,7 +88,7 @@ int main(){
 	printf("c0 => enable all operators \n");
 	printf("e => Exit \n");
 
-	printf("Default commands : ,Add(+),Substract(-),Multiply(*),Divide(-) \n"); 
+	printf("Default commands : ,Add(+),Substract(-),Multiply(*),Divide(/) \n"); 
 
 	int end = 0;
 	
@@ -170,11 +171,7 @@ void add_operation(char o, float (*a)(float, float)){
 
 float calc_res(float x, float y, char op,int *p2err){
 	float ans;
-	int i;
-	for (i = 0;i < ASCI;i++){
-		printf("%d ",enabled_chars[i]);
-	}
-	printf("\n");
+
 	if( enabled_chars[(int)op] && ( operators[(int)op] != ERR) ){	
 		ans = (actions[operators[(int)op]])(x,y);
 		*p2err = 0;
@@ -251,7 +248,6 @@ void read_number_operation(char *input,int sz,char **ans,double *n_ans){
 				*ans = "Invalid input (numbers are not readable)"; // invalid numbers1
 			}else{
 				int err;
-				printf("calc res %f %c %f \n",num_a,op,num_b);
 				float num_ans = calc_res(num_a, num_b , op , &err);
 				//printf("answer = %f",num_ans);
 				if (err == ERR){
