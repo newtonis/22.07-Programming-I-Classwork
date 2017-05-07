@@ -20,10 +20,10 @@ void receive_word (char str[],int *sz,int max_sz);
 
 void read_line(char *str , int *sz);
 
-void process_command(char *input,int sz,char *ans,double *n_ans);
+void process_command(char *input,int sz,char **ans,double *n_ans);
 
-void read_command_operation(char *input,int sz,char *ans);
-void read_number_operation(char *input,int sz,char *ans,double *n_ans);
+void read_command_operation(char *input,int sz,char **ans);
+void read_number_operation(char *input,int sz,char **ans,double *n_ans);
 
 void remove_spaces(char *str ,int *sz);
 
@@ -91,9 +91,9 @@ int main(){
 		printf("==>");
 		read_line(input_line,&sz); 
 		
-		char ans[MAX_STR_SZ] ;
+		char *ans;
 		double n_ans;
-		process_command(input_line,sz,ans,&n_ans);
+		process_command(input_line,sz,&ans,&n_ans);
 		if (ans[0] == 'e'){
 			end = 1;
 		}else{
@@ -179,33 +179,36 @@ float calc_res(float x, float y, char op,int *p2err){
 
 /// Functions to read user input ///
 
-void process_command(char *input,int sz,char *ans,double *n_ans){
+void process_command(char *input,int sz,char **ans,double *n_ans){
 	remove_spaces(input , &sz);
+	printf("%c\n",input[0]);
 	if (input[0] == 'c'){
+		printf("enter c");
 		read_command_operation(input,sz,ans);
 	}else{
 		read_number_operation(input,sz,ans,n_ans);
 	}
 }
 
-void read_command_operation(char *input,int sz, char *ans){
+void read_command_operation(char *input,int sz, char **ans){
+	
 	if (sz < 2){
-		ans = "Error, no mode specified ";
+		*ans = "Error, no mode specified ";
 	}else if (input[1] == '0'){
 		set_operations_symbol(ALL_ENABLED);
-		ans = "Both symbols and letters are now valid";
+		*ans = "Both symbols and letters are now valid";
 	}else if(input[1] == '1'){
 		set_operations_symbol(SYMBOL_MODE);
-		ans = "Symbol mode enabled";
+		*ans = "Symbol mode enabled";
 	}else if(input[1] == '2'){
 		set_operations_symbol(LETTER_MODE);
-		ans = "Letters mode enabled";
+		*ans = "Letters mode enabled";
 	}
 }
 int is_number_type(char a){
 	return a == '.' || (a >= '0' && a <= '9');
 }
-void read_number_operation(char *input,int sz,char *ans,double *n_ans){
+void read_number_operation(char *input,int sz,char **ans,double *n_ans){
 	char number_a[MAX_STR_SZ] , number_b[MAX_STR_SZ];
 	int pnt_a = 0, pnt_b = 0;
 	char op;
@@ -216,11 +219,11 @@ void read_number_operation(char *input,int sz,char *ans,double *n_ans){
 		number_a[pnt_a++] = input[pnt++];
 	}
 	if (pnt == sz){ // invalid!, nothing more than one number
-		ans = "Invalid input";
+		*ans = "Invalid input";
 	}else{ 
 		op = input[pnt++];	
 		if (pnt == sz){ // invalid, no second number
-			ans = "Invalid input";
+			*ans = "Invalid input";
 		}else{
 			while (pnt < sz){
 				number_b[pnt_b++] = input[pnt++];
@@ -233,19 +236,19 @@ void read_number_operation(char *input,int sz,char *ans,double *n_ans){
 			str_2_float( number_b , &num_b , &err_b);
 
 			if (err_a == ERR || err_b == ERR){
-				ans = "Invalid input (numbers are not readable)"; // invalid numbers1
+				*ans = "Invalid input (numbers are not readable)"; // invalid numbers1
 			}else{
 				int err;
 
 				float num_ans = calc_res(num_a, num_b , op , &err);
 
 				if (err == ERR){
-					ans = "Invalid input (invalid operation) ";
+					*ans = "Invalid input (invalid operation) ";
 				}
 				if (num_ans != num_ans){ // ans is Nan
-					ans = "Math error";
+					*ans = "Math error";
 				}else{
-					ans[0] = CODE_SUCCESS;
+					*ans[0] = CODE_SUCCESS;
 					*n_ans = num_ans;
 				}
 			}
@@ -265,8 +268,10 @@ void remove_spaces(char *str ,int *sz){
 	}
 	*sz = j;
 	for (i = 0;i < *sz;i++){
-		str[i] = ans[j];
+		str[i] = ans[i];
+		//printf("%d ",i);
 	} 
+	str[*sz] = '\0'; 
 }
 
 
