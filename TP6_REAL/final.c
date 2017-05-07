@@ -1,20 +1,50 @@
 #include <stdio.h>
 #include <math.h>
 
+/////////////////////////////////
+//// TP6 - ADVANCED POINTERS ////
+//// ----------------------- ////
+//// ==> MESTANZA, Joaquin   ////
+//// ==> NOWIK, Ariel        ////
+//// ==> REGUEIRA, Marcelo   ////////////////////////////////////////////
+//// The following code is a calculator that allows the user to      ////
+//// make four (4) basic operations (Add, Substract, Multiply,       ////
+//// Divide) and three (3) logic operations (AND, OR, XOR).          ////
+//// To call de operations, the user can make use of the first       ////
+//// letter of the operation (both uppercase and lowercase letters   ////
+//// are valid) or the corresponding symbol. 						 ////
+//// The user also can change the mode of calling operations, there  ////
+//// are three (3) cases: Only Symbols, Only Letters, Both letters   ////
+//// and symbols. 													 ////
+//// The instructions are displayed at the beigining of the program. ////
+//// --------------------------------------------------------------- ////
+/////////////////////////////////////////////////////////////////////////
+
+//// DEFINE SECTION ////
+//// -------------- ////
 #define MAX_OP 20
 #define ASCI 256
 #define ERR -1
 #define MAX_STR_SZ 100
+
 #define CODE_SUCCESS "@"
 #define CHAR_CODE_SUCCESS '@'
 
+#define letters_sz 52
+
 enum {SYMBOL_MODE , LETTER_MODE , ALL_ENABLED};
+//// -------------- ////
 
 //// MAIN FUNCTIONS ////
+//// -------------- ////
+void welcome_print(void);
 void set_operations_symbol(int mode); 
 void add_operation(char o, float (*a)(float, float));
+void config_operations(void);
+//// -------------- ////
 
-//// Input functions ////
+//// INPUT FUNCTIONS ////
+//// --------------- ////
 int validate(char *input);
 void str_2_float( char *input , double *v_ans , int *err);
 void receive_word (char str[],int *sz,int max_sz);
@@ -27,12 +57,16 @@ void read_command_operation(char *input,int sz,char **ans);
 void read_number_operation(char *input,int sz,char **ans,double *n_ans);
 
 void remove_spaces(char *str ,int *sz);
+//// --------------- ////
 
-/// basic functions
+//// BASIC SET FUNCTIONS ////
+//// ------------------- ////
 void set(int arr[] , int n,int v); // set all arr values to v 
 void set_custom(int arr[], int indexes[],int ind_sz, int value);
+//// ------------------- ////
 
-//// operations ////
+//// OPERATION FUNCTIONS ////
+//// ------------------- ////
 float add (float a,float b);
 float sub (float a,float b);
 float mul (float a,float b);
@@ -41,15 +75,16 @@ float div (float a,float b);
 float and(float a, float b);
 float or(float a,float b);
 float xor(float a,float b);
+//// ------------------- ////
 
 //// GLOBAL VARIABLES ////
+//// ---------------- ////
 int cnt_op; // which mode is enabled
 int operators[ASCI]; // asci -> index
 float (*actions[MAX_OP])(float, float);
 
 int enabled_chars[ASCI]; // enabled characters codes
 
-#define letters_sz 52
 int letters[letters_sz] = 
 {'a','b','c','d','e',
  'f','g','h','i','j',
@@ -61,10 +96,7 @@ int letters[letters_sz] =
  'K','L','M','N','O',
  'P','Q','R','S','T',
  'U','V','W','X','Y','Z'};
-
-
-
-
+//// ---------------- ////
 
 int main(){
 	set(operators,ASCI,ERR); // fill operators table with default ERR
@@ -72,33 +104,9 @@ int main(){
 
 	cnt_op = 0;
 
-	/// Add normal functions
-	add_operation('+', add); 
-	add_operation('-', sub);
-	add_operation('*', mul); 
-	add_operation('/', div);
-	add_operation('&', and);
-	add_operation('|', or);
-	add_operation('^', xor);
-			
-	/// Add their letter clones
-	add_operation('a', add); 
-	add_operation('s', sub);
-	add_operation('m', mul);
-	add_operation('d', div);
-	add_operation('n', and);
-	add_operation('o', or);
-	add_operation('x', xor);
-	
+	config_operations();
 
-	printf("Welcome to calculator \n");
-	printf("Type [number][op][number] \n");
-
-	printf("c2 => enable letter operators \n");
-	printf("c1 => enable number operators \n");
-	printf("c0 => enable all operators \n");
-
-	printf("Default commands : ,Add(+),Substract(-),Multiply(*),Divide(/) \n"); 
+	welcome_print();
 
 	int end = 0;
 	
@@ -123,6 +131,19 @@ int main(){
 	}
 }
 
+void welcome_print(void){
+
+	printf("Welcome to Calculator \n");
+	printf("---------------------\n");
+	printf("Type [number][op][number] (without the brackets)\n");
+
+	printf("c2 => enable only letter operators \n");
+	printf("c1 => enable only symbol operators \n");
+	printf("c0 => enable all operators \n");
+
+	printf("Basic commands : Add(+),Substract(-),Multiply(*),Divide(/) \n"); 
+	printf("Logic commands : AND(&),OR(|),XOR(^)\n");				
+}
 
 float add(float a,float b){
 	return a+b;
@@ -159,10 +180,11 @@ float xor(float a,float b){
 
 
 
-void set(int arr[] , int n,int v){// set all arr values to v 
+void set(int arr[] , int n,int v){ // set all arr values to v 
 	int i;
 	for (i = 0;i < n;i++) arr[i] = v;
 }
+
 void set_custom(int arr[], int indexes[],int ind_sz, int value){
 	int i;
 	for (i = 0;i < ind_sz;i++){
@@ -172,10 +194,10 @@ void set_custom(int arr[], int indexes[],int ind_sz, int value){
 
 void set_operations_symbol(int mode){
 	if (mode == SYMBOL_MODE){
-		set ( enabled_chars , ASCI , 0);
+		set ( enabled_chars , ASCI , 1);
 		set_custom ( enabled_chars , letters  , letters_sz , 0); // disable letters
 	}else if(mode == LETTER_MODE){
-		set( enabled_chars , ASCI , 1);
+		set( enabled_chars , ASCI , 0);
 		set_custom( enabled_chars , letters , letters_sz, 1); // enable letters
 	}else if (mode == ALL_ENABLED){
 		set( enabled_chars , ASCI , 1); // enable all symbols
@@ -189,6 +211,26 @@ void add_operation(char o, float (*a)(float, float)){
 	cnt_op++;
 }
 
+void config_operations(void){
+
+	//// Add symbol functions
+	add_operation('+', add); 
+	add_operation('-', sub);
+	add_operation('*', mul); 
+	add_operation('/', div);
+	add_operation('&', and);
+	add_operation('|', or);
+	add_operation('^', xor);
+			
+	//// Add their letter clones
+	add_operation('a', add); 
+	add_operation('s', sub);
+	add_operation('m', mul);
+	add_operation('d', div);
+	add_operation('n', and);
+	add_operation('o', or);
+	add_operation('x', xor);
+}
 
 float calc_res(float x, float y, char op,int *p2err){
 	float ans;
@@ -239,6 +281,7 @@ void read_number_operation(char *input,int sz,char **ans,double *n_ans){
 	int pnt_a = 0, pnt_b = 0;
 	char op;
 	int pnt = 0;
+
 	if (input[pnt] == '+' || input[pnt] == '-') pnt ++; // it may be a starting + or -
 
 	while (pnt < sz && (is_number_type(input[pnt])) ){ // number characters
@@ -250,7 +293,7 @@ void read_number_operation(char *input,int sz,char **ans,double *n_ans){
 		*ans = "Invalid input a";
 	}else{ 
 		op = input[pnt++];	
-		if (pnt == sz){ // invalid, no second number
+		if (pnt == sz){ // invalid!, no second number
 			*ans = "Invalid input b";
 		}else{
 			while (pnt < sz){
@@ -266,15 +309,15 @@ void read_number_operation(char *input,int sz,char **ans,double *n_ans){
 			str_2_float( number_b , &num_b , &err_b);
 
 			if (err_a == ERR || err_b == ERR){
-				*ans = "Invalid input (numbers are not readable)"; // invalid numbers1
+				*ans = "Invalid input (numbers are not readable)"; // invalid numbers
 			}else{
 				int err;
 				float num_ans = calc_res(num_a, num_b , op , &err);
-				//printf("answer = %f",num_ans);
+				
 				if (err == ERR){
 					*ans = "Invalid input (invalid operation) ";
 				}
-				if (num_ans != num_ans){ // ans is Nan
+				else if (num_ans != num_ans){ // ans is Nan
 					*ans = "Math error";
 				}else{
 					*ans = CODE_SUCCESS;
@@ -298,7 +341,7 @@ void remove_spaces(char *str ,int *sz){
 	*sz = j;
 	for (i = 0;i < *sz;i++){
 		str[i] = ans[i];
-		//printf("%d ",i);
+		
 	} 
 	str[*sz] = '\0'; 
 }
@@ -331,7 +374,6 @@ int validate(char *input){ // is an input a decimal number?
 	return valid;
 }
 
-
 void str_2_float( char *input , double *v_ans , int *err){
 	/// convert input string to float. Err = 1 in case of invalid string
 	int valid = validate( input );
@@ -342,7 +384,7 @@ void str_2_float( char *input , double *v_ans , int *err){
 		*err = 0;
 
 		int i = 0;
-		int sg = 1;
+		int sg = 1; // Sign variable
 		if (input[i] == '+'){
 			i++;
 		}else if (input[i] == '-'){
