@@ -190,7 +190,7 @@ void process_command(char *input,int sz,char **ans,double *n_ans){
 
 void read_command_operation(char *input,int sz, char **ans){
 	
-	if (sz < 2){
+	if (sz != 2){
 		*ans = "Error, no mode specified ";
 	}else if (input[1] == '0'){
 		set_operations_symbol(ALL_ENABLED);
@@ -216,16 +216,20 @@ void read_number_operation(char *input,int sz,char **ans,double *n_ans){
 	while (pnt < sz && (is_number_type(input[pnt])) ){ // number characters
 		number_a[pnt_a++] = input[pnt++];
 	}
+	number_a[pnt_a] = '\0';
+	
 	if (pnt == sz){ // invalid!, nothing more than one number
-		*ans = "Invalid input";
+		*ans = "Invalid input a";
 	}else{ 
 		op = input[pnt++];	
 		if (pnt == sz){ // invalid, no second number
-			*ans = "Invalid input";
+			*ans = "Invalid input b";
 		}else{
 			while (pnt < sz){
 				number_b[pnt_b++] = input[pnt++];
 			}
+			number_b[pnt_b] = '\0';
+
 			// process input numbers
 			double num_a , num_b ;
 			int err_a, err_b;
