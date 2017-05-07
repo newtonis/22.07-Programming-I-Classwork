@@ -5,7 +5,8 @@
 #define ASCI 256
 #define ERR -1
 #define MAX_STR_SZ 100
-#define CODE_SUCCESS '&'
+#define CODE_SUCCESS "@"
+#define CHAR_CODE_SUCCESS '@'
 
 enum {SYMBOL_MODE , LETTER_MODE , ALL_ENABLED};
 
@@ -27,6 +28,9 @@ void read_number_operation(char *input,int sz,char **ans,double *n_ans);
 
 void remove_spaces(char *str ,int *sz);
 
+/// basic functions
+void set(int arr[] , int n,int v); // set all arr values to v 
+void set_custom(int arr[], int indexes[],int ind_sz, int value);
 
 //// operations ////
 float add (float a,float b);
@@ -59,6 +63,8 @@ int letters[letters_sz] =
 
 
 int main(){
+	set(operators,ASCI,ERR); // fill operators table with default ERR
+
 	cnt_op = 0;
 
 	/// Add normal functions
@@ -97,10 +103,11 @@ int main(){
 		if (ans[0] == 'e'){
 			end = 1;
 		}else{
-			if (ans[0] == CODE_SUCCESS){
+			if (ans[0] == CHAR_CODE_SUCCESS){
 				printf("%f \n",n_ans);
+			}else{
+				printf("%s \n",ans);
 			}
-			printf("%s \n",ans);
 		}
 	}
 }
@@ -125,7 +132,6 @@ float div(float a,float b){
 	}
 	return ans;	
 }
-
 
 
 
@@ -164,7 +170,11 @@ void add_operation(char o, float (*a)(float, float)){
 
 float calc_res(float x, float y, char op,int *p2err){
 	float ans;
-
+	int i;
+	for (i = 0;i < ASCI;i++){
+		printf("%d ",enabled_chars[i]);
+	}
+	printf("\n");
 	if( enabled_chars[(int)op] && ( operators[(int)op] != ERR) ){	
 		ans = (actions[operators[(int)op]])(x,y);
 		*p2err = 0;
@@ -217,7 +227,7 @@ void read_number_operation(char *input,int sz,char **ans,double *n_ans){
 		number_a[pnt_a++] = input[pnt++];
 	}
 	number_a[pnt_a] = '\0';
-	
+
 	if (pnt == sz){ // invalid!, nothing more than one number
 		*ans = "Invalid input a";
 	}else{ 
@@ -241,16 +251,16 @@ void read_number_operation(char *input,int sz,char **ans,double *n_ans){
 				*ans = "Invalid input (numbers are not readable)"; // invalid numbers1
 			}else{
 				int err;
-
+				printf("calc res %f %c %f \n",num_a,op,num_b);
 				float num_ans = calc_res(num_a, num_b , op , &err);
-
+				//printf("answer = %f",num_ans);
 				if (err == ERR){
 					*ans = "Invalid input (invalid operation) ";
 				}
 				if (num_ans != num_ans){ // ans is Nan
 					*ans = "Math error";
 				}else{
-					*ans[0] = CODE_SUCCESS;
+					*ans = CODE_SUCCESS;
 					*n_ans = num_ans;
 				}
 			}
