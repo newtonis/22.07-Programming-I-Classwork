@@ -38,6 +38,10 @@ float sub (float a,float b);
 float mul (float a,float b);
 float div (float a,float b);
 
+float and(float a, float b);
+float or(float a,float b);
+float xor(float a,float b);
+
 //// GLOBAL VARIABLES ////
 int cnt_op; // which mode is enabled
 int operators[ASCI]; // asci -> index
@@ -73,12 +77,19 @@ int main(){
 	add_operation('-', sub);
 	add_operation('*', mul); 
 	add_operation('/', div);
-	
+	add_operation('&', and);
+	add_operation('|', or);
+	add_operation('^', xor);
+			
 	/// Add their letter clones
 	add_operation('a', add); 
 	add_operation('s', sub);
 	add_operation('m', mul);
 	add_operation('d', div);
+	add_operation('n', and);
+	add_operation('o', or);
+	add_operation('x', xor);
+	
 
 	printf("Welcome to calculator \n");
 	printf("Type [number][op][number] \n");
@@ -135,6 +146,17 @@ float div(float a,float b){
 }
 
 
+float and(float a, float b){
+	return ( (int) a ) & ( (int) b );
+}
+
+float or(float a,float b){
+	return ( (int) a ) | ( (int) b ); 
+}
+
+float xor(float a,float b){
+	return ( (int) a ) ^ ( (int) b );
+}
 
 
 
