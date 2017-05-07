@@ -181,9 +181,7 @@ float calc_res(float x, float y, char op,int *p2err){
 
 void process_command(char *input,int sz,char **ans,double *n_ans){
 	remove_spaces(input , &sz);
-	printf("%c\n",input[0]);
 	if (input[0] == 'c'){
-		printf("enter c");
 		read_command_operation(input,sz,ans);
 	}else{
 		read_number_operation(input,sz,ans,n_ans);
