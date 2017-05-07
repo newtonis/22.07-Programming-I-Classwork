@@ -97,7 +97,6 @@ int main(){
 	printf("c2 => enable letter operators \n");
 	printf("c1 => enable number operators \n");
 	printf("c0 => enable all operators \n");
-	printf("e => Exit \n");
 
 	printf("Default commands : ,Add(+),Substract(-),Multiply(*),Divide(/) \n"); 
 
@@ -147,15 +146,15 @@ float div(float a,float b){
 
 
 float and(float a, float b){
-	return ( (int) a ) & ( (int) b );
+	return (float) ( (int)a & (int)b );
 }
 
 float or(float a,float b){
-	return ( (int) a ) | ( (int) b ); 
+	return (float) ( (int)a | (int)b ); 
 }
 
 float xor(float a,float b){
-	return ( (int) a ) ^ ( (int) b );
+	return (float) ( (int)a ^ (int)b );
 }
 
 
