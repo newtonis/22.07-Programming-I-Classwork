@@ -24,7 +24,7 @@
 //// DEFINE SECTION ////
 //// -------------- ////
 #define MAX_OP 20
-#define ASCI 256
+#define ASCII 256
 #define ERR -1
 #define MAX_STR_SZ 100
 
@@ -127,10 +127,10 @@ float xor(float a,float b);  // Output: a ^ b
 //// GLOBAL VARIABLES ////
 //// ---------------- ////
 int cnt_op; // which mode is enabled
-int operators[ASCI]; // asci -> index
+int operators[ASCII]; // ASCII -> index
 float (*actions[MAX_OP])(float, float);
 
-int enabled_chars[ASCI]; // enabled characters codes
+int enabled_chars[ASCII]; // enabled characters codes
 
 int letters[letters_sz] = 
 {'a','b','c','d','e',
@@ -146,7 +146,7 @@ int letters[letters_sz] =
 //// ---------------- ////
 
 int main(){
-	set(operators,ASCI,ERR); // fill operators table with default ERR
+	set(operators,ASCII,ERR); // fill operators table with default ERR
 	set_operations_symbol(ALL_ENABLED);
 
 	cnt_op = 0;
@@ -186,10 +186,11 @@ void welcome_print(void){
 	printf("Welcome to Calculator \n");
 	printf("---------------------\n");
 	printf("Type [number][op][number] (without the brackets)\n");
-
+	printf("General commands:\n");
 	printf("c2 => enable only letter operators \n");
 	printf("c1 => enable only symbol operators \n");
 	printf("c0 => enable all operators \n");
+	printf("e  => terminate the program \n");
 
 	printf("Basic commands : Add(+),Substract(-),Multiply(*),Divide(/) \n"); 
 	printf("Logic commands : AND(&),OR(|),XOR(^)\n");				
@@ -242,13 +243,13 @@ void set_custom(int arr[], int indexes[],int ind_sz, int value){
 
 void set_operations_symbol(int mode){
 	if (mode == SYMBOL_MODE){
-		set ( enabled_chars , ASCI , 1);
+		set ( enabled_chars , ASCII , 1);
 		set_custom ( enabled_chars , letters  , letters_sz , 0); // disable letters
 	}else if(mode == LETTER_MODE){
-		set( enabled_chars , ASCI , 0);
+		set( enabled_chars , ASCII , 0);
 		set_custom( enabled_chars , letters , letters_sz, 1); // enable letters
 	}else if (mode == ALL_ENABLED){
-		set( enabled_chars , ASCI , 1); // enable all symbols
+		set( enabled_chars , ASCII , 1); // enable all symbols
 	}
 }
 
@@ -292,14 +293,11 @@ float calc_res(float x, float y, char op,int *p2err){
 	return ans;
 }
 
-
-
-
-/// Functions to read user input ///
+//// Functions to read user input ////
 
 void process_command(char *input,int sz,char **ans,double *n_ans){
 	remove_spaces(input , &sz);
-	if (input[0] == 'c'){
+	if ((input[0] == 'c') || (input[0] == 'e')){
 		read_command_operation(input,sz,ans);
 	}else{
 		read_number_operation(input,sz,ans,n_ans);
@@ -308,17 +306,27 @@ void process_command(char *input,int sz,char **ans,double *n_ans){
 
 void read_command_operation(char *input,int sz, char **ans){
 	
-	if (sz != 2){
-		*ans = "Error, no mode specified ";
-	}else if (input[1] == '0'){
-		set_operations_symbol(ALL_ENABLED);
-		*ans = "Both symbols and letters are now valid";
-	}else if(input[1] == '1'){
-		set_operations_symbol(SYMBOL_MODE);
-		*ans = "Symbol mode enabled";
-	}else if(input[1] == '2'){
-		set_operations_symbol(LETTER_MODE);
-		*ans = "Letters mode enabled";
+	if((input[0] == 'c')){
+		if (sz != 2){
+			*ans = "Error, no mode specified ";
+		}else if (input[1] == '0'){
+			set_operations_symbol(ALL_ENABLED);
+			*ans = "Both symbols and letters are now valid";
+		}else if(input[1] == '1'){
+			set_operations_symbol(SYMBOL_MODE);
+			*ans = "Symbol mode enabled";
+		}else if(input[1] == '2'){
+			set_operations_symbol(LETTER_MODE);
+			*ans = "Letters mode enabled";
+		}
+	}
+
+	if(input[0] == 'e'){
+		if(sz != 1){
+			*ans = "Error, no command specified";
+		}else{
+			*ans = "e";
+		}
 	}
 }
 int is_number_type(char a){
@@ -424,7 +432,7 @@ int validate(char *input){ // is an input a decimal number?
 }
 
 void str_2_float( char *input , double *v_ans , int *err){
-	/// convert input string to float. Err = 1 in case of invalid string
+
 	int valid = validate( input );
 	if (!valid){
 		*err = ERR;
@@ -465,7 +473,6 @@ void str_2_float( char *input , double *v_ans , int *err){
 	}
 }
 
-/// scan a word from keyboard.
 void read_line (char *str,int *sz){ 
 	int i = 0;
 	char aux_var;
