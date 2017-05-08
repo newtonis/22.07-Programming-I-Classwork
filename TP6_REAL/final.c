@@ -66,7 +66,7 @@ int  validate(char *input);
 void str_2_float( char *input , double *v_ans , int *err);
 //// str_2_float: converts a string of a number into a double,
 //// and returns it through a pointer to double.
-////	Input: string with a real number
+////	Input: pointer to string with a real number
 ////	Output: (none)
 void read_line(char *str , int *sz);
 //// read_line: scans a word from the keyboard, and returns the word
@@ -76,12 +76,22 @@ void read_line(char *str , int *sz);
 void process_command(char *input,int sz,char **ans,double *n_ans);
 //// process_command: calls read_command_operation for changing actual 
 //// valid operators, or calls read_number_operation for doing operations.
-////	Input: string with keyboard entry word, size of the word, double pointer
-////           answer char, pointer to double number (in case of doing an operation)
+////	Input: pointer to string with keyboard entry word, size of the word, double
+////           pointer to answer char, pointer to double number (in case of doing an operation)
 ////	Output: (none)
 void read_command_operation(char *input,int sz,char **ans);
+//// read_command_operation: modifies the actual valid operators (symbols,
+//// letters or both). Returns through a pointer, a message with the modification. 
+////	Input: pointer to string with word, size of the word, double pointer to string
+////	Output: (none)
 void read_number_operation(char *input,int sz,char **ans,double *n_ans);
-
+//// read_number_operation: processes the entered word, if its valid, separates
+//// the numbers entered and the operator, makes the operation and returns the result 
+//// through a pointer. If the word, the operation or the operator are not valid,  
+//// displays the corresponding messages.
+////	Input: pointer to string with numbers and operation, size of the word, double 
+////	       pointer to message, pointer to the result of the operation   
+////	Output: (none)
 void remove_spaces(char *str ,int *sz);
 //// remove_spaces: modifies a string, removing space chars.
 ////	Input: pointer to string, pointer to size
@@ -95,6 +105,11 @@ void set(int arr[] , int n,int v);
 ////	Input: pointer to array, size of array, value to set
 ////	Output: (none)
 void set_custom(int arr[], int indexes[],int ind_sz, int value);
+//// set_custom: sets indexes[i] elements of arr with value, i >=0.
+////	Input: array to set elements, array whose elements are the index of the
+////		   elements of arr to modify, size of indexes array, value to set 
+////		   in arr elements.
+////	Output: (none) 
 //// ------------------- ////
 
 //// OPERATION FUNCTIONS ////
@@ -213,9 +228,7 @@ float xor(float a,float b){
 	return (float) ( (int)a ^ (int)b );
 }
 
-
-
-void set(int arr[] , int n,int v){ // set all arr values to v 
+void set(int arr[] , int n,int v){ 
 	int i;
 	for (i = 0;i < n;i++) arr[i] = v;
 }
