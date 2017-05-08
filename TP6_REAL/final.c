@@ -317,8 +317,9 @@ void read_number_operation(char *input,int sz,char **ans,double *n_ans){
 	char op;
 	int pnt = 0;
 
-	if (input[pnt] == '+' || input[pnt] == '-') pnt ++; // it may be a starting + or -
-
+	if (input[pnt] == '+' || input[pnt] == '-'){ // it may be a starting + or -
+		number_a[pnt_a++] = input[pnt++];
+	}
 	while (pnt < sz && (is_number_type(input[pnt])) ){ // number characters
 		number_a[pnt_a++] = input[pnt++];
 	}
