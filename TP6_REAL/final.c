@@ -7,6 +7,7 @@
 //// ==> MESTANZA, Joaquin   ////
 //// ==> NOWIK, Ariel        ////
 //// ==> REGUEIRA, Marcelo   ////////////////////////////////////////////
+//// --------------------------------------------------------------- ////
 //// The following code is a calculator that allows the user to      ////
 //// make four (4) basic operations (Add, Substract, Multiply,       ////
 //// Divide) and three (3) logic operations (AND, OR, XOR).          ////
@@ -38,43 +39,74 @@ enum {SYMBOL_MODE , LETTER_MODE , ALL_ENABLED};
 //// MAIN FUNCTIONS ////
 //// -------------- ////
 void welcome_print(void);
-void set_operations_symbol(int mode); 
+//// welcome_print: displays the instruction menu.
+////	Input/Output: (none)
+void set_operations_symbol(int mode);
+//// set_operations_symbol: sets the array of valid chars.
+//// to use at calling operations.
+//// 	Input: mode (defines SYMBOL_MODE / LETTER_MODE / ALL_ENABLED)
+////	Output: (none)
 void add_operation(char o, float (*a)(float, float));
+//// add_operation: sets a pointers to functions with the
+//// corresponding address. 
+////	Input: char of the operation, pointer to function
+////	Output: (none)
 void config_operations(void);
+//// config_operations: sets an array of pointers to functions, 
+//// calling add_operation.
+////	Input/Output: (none)
 //// -------------- ////
 
 //// INPUT FUNCTIONS ////
 //// --------------- ////
-int validate(char *input);
+int  validate(char *input);
+//// validate: validates a string of a real number.
+////	Input: pointer to array with real number
+////	Output: 1 (valid), 0 (not valid)
 void str_2_float( char *input , double *v_ans , int *err);
-void receive_word (char str[],int *sz,int max_sz);
-
+//// str_2_float: converts a string of a number into a double,
+//// and returns it through a pointer to double.
+////	Input: string with a real number
+////	Output: (none)
 void read_line(char *str , int *sz);
-
+//// read_line: scans a word from the keyboard, and returns the word
+//// and its size through pointers.
+////	Input: pointer to string, pointer to size
+////	Output: (none)
 void process_command(char *input,int sz,char **ans,double *n_ans);
-
+//// process_command: calls read_command_operation for changing actual 
+//// valid operators, or calls read_number_operation for doing operations.
+////	Input: string with keyboard entry word, size of the word, double pointer
+////           answer char, pointer to double number (in case of doing an operation)
+////	Output: (none)
 void read_command_operation(char *input,int sz,char **ans);
 void read_number_operation(char *input,int sz,char **ans,double *n_ans);
 
 void remove_spaces(char *str ,int *sz);
+//// remove_spaces: modifies a string, removing space chars.
+////	Input: pointer to string, pointer to size
+////	Output: (none)
 //// --------------- ////
 
 //// BASIC SET FUNCTIONS ////
 //// ------------------- ////
-void set(int arr[] , int n,int v); // set all arr values to v 
+void set(int arr[] , int n,int v); 
+//// set: set all array values to input v.
+////	Input: pointer to array, size of array, value to set
+////	Output: (none)
 void set_custom(int arr[], int indexes[],int ind_sz, int value);
 //// ------------------- ////
 
 //// OPERATION FUNCTIONS ////
 //// ------------------- ////
-float add (float a,float b);
-float sub (float a,float b);
-float mul (float a,float b);
-float div (float a,float b);
+float add (float a,float b); // Output: a + b
+float sub (float a,float b); // Output: a - b
+float mul (float a,float b); // Output: a * b
+float div (float a,float b); // Output: a / b (b != 0)
 
-float and(float a, float b);
-float or(float a,float b);
-float xor(float a,float b);
+float and(float a, float b); // Output: a & b
+float or(float a,float b);   // Output: a | b
+float xor(float a,float b);  // Output: a ^ b
 //// ------------------- ////
 
 //// GLOBAL VARIABLES ////
@@ -113,12 +145,15 @@ int main(){
 	while (!end){
 		char input_line[MAX_STR_SZ];
 		int sz;
+
 		printf("==>");
 		read_line(input_line,&sz); 
 		
 		char *ans;
 		double n_ans;
+
 		process_command(input_line,sz,&ans,&n_ans);
+
 		if (ans[0] == 'e'){
 			end = 1;
 		}else{
