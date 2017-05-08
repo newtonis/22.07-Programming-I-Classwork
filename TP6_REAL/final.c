@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <math.h>
+#include <math.h> // See overview
 
 /////////////////////////////////
 //// TP6 - ADVANCED POINTERS ////
@@ -18,6 +18,10 @@
 //// are three (3) cases: Only Symbols, Only Letters, Both letters   ////
 //// and symbols. 													 ////
 //// The instructions are displayed at the beigining of the program. ////
+//// NOTE: math.h was only used for Not-A-Number case, because if    ////
+//// the result = NAN, the condition (result != result) its true,    ////
+//// and its is necessary for a simple code flow; if not, the        ////
+//// general operation of the program needs to be changed.           ////
 //// --------------------------------------------------------------- ////
 /////////////////////////////////////////////////////////////////////////
 
