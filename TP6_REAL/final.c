@@ -118,14 +118,14 @@ void set_custom(int arr[], int indexes[],int ind_sz, int value);
 
 //// OPERATION FUNCTIONS ////
 //// ------------------- ////
-float add (float a,float b); // Output: a + b
-float sub (float a,float b); // Output: a - b
-float mul (float a,float b); // Output: a * b
-float div (float a,float b); // Output: a / b (b != 0)
+float add (float a,float b); 
+float sub (float a,float b); 
+float mul (float a,float b); 
+float div (float a,float b);
 
-float and(float a, float b); // Output: a & b
-float or(float a,float b);   // Output: a | b
-float xor(float a,float b);  // Output: a ^ b
+float and(float a, float b); 
+float or(float a,float b);  
+float xor(float a,float b); 
 //// ------------------- ////
 
 //// GLOBAL VARIABLES ////
@@ -381,7 +381,7 @@ void read_number_operation(char *input,int sz,char **ans,double *n_ans){
 				else if (num_ans != num_ans){ // ans is Nan
 					*ans = "Math error";
 				}else{
-					*ans = CODE_SUCCESS;
+					*ans = CODE_SUCCESS ;
 					*n_ans = num_ans;
 				}
 			}
