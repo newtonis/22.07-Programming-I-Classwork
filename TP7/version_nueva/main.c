@@ -2,7 +2,6 @@
 
 #include "config.h"
 #include "utils.h"
-#include "io.h"
 #include "game.h"
 #include "front_end.h"
 

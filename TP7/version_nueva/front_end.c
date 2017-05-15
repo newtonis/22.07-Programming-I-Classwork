@@ -1,6 +1,5 @@
-#include <stdio.h>
-
 #include "front_end.h"
+#include "io.h"
 #include "config.h"
 
 void welcome_msg(){

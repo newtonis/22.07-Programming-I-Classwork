@@ -1,3 +1,4 @@
+#include "config.h"
 #include "io.h"
 
 int leer_numero(){
@@ -22,16 +23,4 @@ int leer_numero(){
 		ans = INPUT_ENTER;
 	}
 	return ans;
-}
- 
-void show_matrix(char mat[][N]){
-	int i, j;
-	printf("\n");
-	for (i = 0;i < N;i++){
-		for (j = 0;j < M;j++){
-			printf("|%c",mat[i][j]);
-		}
-		printf("|\n");
-	}
-	printf ("\n");
 }

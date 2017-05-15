@@ -4,7 +4,6 @@
 // Todas las definiciones relacionadas
 // con el funcionamiento del juego
 
-#include "utils.h"
 #include <stdio.h>
 
 #define M 6 // Cantidad de filas
@@ -22,5 +21,6 @@
 
 #define CNT_NBOURS 8 // Cantidad de vecinos de una celda (usada en una matriz para el funcionamiento del juego)
 
+enum {FALSE, TRUE};
 
 #endif //CONFIG_H

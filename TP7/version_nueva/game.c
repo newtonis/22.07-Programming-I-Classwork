@@ -1,5 +1,6 @@
 #include "game.h"
 #include "config.h"
+#include "utils.h"
 
 void next_evolution(char mat[][N]){ // Actualizamos cada casillero por separado
 	int i , j; 
@@ -58,7 +59,6 @@ int cnt_nbours(int i, int j,char mat[][N]){
     return ans;
 }
 
- 
 void init_game(char init_matrix[][N],char game_mat[][N]){
 	copy_matrix(init_matrix , game_mat);
 }
