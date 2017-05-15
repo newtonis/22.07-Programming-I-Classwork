@@ -7,6 +7,7 @@ void init_game(char init_matrix[][N],char game_mat[][N]);
 
 void next_evolution(char mat[][N]);
 
+void copy_matrix (char src[][N], char dst[][N]);
 
 /* next_cell_ev: recibe las coordenadas de una celda, y la matriz de juego, y devuelve
    el estado que tendra dicha celda en la siguiente iteracion. */
