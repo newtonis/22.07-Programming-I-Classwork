@@ -6,6 +6,12 @@
 //// Se debe tener definido M filas y N columnas para 
 //// utilizar las funciones
 
+#define INPUT_ERR -1 // Codigos de error de input de teclado
+#define INPUT_ENTER -2
+
+// leer un numero de la entrada de usuario
+int leer_numero();
+
 void show_matrix(char mat[][N]);
 
 void copy_matrix (char src[][N], char dst[][N]);

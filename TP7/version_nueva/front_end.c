@@ -1,6 +1,6 @@
-#include "front_end.h"
-#include "io.h"
 #include "config.h"
+#include "front_end.h"
+#include "utils.h"
 
 void welcome_msg(){
 	printf("Bienvenido al juego de la vida \n");

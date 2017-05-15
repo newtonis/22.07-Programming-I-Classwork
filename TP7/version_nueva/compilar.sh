@@ -1,1 +1,1 @@
-gcc -o juego main.c game.c front_end.c utils.c io.c 
+gcc main.c game.c front_end.c utils.c -o juego
