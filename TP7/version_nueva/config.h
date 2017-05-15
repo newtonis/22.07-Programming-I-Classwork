@@ -1,8 +1,11 @@
+////////////////////
+// CONFIG LIBRARY //
+// ============== ///////////////////////
+// Todas las definiciones relacionadas //
+// con el funcionamiento del juego     //
+/////////////////////////////////////////
 #ifndef CONFIG_H
 #define CONFIG_H
-
-// Todas las definiciones relacionadas
-// con el funcionamiento del juego
 
 #include <stdio.h>
 
@@ -12,12 +15,6 @@
 #define MAX_NB 3
 #define ALIVE '*' // Simbologia adoptada para identificar celulas vivas y muertas
 #define DEAD ' '
-#define BASE_NUM 10
-
-#define IS_ENTER 1
-#define NOT_ENTER 0
-#define INPUT_ERR -1
-#define INPUT_ENTER -2
 
 #define CNT_NBOURS 8 // Cantidad de vecinos de una celda (usada en una matriz para el funcionamiento del juego)
 

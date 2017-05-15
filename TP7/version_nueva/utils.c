@@ -1,8 +1,7 @@
+#include <stdio.h>
+
 #include "config.h"
 #include "utils.h"
-
-//// Se debe tener definido M filas y N columnas para 
-//// utilizar las funciones
 
 void copy_matrix (char src[][N], char dst[][N]){
 	int i, j;

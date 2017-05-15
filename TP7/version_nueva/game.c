@@ -1,6 +1,20 @@
-#include "game.h"
 #include "config.h"
 #include "utils.h"
+#include "game.h"
+
+// FUNCIONES INTERNAS DEL PROGRAMA //
+// ------------------------------- //
+// next_cell_ev: procesa el proximo estado de una celda. 
+//	Input: coordenadas enteras i : j, matriz de MxN
+// 	Output: estado de la celda en la siguiente iteracion
+static int next_cell_ev(int i,int j,char mat[][M]); 
+
+// cnt_nbours: calcula la cantidad de celulas vecinas vivas de las 8
+// que posee alrededor una celula determinada.
+//	Input: coordenadas enteras i : j, matriz de MxN
+// 	Output: cantidad de celulas vivas alrededor
+static int cnt_nbours(int i, int j,char mat[][N]);
+// ------------------------------- //
 
 void next_evolution(char mat[][N]){ // Actualizamos cada casillero por separado
 	int i , j; 
