@@ -5,6 +5,4 @@
 
 enum {TRUE , FALSE};
 
-void copy_matrix (char src[][N], char dst[][N]);
-
 #endif //UTILS_H
