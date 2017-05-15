@@ -1,4 +1,4 @@
-#include "game.h"
+#include "config.h"
 
 void copy_matrix (char src[][N], char dst[][N]){
 	int i, j;
