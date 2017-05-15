@@ -6,6 +6,17 @@
 #include "game.h"
 #include "front_end.h"
 
+// Criterio: la matrix hardcodeada se declara global. De esta forma
+// esta cerca del principio del programa y es facil modificarla rapido
+
+char seed_matrix[M][N] = {
+	{' ',' ',' ',' ',' ',' '},
+	{' ','*','*','*','*',' '},
+	{' ','*','*','*',' ',' '},
+	{' ','*','*','*','*',' '},
+	{' ','*',' ',' ',' ',' '},
+	{' ',' ','*','*',' ',' '}
+};
 
 int main(){
 	char game_matrix[M][N];
