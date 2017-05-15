@@ -1,6 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "config.h"
 
 void init_game(char init_matrix[][N],char game_mat[][N]);
 

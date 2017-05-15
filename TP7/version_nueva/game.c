@@ -1,3 +1,6 @@
+#include "game.h"
+#include "config.h"
+
 void next_evolution(char mat[][N]){ // Actualizamos cada casillero por separado
 	int i , j; 
 	char aux_next[N][M]; // Matriz auxiliar con el futuro estado del juego.
@@ -10,7 +13,7 @@ void next_evolution(char mat[][N]){ // Actualizamos cada casillero por separado
 	copy_matrix(aux_next , mat); // Ahora si se actualiza la matriz del juego
 }
 
-static int next_cell_ev (int i,int j,char mat[][M]){
+int next_cell_ev (int i,int j,char mat[][M]){
 
 	int cant_vecinos, cell_status, new_state;
 
@@ -37,7 +40,7 @@ static int next_cell_ev (int i,int j,char mat[][M]){
 	return new_state;
 }
 
-static int cnt_nbours(int i, int j,char mat[][N]){
+int cnt_nbours(int i, int j,char mat[][N]){
     int k;
     int ans = 0;
 
@@ -55,7 +58,7 @@ static int cnt_nbours(int i, int j,char mat[][N]){
     return ans;
 }
 
-static int leer_numero(){
+int leer_numero(){
 	int ans = 0; // En el caso de que el usuario solo presione enter
 	int abort = FALSE;
 	int f_enter = IS_ENTER; // Flag para controlar si el usuario solo escribe enter
