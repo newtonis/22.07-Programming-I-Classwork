@@ -1,3 +1,4 @@
+#include "game.h"
 void copy_matrix (char src[][N], char dst[][N]){
 	int i, j;
 	for(i = 0; i < M; i++){
