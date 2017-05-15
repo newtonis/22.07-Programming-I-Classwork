@@ -26,4 +26,4 @@ char seed_matrix[M][N] = {
 	{' ',' ','*','*',' ',' '}
 };
 
-#endif
+#endif //CONFIG_H
