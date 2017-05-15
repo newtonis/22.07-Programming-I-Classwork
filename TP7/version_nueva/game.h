@@ -25,8 +25,6 @@ char seed_matrix[M][N] = {
 
 void init_game(char mat[][N]);
 
-void get_world_matrix(char mat[][N]);
-
 void next_evolution(char mat[][N]);
 
 
