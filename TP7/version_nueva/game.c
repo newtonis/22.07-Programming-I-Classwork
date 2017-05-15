@@ -79,6 +79,6 @@ static int leer_numero(){
 	return ans;
 }
  
-void init_game(char mat[][N]){
-	copy_matrix(seed_matrix , mat);
+void init_game(char init_matrix[][N],char game_mat[][N]){
+	copy_matrix(init_matrix , game_mat);
 }

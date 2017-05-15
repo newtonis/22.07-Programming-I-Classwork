@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include "config.h"
+#include "utils.h"
 #include "io.h"
 #include "game.h"
 #include "front_end.h"
@@ -30,7 +31,7 @@ int main(){
 			int j;
 			for (j = 0;j < it;j++){ // iteramos "it" veces el mundo
 				i ++ ;
-				finalize_evolution(game_matrix); 
+				next_evolution(game_matrix); 
 				if (j != it-1){ // no queremos ver la misma matriz dos veces!
 					show_game_status(i);
 					show_matrix(game_matrix);
