@@ -1,6 +1,6 @@
-//////////////////
-// GAME LIBRARY //
-// ============ ////////////////////////////////////////////////////
+///////////////////
+// LIBRERIA GAME //
+// ============= ///////////////////////////////////////////////////
 // Funciones para el funcionamiento interno del juego             //
 // => Uso: se utilizan los siguientes parametros de configuracion //
 // 		   M - Filas de matriz                                    //

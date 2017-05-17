@@ -5,6 +5,30 @@
 #include "game.h"
 #include "front_end.h"
 
+///////////////////////////////////////
+//// TP7 - MULTIARCHIVOS - GRUPO 3 ////
+//// ----------------------------- ////
+//// ==> MESTANZA, Joaquin         ////
+//// ==> NOWIK, Ariel              ////
+//// ==> REGUEIRA, Marcelo   	   //////////////////////////////////////
+//// --------------------------------------------------------------- ////
+//// El codigo consta de una reesctructuracion del TP4 - Juego de la ////
+//// vida, en formato de multiarchivos. Los conjuntos armados fueron ////
+//// los siguientes:												 ////
+//// ==> config.h: es un header con las definiciones comunes usadas  ////
+////     en los diferentes archivos .c.								 ////
+//// ==> game.h/game.c: contienen funciones utilizadas para la       ////
+////     actualizacion del estado de las celulas a lo largo de todo  ////
+////     el juego.													 ////
+//// ==> front_end.h/front_end.c: contienen funciones de interaccion ////
+////	 con el usuario a lo largo del juego (como instrucciones de  ////
+////     uso).														 //// 
+//// ==> utils.h/utils.c: poseen un conjunto de funciones de uso     ////
+////     generico que pueden implementarse en cualquier otro progra- ////
+////	 ma si asi fuera necesario.									 ////
+//// --------------------------------------------------------------- ////
+/////////////////////////////////////////////////////////////////////////
+
 // Criterio: la matrix hardcodeada se declara global. De esta forma
 // esta cerca del principio del programa y es facil modificarla rapido
 

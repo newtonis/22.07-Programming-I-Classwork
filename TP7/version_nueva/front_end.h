@@ -1,6 +1,6 @@
-///////////////////////
-// FRONT END LIBRARY //
-// ================= ///////////////////////////////////////////
+////////////////////////
+// LIBRERIA FRONT END //
+// ================== //////////////////////////////////////////
 // Funciones de uso en el programa principal del juego        //
 // => Uso: utiliza los siguientes parametros de configuracion //
 // 		   M - Filas de matriz                                //

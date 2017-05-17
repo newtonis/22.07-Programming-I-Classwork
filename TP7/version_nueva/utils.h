@@ -1,6 +1,6 @@
-///////////////////
-// UTILS LIBRARY //
-// ============= /////////////////////////////////////////
+////////////////////
+// LIBRERIA UTILS //
+// ============== ////////////////////////////////////////
 // Funciones y declaraciones de 'back-end' de uso comun //
 // => Uso: se debe definir las dimensiones de la matriz //
 //         M - Filas								    //
