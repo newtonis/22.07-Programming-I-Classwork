@@ -31,3 +31,5 @@ void maskOn(port_t *port, int mask);
 void maskOff(port_t *port, int mask);
 void maskToggle(port_t *port, int mask);
 // ------------- //
+
+#endif
