@@ -1,3 +1,6 @@
+#ifndef BIT_UTILS_H
+#define BIT_UTILS_H
+
 
 // PORT FUNCTIONS //
 // ------------- //
