@@ -5,19 +5,24 @@
 
 // PORT STRUCTURE //
 
+/// un puerto esta compuesto por su direccion
 
-
-typedef union{
-	uint16_t D;
-	struct{
-		uint8_t B;
-		uint8_t A;
-	} Dbytes;
+typedef struct{
+	uint16_t *dir;
 } port_t;
+
+typedef struct{
+	port_t A;
+	port_t B;
+	port_t D;
+} microPorts_t;
 
 
 // PORT FUNCTIONS //
 // ------------- //
+
+void init_ports(microPorts* mp); // initializate all port structure
+
 void bitSet(port_t *port, int bit);
 void bitClr(port_t *port, int bit);
 int bitGet(port_t *port, int bit);
