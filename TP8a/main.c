@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include "port_utils.h"
 #include "output.h"
-#include "testing.h"
 
 int main(){
 	microPorts_t mp;
@@ -12,7 +11,10 @@ int main(){
 	showPort(&mp.B);
 	showPort(&mp.D);
 
-	testBitClear(&mp);
+	bitSet(&mp.A,1);
+	bitSet(&mp.B,1);
+	bitSet(&mp.B,);
+	maskOff(&mp.D,0xFFF);
 
 	showPort(&mp.A);
 	showPort(&mp.B);

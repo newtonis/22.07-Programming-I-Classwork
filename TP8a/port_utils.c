@@ -13,7 +13,7 @@ void initReg(port_t* port , uint16_t *dir, char name , int sz){
 int initPorts(microPorts_t* mp){ // initializate all port structure
 	uint16_t * d = malloc(sizeof(uint16_t));
 	uint16_t * a = d; // a and d points to the same place
-	uint16_t * b = malloc(sizeof(uint16_t ));
+	uint16_t * b = (uint16_t*)( (uint8_t*)a+1); // b points to the half of d
 
 	int err;
 	if (a == NULL || b == NULL || d == NULL){
@@ -28,8 +28,7 @@ int initPorts(microPorts_t* mp){ // initializate all port structure
 	return err;
 }
 void endPorts(microPorts_t* mp){ // end ports system
-	free(mp->A.dir);
-	free(mp->B.dir);
+	free(mp->D.dir);
 }
 
 void bitSet(port_t *port, uint16_t bit){
