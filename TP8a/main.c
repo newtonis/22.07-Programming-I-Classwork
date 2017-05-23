@@ -8,17 +8,39 @@ int main(){
 
 	int ans = initPorts(&mp);
 
-	showPort(&mp.A);
-	showPort(&mp.B);
-	showPort(&mp.D);
-
-	testBitClear(&mp);
+	bitSet(&mp.A,7);
 
 	showPort(&mp.A);
 	showPort(&mp.B);
 	showPort(&mp.D);
 
+	maskOn(&mp.A,0xFF);
 
+	showPort(&mp.A);
+	showPort(&mp.B);
+	showPort(&mp.D);
+
+
+
+	bitClr(&mp.A,0);
+	showPort(&mp.A);
+	showPort(&mp.B);
+	showPort(&mp.D);
+
+	maskOff(&mp.A,0xFF);
+	showPort(&mp.A);
+	showPort(&mp.B);
+	showPort(&mp.D);
+
+	maskToggle(&mp.A,0x1);
+
+	showPort(&mp.A);
+	showPort(&mp.B);
+	showPort(&mp.D);
+
+	printf("%d\n",bitGet(&mp.A,0x0));
+
+/*
 	maskToggle(&mp.A,0xFF);
 	maskToggle(&mp.B,0xFF);
 
@@ -26,7 +48,7 @@ int main(){
 	show_port(&mp.B);
 	show_port(&mp.D);
 
-	end_ports(&mp); /// free ports memory
+*/
 	endPorts(&mp); /// free ports memory
 	
 	
