@@ -2,19 +2,26 @@
 #include <stdlib.h>
 #include "port_utils.h"
 
+void initReg(port_t* port , char name , uint16_t *dir,int sz){
+	port.name = name;
+	port.dir = dir;
+	port.sz = sz;
+	// make it zero by default
+	(*port.dir) = 0;
+}
+
 int initPorts(microPorts_t* mp){ // initializate all port structure
-	void * d = malloc(sizeof(uint16_t));
-	void * a = &d; // a and d points to the same place
-	void * b = malloc(sizeof(uint16_t ));
+	uint16_t * d = malloc(sizeof(uint16_t));
+	uint16_t * a = d; // a and d points to the same place
+	uint16_t * b = malloc(sizeof(uint16_t ));
 
 	int err;
 	if (a == NULL || b == NULL || d == NULL){
 		err = 1;
 	}else{
 		// init ports
-		mp->A.name = 'A';
-		mp->A.dir = a;
-		mp->A.sz = 8;
+		initReg(&mp->A,'A',8);
+		initReg(&)
 		mp->B.name = 'B';
 		mp->B.dir = b;
 		mp->B.sz = 8;
