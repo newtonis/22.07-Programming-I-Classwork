@@ -14,3 +14,19 @@ void showPort(port_t *port){
 	}
 	printf("\n");
 }
+
+
+void instruction_print(void){
+
+	printf("PORT SIMULATION SOFTWARE\n");
+	printf("========================\n\n");
+
+	printf("Enter option to set status of LEDs connected to port A\n");
+	printf("Command list:\n");
+	printf("==> numbers 0 to 7: port bit set corresponding to LED\n");
+	printf("==> b: the switched on LEDs will blink\n");
+	printf("==> s: sets all LEDs on\n");
+	printf("==> c: sets all LEDs off\n");
+	printf("==> Esc: terminates the program\n");
+	printf("Enter choice: ");
+}
