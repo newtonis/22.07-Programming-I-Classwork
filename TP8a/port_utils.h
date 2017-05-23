@@ -24,6 +24,8 @@ typedef struct{
 // ------------- //
 
 int initPorts(microPorts_t* mp); // initializate all port structure
+void end_ports(microPorts_t* mp); //free ports memory
+
 
 void bitSet(port_t *port, uint16_t bit);
 void bitClr(port_t *port, uint16_t bit);

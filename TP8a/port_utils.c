@@ -4,7 +4,7 @@
 
 int initPorts(microPorts_t* mp){ // initializate all port structure
 	void * d = malloc(sizeof(uint16_t));
-	void * a = d; // a and d points to the same place
+	void * a = &d; // a and d points to the same place
 	void * b = malloc(sizeof(uint16_t ));
 
 	int err;
@@ -14,10 +14,13 @@ int initPorts(microPorts_t* mp){ // initializate all port structure
 		// init ports
 		mp->A.name = 'A';
 		mp->A.dir = a;
+		mp->A.sz = 8;
 		mp->B.name = 'B';
 		mp->B.dir = b;
-		mp->D.name = 'A';
+		mp->B.sz = 8;
+		mp->D.name = 'D';
 		mp->D.dir = d;
+		mp->D.sz = 16;
 		err = 0;
 	}
 	return err;

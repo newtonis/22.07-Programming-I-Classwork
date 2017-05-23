@@ -8,7 +8,7 @@ void show_port(port_t *port){
 		int i;
 		uint16_t bit;
 		for (i = 0;i < port->sz;i++){
-			printf("%d",(*port->dir)&bit);
+			printf("%d",((*port->dir)&bit)!=0);
 			bit <<= 1;
 		}
 	}else{
