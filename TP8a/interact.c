@@ -1,10 +1,6 @@
 #include <stdio.h>
 
-// Error codes //
-// ----------- //
 #define INPUT_ERR -1
-// ----------- //
-
 #define INPUT_BIT -2
 enum {FALSE, TRUE};
 

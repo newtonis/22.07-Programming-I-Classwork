@@ -30,3 +30,11 @@ void instruction_print(void){
 	printf("==> Esc: terminates the program\n");
 	printf("Enter choice: ");
 }
+
+void initError_print(void){
+
+	printf("PORT SIMULATION SOFTWARE\n");
+	printf("========================\n\n");
+
+	printf("Error at configuring ports. Program terminated.-\n\n");
+}

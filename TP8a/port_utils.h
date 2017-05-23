@@ -3,9 +3,10 @@
 
 #include <stdint.h>
 
+#define ALL_BITS_MASK 0xFF
 // PORT STRUCTURE //
 
-/// un puerto esta compuesto por su direccion
+/// A port has a direction 
 
 typedef struct{
 	char name;
@@ -26,8 +27,9 @@ typedef struct{
 static void initReg(port_t* port , uint16_t *dir, char name , int sz);
 
 int initPorts(microPorts_t* mp); // initializate all port structure
-void endPorts(microPorts_t* mp); //free ports memory
+void endPorts(microPorts_t* mp); // free ports memory
 
+int portConfig(port_t *port, char c);
 
 void bitSet(port_t *port, uint16_t bit);
 void bitClr(port_t *port, uint16_t bit);
