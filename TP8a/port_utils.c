@@ -13,9 +13,11 @@ int initPorts(microPorts_t* mp){ // initializate all port structure
 	}else{
 		// init ports
 		mp->A.name = 'A';
-		//mp->B = {'B',b};
-		//mp->D = {'D',d};
-
+		mp->A.dir = a;
+		mp->B.name = 'B';
+		mp->B.dir = b;
+		mp->D.name = 'A';
+		mp->D.dir = d;
 		err = 0;
 	}
 	return err;

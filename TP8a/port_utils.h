@@ -29,19 +29,9 @@ void bitSet(port_t *port, uint16_t bit);
 void bitClr(port_t *port, uint16_t bit);
 int bitGet(port_t *port, uint16_t bit);
 
-<<<<<<< HEAD
 void maskOn(port_t *port, uint16_t mask);
 void maskOff(port_t *port, uint16_t mask);
 void maskToggle(port_t *port, uint16_t mask);
-// ------------- //
 
-
-#endif //PORT_UTILS_H
-=======
-void maskOn(port_t *port, int mask);
-void maskOff(port_t *port, int mask);
-void maskToggle(port_t *port, int mask);
-// ------------- //
 
 #endif
->>>>>>> 625e86b3c8a7d446d32e0371942e4908b41714f5
