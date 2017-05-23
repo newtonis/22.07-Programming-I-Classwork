@@ -2,19 +2,14 @@
 #include "port_utils.h"
 #include "output.h"
 
-#define ESC (27)
-
-#define INPUT_ERR -1
-#define INPUT_BIT -2
-
-enum {FALSE, TRUE};
+#define EXIT 'e'
 
 char get_input(void); // gets user input, only one char, otherwise returns INPUT_ERR
 
 int main(){
 	microPorts_t mp;
 
-	int end = 0, var_a;
+	int end = 0, config_ok;
 	char c;
 
 	int ans = initPorts(&mp);
@@ -30,13 +25,15 @@ int main(){
 
 		c = get_input(); // char input
 
-		var_a = portConfig(&mp.A, c);
+		config_ok = portConfig(&mp.A, c);
 
-		/*}else if((int)c == ESC){ // Exit soft
-			end = TRUE;
-		}else{
-			printf("Invalid input option\n");
-		}*/
+		if(!config_ok){
+			if(c == EXIT){ // exit soft
+				end = TRUE;
+			}else{
+				printf("Invalid input option\n");
+			}
+		}
 
 	}
 

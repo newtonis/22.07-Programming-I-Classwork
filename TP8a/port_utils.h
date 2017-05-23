@@ -3,7 +3,12 @@
 
 #include <stdint.h>
 
+
+#define INPUT_ERR -1
+#define INPUT_BIT -2
 #define ALL_BITS_MASK 0xFF
+
+enum {FALSE, TRUE};
 // PORT STRUCTURE //
 
 /// A port has a direction 

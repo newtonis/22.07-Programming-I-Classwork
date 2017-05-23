@@ -66,6 +66,7 @@ void maskToggle(port_t *port, uint16_t mask){
 
 int portConfig(port_t *port, char c){
 
+	int operation_ok = TRUE;
 
 	if(('0' <= c ) && ( c <= '7')){ // Bit set to port
 		bitSet(port,(int)(c-'0'));
@@ -91,5 +92,9 @@ int portConfig(port_t *port, char c){
 		maskOn(port,ALL_BITS_MASK);
 		printf("Status port ");
 		showPort(port);
+	}else{
+		operation_ok = FALSE;
 	}
+
+	return operation_ok;
 }
