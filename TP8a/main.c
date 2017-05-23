@@ -59,8 +59,7 @@ int main(){
 		}
 
 	}
-/*
-*/
+
 	endPorts(&mp); /// free ports memory
 	
 }
