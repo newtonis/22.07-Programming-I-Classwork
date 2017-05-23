@@ -7,6 +7,8 @@ void showPort(port_t *port);
 
 void instruction_print(void);
 
+void portSel_print(void);
+
 void initError_print(void);
 
 #endif // OUTPUT_H

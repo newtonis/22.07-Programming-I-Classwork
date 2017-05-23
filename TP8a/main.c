@@ -9,8 +9,8 @@ char get_input(void); // gets user input, only one char, otherwise returns INPUT
 int main(){
 	microPorts_t mp;
 
-	int end = 0, config_ok;
-	char c;
+	int end = 0, config_ok, valid_in = 0, valid_set = 0;
+	char c, port_chose;
 
 	int ans = initPorts(&mp);
 
@@ -23,15 +23,52 @@ int main(){
 
 	while(!end){
 
-		c = get_input(); // char input
+		while(!valid_in){
 
-		config_ok = portConfig(&mp.A, c);
+			port_chose = get_input();
 
-		if(!config_ok){
-			if(c == EXIT){ // exit soft
-				end = TRUE;
-			}else{
-				printf("Invalid input option\n");
+			switch(port_chose){
+				case 'A': case 'B': case 'D':
+					valid_in = 1;
+				break;
+				case EXIT:
+					end = TRUE;
+					valid_in = 1;
+					valid_set = 1;
+				break;
+				default:
+					printf("Invalid port choice. Type again:\n");
+				break;
+			}
+		}
+
+		if(valid_in)
+			
+			portSel_print();	
+
+		while(!valid_set){
+
+			c = get_input(); // char input
+
+			switch(port_chose){
+				case 'A':
+					config_ok = portConfig(&mp.A, c);
+				break;
+				case 'B':
+					config_ok = portConfig(&mp.B, c);
+				break;
+				case 'D':
+					config_ok = portConfig(&mp.D, c);
+				break;
+			}
+
+			if(!config_ok){
+				if(c == EXIT){ // exit soft
+					end = TRUE;
+					valid_set = 1;
+				}else{
+					printf("Invalid input option. Type again:\n");
+				}
 			}
 		}
 
