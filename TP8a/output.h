@@ -5,7 +5,7 @@
 
 void showPort(port_t *port);
 
-void welcome(void);
+void instruction_print(void);
 
 
 #endif // OUTPUT_H
