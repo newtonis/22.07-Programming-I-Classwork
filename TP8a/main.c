@@ -18,7 +18,6 @@ int main(){
 	showPort(&mp.B);
 	showPort(&mp.D);
 
-<<<<<<< HEAD
 
 	maskToggle(&mp.A,0xFF);
 	maskToggle(&mp.B,0xFF);
@@ -28,9 +27,7 @@ int main(){
 	show_port(&mp.D);
 
 	end_ports(&mp); /// free ports memory
-=======
 	endPorts(&mp); /// free ports memory
->>>>>>> 0af5b444ef6be6b42d1e75cebd1c680ba1879fe5
 	
 	
 	printf("%d ",ans);
