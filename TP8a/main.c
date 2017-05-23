@@ -31,7 +31,17 @@ int main(){
 
 			switch(port_chose){
 				case 'A': case 'B': case 'D':
+				case 'a': case 'b': case 'd': 
 					valid_in = 1;
+					system("clear");
+					bitConfig_print(port_chose);
+					printf("Enter choice: ");
+				break;
+				case 'L': case 'l':
+					valid_in = 1;
+					system("clear");
+					portSel_print();	
+					printf("Enter choice: ");
 				break;
 				case EXIT:
 					end = TRUE;
@@ -47,23 +57,24 @@ int main(){
 		}
 
 		if(valid_in)
-			system("clear");
-			portSel_print();	
-			printf("Enter choice: ");
+			
 
 		while(!valid_set){
 
 			c = get_input(); // char input
 
 			switch(port_chose){
-				case 'A':
+				case 'L': case 'l':
 					config_ok = portConfig(&mp.A, c);
 				break;
-				case 'B':
-					config_ok = portConfig(&mp.B, c);
+				case 'A': case 'a':
+					// make int function
 				break;
-				case 'D':
-					config_ok = portConfig(&mp.D, c);
+				case 'B': case 'b':
+					// make int function
+				break;
+				case 'D': case 'd':
+					// make int funciton
 				break;
 			}
 

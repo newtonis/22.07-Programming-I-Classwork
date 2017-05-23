@@ -22,9 +22,10 @@ void instruction_print(void){
 
 	printf("Enter port to configure.\n");
 	printf("Command list:\n");
-	printf("==> A: port A\n");
-	printf("==> B: port B\n");
-	printf("==> D: port D\n");
+	printf("==> A/a: port A\n");
+	printf("==> B/b: port B\n");
+	printf("==> D/d: port D\n");
+	printf("==> L/l: LED configuration\n");
 	printf("==> e: terminates the program\n\n");
 }
 
@@ -37,6 +38,7 @@ void initError_print(void){
 }
 
 void portSel_print(void){
+
 	printf("PORT SIMULATION SOFTWARE\n");
 	printf("========================\n\n");
 
@@ -47,5 +49,20 @@ void portSel_print(void){
 	printf("==> s: sets all LEDs on\n");
 	printf("==> c: sets all LEDs off\n");
 	printf("==> e: terminates the program\n\n");
+}
 
+void bitConfig_print(char port){
+
+	printf("PORT SIMULATION SOFTWARE\n");
+	printf("========================\n\n");
+
+	printf("Enter option to edit/see bit status of port %C\n", port);
+	printf("Command list:\n");
+	printf("==> 1: set bit\n");
+	printf("==> 2: clear bit\n");
+	printf("==> 3: get bit status\n");
+	printf("==> 4: mask ON bits\n");
+	printf("==> 5: mask OFF bits\n");
+	printf("==> 6: mask TOGGLE bits\n");
+	printf("==> e: terminates the program\n\n");
 }
