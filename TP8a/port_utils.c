@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include "port_utils.h"
 
-void initReg(port_t* port , char name , uint16_t *dir,int sz){
-	port.name = name;
-	port.dir = dir;
-	port.sz = sz;
+void initReg(port_t* port , uint16_t *dir, char name , int sz){
+	port->name = name;
+	port->dir = dir;
+	port->sz = sz;
 	// make it zero by default
-	(*port.dir) = 0;
+	(*port->dir) = 0;
 }
 
 int initPorts(microPorts_t* mp){ // initializate all port structure
@@ -20,9 +20,9 @@ int initPorts(microPorts_t* mp){ // initializate all port structure
 		err = 1;
 	}else{
 		// init ports
-		initReg(&mp->A,'A',8);
-		initReg(&mp->B,'B',8);
-		initReg(&mp->D,'D',16);
+		initReg(&mp->A,a,'A',8);
+		initReg(&mp->B,b,'B',8);
+		initReg(&mp->D,d,'D',16);
 		err = 0;
 	}
 	return err;
