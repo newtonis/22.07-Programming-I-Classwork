@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "port_utils.h"
 #include "output.h"
 
@@ -19,6 +20,7 @@ int main(){
 		initError_print();
 	}else{
 		instruction_print();
+		printf("Enter choice: ");
 	}
 
 	while(!end){
@@ -37,14 +39,17 @@ int main(){
 					valid_set = 1;
 				break;
 				default:
+					system("clear");
+					instruction_print();
 					printf("Invalid port choice. Type again:\n");
 				break;
 			}
 		}
 
 		if(valid_in)
-			
+			system("clear");
 			portSel_print();	
+			printf("Enter choice: ");
 
 		while(!valid_set){
 
@@ -67,6 +72,8 @@ int main(){
 					end = TRUE;
 					valid_set = 1;
 				}else{
+					system("clear");
+					portSel_print();
 					printf("Invalid input option. Type again:\n");
 				}
 			}

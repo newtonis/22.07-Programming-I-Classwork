@@ -25,8 +25,7 @@ void instruction_print(void){
 	printf("==> A: port A\n");
 	printf("==> B: port B\n");
 	printf("==> D: port D\n");
-	printf("==> e: terminates the program\n");
-	printf("Enter choice: ");
+	printf("==> e: terminates the program\n\n");
 }
 
 void initError_print(void){
@@ -38,6 +37,8 @@ void initError_print(void){
 }
 
 void portSel_print(void){
+	printf("PORT SIMULATION SOFTWARE\n");
+	printf("========================\n\n");
 
 	printf("Enter option to set status of LEDs connected to port A\n");
 	printf("Command list:\n");
@@ -45,7 +46,6 @@ void portSel_print(void){
 	printf("==> b: the switched on LEDs will blink\n");
 	printf("==> s: sets all LEDs on\n");
 	printf("==> c: sets all LEDs off\n");
-	printf("==> e: terminates the program\n");
-	printf("Enter choice: ");
+	printf("==> e: terminates the program\n\n");
 
 }
