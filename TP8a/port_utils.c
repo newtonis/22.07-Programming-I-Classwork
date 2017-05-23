@@ -27,7 +27,7 @@ int initPorts(microPorts_t* mp){ // initializate all port structure
 	}
 	return err;
 }
-void end_ports(microPorts_t* mp){ // end ports system
+void endPorts(microPorts_t* mp){ // end ports system
 	free(mp->A.dir);
 	free(mp->B.dir);
 }

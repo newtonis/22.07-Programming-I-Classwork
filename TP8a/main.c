@@ -8,17 +8,17 @@ int main(){
 
 	int ans = initPorts(&mp);
 
-	show_port(&mp.A);
-	show_port(&mp.B);
-	show_port(&mp.D);
+	showPort(&mp.A);
+	showPort(&mp.B);
+	showPort(&mp.D);
 
 	testBitClear(&mp);
 
-	show_port(&mp.A);
-	show_port(&mp.B);
-	show_port(&mp.D);
+	showPort(&mp.A);
+	showPort(&mp.B);
+	showPort(&mp.D);
 
-	end_ports(&mp); /// free ports memory
+	endPorts(&mp); /// free ports memory
 	
 	
 	printf("%d ",ans);
