@@ -21,13 +21,8 @@ int initPorts(microPorts_t* mp){ // initializate all port structure
 	}else{
 		// init ports
 		initReg(&mp->A,'A',8);
-		initReg(&)
-		mp->B.name = 'B';
-		mp->B.dir = b;
-		mp->B.sz = 8;
-		mp->D.name = 'D';
-		mp->D.dir = d;
-		mp->D.sz = 16;
+		initReg(&mp->B,'B',8);
+		initReg(&mp->D,'D',16);
 		err = 0;
 	}
 	return err;

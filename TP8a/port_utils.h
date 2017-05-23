@@ -23,6 +23,8 @@ typedef struct{
 // PORT FUNCTIONS //
 // ------------- //
 
+static void initReg(port_t* port , char name , uint16_t *dir,int sz);
+
 int initPorts(microPorts_t* mp); // initializate all port structure
 void end_ports(microPorts_t* mp); //free ports memory
 
