@@ -33,7 +33,7 @@ void endPorts(microPorts_t* mp){ // end ports system
 }
 
 void bitSet(port_t *port, uint16_t bit){
-	if (bit < port->sz){
+	if (bit < port->sz){ // check if bit is valid
 		(*port->dir) |= (1<<bit);
 	}
 }
@@ -52,20 +52,14 @@ int bitGet(port_t *port, uint16_t bit){
 	return ans;
 }
 void maskOn(port_t *port, uint16_t mask){
-	if (port->sz == 8){
-		mask &= 0xFF; // we make sure invalid bits are disabled
-	}
+	mask &= (1<<(port->sz+1) )-1; // disable mask invalid bits
 	(*port->dir) |= mask;
 }
 void maskOff(port_t *port, uint16_t mask){
-	if (port->sz == 8){
-		mask &= 0xFF; // we make sure invalid bits are disabled
-	}
+	mask &= (1<<(port->sz+1) )-1;
 	(*port->dir) &= ~mask;
 }
 void maskToggle(port_t *port, uint16_t mask){
-	if (port->sz == 8){
-		mask &= 0xFF; // we make sure invalid bits are disabled
-	}
+	mask &= (1<<(port->sz+1) )-1;
 	(*port->dir) ^= mask;
 }
