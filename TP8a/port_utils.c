@@ -34,6 +34,7 @@ void end_ports(microPorts_t* mp){ // end ports system
 
 void bitSet(port_t *port, uint16_t bit){
 	if (bit < port->sz){
+		printf("%d \n",(1<<bit));
 		(*port->dir) |= (1<<bit);
 	}
 }

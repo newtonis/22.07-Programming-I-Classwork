@@ -6,7 +6,7 @@ void show_port(port_t *port){
 	printf("%c :",port->name);
 	if (port->dir != NULL){
 		int i;
-		uint16_t bit;
+		uint16_t bit = 1;
 		for (i = 0;i < port->sz;i++){
 			printf("%d",((*port->dir)&bit)!=0);
 			bit <<= 1;

@@ -11,7 +11,7 @@ int main(){
 	show_port(&mp.B);
 	show_port(&mp.D);
 
-	bitSet(&mp.A,2);
+	bitSet(&mp.A,0);
 
 	show_port(&mp.A);
 	show_port(&mp.B);
