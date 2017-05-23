@@ -17,6 +17,14 @@ int main(){
 	show_port(&mp.B);
 	show_port(&mp.D);
 
+
+	maskToggle(&mp.A,0xFF);
+	maskToggle(&mp.B,0xFF);
+
+	show_port(&mp.A);
+	show_port(&mp.B);
+	show_port(&mp.D);
+
 	end_ports(&mp); /// free ports memory
 	
 	
