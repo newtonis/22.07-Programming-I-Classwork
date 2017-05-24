@@ -2,7 +2,24 @@
 #include <stdlib.h>
 #include "port_utils.h"
 #include "output.h"
-
+//////////////////////////////////////////////////
+//// TP8a - STRUCT, UNION, BITFIELD - GROUP 3 ////
+//// ---------------------------------------- ////
+//// ==> MESTANZA, Joaquin                    ////
+//// ==> NOWIK, Ariel                         ////
+//// ==> REGUEIRA, Marcelo   	  			  ///////////////////////////
+//// --------------------------------------------------------------- ////
+//// The following code works as an emulator for ports named A B D,	 ////
+//// of 8, 8, and 16 bits each. The user can do operations with      ////
+//// particular bits of setting, clearing and getting status.        ////
+//// Also setting, clearing and toggle mask operations can be made,  ////
+//// but with predefined masks in port_utils.h.                      ////
+//// ==> output.h/output.c: functions to guide the user through the  ////
+////     program.                                                    ////
+//// ==> port_utils.h/port_utils.c: internal functions for woking    ////
+////     with the ports.                             				 ////
+//// --------------------------------------------------------------- ////
+/////////////////////////////////////////////////////////////////////////
 int main(){
 	microPorts_t mp;
 

@@ -153,7 +153,8 @@ int bit_setup(port_t *port, char c, char port_letter){
 		default:
 			ans = FALSE;
 		break;
-	}
+		}
+
 
 	return ans;
 }
