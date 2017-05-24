@@ -3,11 +3,12 @@
 
 #include <stdint.h>
 
-enum{VALID,NOT_VALID};
 
 #define INPUT_ERR -1
 #define INPUT_BIT -2
 #define ALL_BITS_MASK 0xFF
+
+#define EXIT 'e'
 
 enum {FALSE, TRUE};
 // PORT STRUCTURE //
@@ -32,10 +33,13 @@ typedef struct{
 
 static void initReg(port_t* port , uint16_t *dir, char name , int sz);
 
+char get_input(void); // gets user input, only one char, otherwise returns INPUT_ERR
+
 int initPorts(microPorts_t* mp); // initializate all port structure
 void endPorts(microPorts_t* mp); // free ports memory
 
 int portConfig(port_t *port, char c);
+int bit_setup(port_t *port, char c);
 
 void bitSet(port_t *port, uint16_t bit);
 void bitClr(port_t *port, uint16_t bit);
@@ -45,6 +49,5 @@ void maskOn(port_t *port, uint16_t mask);
 void maskOff(port_t *port, uint16_t mask);
 void maskToggle(port_t *port, uint16_t mask);
 
-int maskvalid(int sz_of_var, int random_mask);
 
 #endif

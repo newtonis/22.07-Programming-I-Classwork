@@ -3,50 +3,45 @@
 #include "port_utils.h"
 #include "output.h"
 
-#define EXIT 'e'
-
-char get_input(void); // gets user input, only one char, otherwise returns INPUT_ERR
-
 int main(){
 	microPorts_t mp;
 
-	int end = 0, config_ok, valid_in = 0, valid_set = 0;
+	int config_ok, global_state = 1;
 	char c, port_chose;
 
 	int ans = initPorts(&mp);
 
 	if(ans == 1){
-		end = 1;
+		global_state = 0;
 		initError_print();
 	}else{
 		instruction_print();
 		printf("Enter choice: ");
 	}
 
-	while(!end){
+	while(global_state){
 
-		while(!valid_in){
+		if(global_state == 1){
 
 			port_chose = get_input();
 
 			switch(port_chose){
 				case 'A': case 'B': case 'D':
 				case 'a': case 'b': case 'd': 
-					valid_in = 1;
+					global_state = 2;
 					system("clear");
 					bitConfig_print(port_chose);
 					printf("Enter choice: ");
 				break;
 				case 'L': case 'l':
-					valid_in = 1;
+					global_state = 3;
 					system("clear");
 					portSel_print();	
 					printf("Enter choice: ");
 				break;
 				case EXIT:
 					end = TRUE;
-					valid_in = 1;
-					valid_set = 1;
+					global_state = 0;
 				break;
 				default:
 					system("clear");
@@ -54,12 +49,9 @@ int main(){
 					printf("Invalid port choice. Type again:\n");
 				break;
 			}
-		}
+		}	
 
-		if(valid_in)
-			
-
-		while(!valid_set){
+		if((global_state == 2)||(global_state == 3)){
 
 			c = get_input(); // char input
 
@@ -68,7 +60,7 @@ int main(){
 					config_ok = portConfig(&mp.A, c);
 				break;
 				case 'A': case 'a':
-					// make int function
+					config_ok = bit_setup(&mp.A, c)
 				break;
 				case 'B': case 'b':
 					// make int function
@@ -81,10 +73,16 @@ int main(){
 			if(!config_ok){
 				if(c == EXIT){ // exit soft
 					end = TRUE;
-					valid_set = 1;
-				}else{
+					global_state = 0;
+				}
+				else if(global_state == 3){
 					system("clear");
 					portSel_print();
+					printf("Invalid input option. Type again:\n");
+				}
+				else if(global_state == 2){
+					system("clear");
+					bitConfig_print(port_chose);
 					printf("Invalid input option. Type again:\n");
 				}
 			}
@@ -94,21 +92,4 @@ int main(){
 
 	endPorts(&mp); /// free ports memory
 	
-}
-
-char get_input(void){
-
-	unsigned int i = 0;
-
-	char c, in_char;
-
-	while ( (c = getchar()) != '\n'){
-		i++;
-		in_char = c;
-	}
-
-	if(i != 1)	
-		in_char = INPUT_ERR;
-	
-	return in_char;
 }
