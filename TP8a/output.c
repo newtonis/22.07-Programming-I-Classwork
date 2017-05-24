@@ -56,7 +56,7 @@ void bitConfig_print(char port){
 	printf("PORT SIMULATION SOFTWARE\n");
 	printf("========================\n\n");
 
-	printf("Enter option to edit/see bit status of port %C\n", port);
+	printf("Enter option to edit/see bit status of port %c\n", port);
 	printf("Command list:\n");
 	printf("==> 1: set bit\n");
 	printf("==> 2: clear bit\n");
