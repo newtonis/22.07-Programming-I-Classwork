@@ -1,3 +1,9 @@
+/////////////////////
+// GRAPHIC LIBRARY //
+// =============== /////////////////////////
+// Functions for updating standard output // 
+// with the new status of the leds.       //
+////////////////////////////////////////////
 #ifndef GRAPHIC_H
 #define GRAPHIC_H
 

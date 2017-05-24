@@ -24,7 +24,7 @@ void instruct_print(void){
 	printf("If the option is not one of below nothing is modified.\n");
 	printf("Command list:\n");
 	printf("==> numbers 0 to 7: port bit set corresponding to LED\n");
-	printf("==> b: the switched on LEDs will blink\n");
+	printf("==> b: the switched on LEDs will blink changing the state per 1 sec\n");
 	printf("==> s: sets all LEDs on\n");
 	printf("==> c: sets all LEDs off\n");
 	printf("==> Esc key: terminates the program\n");
