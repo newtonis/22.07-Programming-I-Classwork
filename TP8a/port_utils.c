@@ -84,6 +84,7 @@ int bit_setup(port_t *port, char c){
 			printf("Enter bit to clear: \n");
 			aux_var = get_input();
 			while((aux_var == INPUT_ERR)||(aux_var < '0')||(aux_var > '7')){ // bit validation
+
 				printf("Invalid input option. Type again:\n");
 				aux_var = get_input();
 			}
@@ -101,6 +102,45 @@ int bit_setup(port_t *port, char c){
 			printf("Bit %c status: %d\n", aux_var, result);
 		break;
 		case '4': // mask on 
+			printf("Enter some mask in which all bits with the value 1 are the ones to be set to on \n");
+			printf("please put the mask with its int value\n" );
+
+			int finished =0;
+			int i=0;
+			int base_dec=1;
+			while(!finished){
+
+			aux_var = get_input();
+
+			while((aux_var == INPUT_ERR)||){ // bit validation
+				printf("Invalid input option. Type again:\n");
+				aux_var = get_input();
+				--i;
+			}	
+			
+			int maskvalue;
+			maskvalue+= ( ((int)(aux_var-'0')) * (base_dec) );
+
+
+			++i;
+			base_dec*=10;
+			if(port.sz==sizeof(uint16_t)){
+				if(i>5){
+				finished=1;
+				}
+			}
+			if(port.sz==sizeof(uint8_t)){
+				if(i>3){
+				finished=1;
+				}	
+			}
+
+			maskvalid(port,maskvalue);
+		}
+			
+
+
+
 		break;
 		case '5': // mask off
 		break;
@@ -109,10 +149,12 @@ int bit_setup(port_t *port, char c){
 		default:
 			ans = FALSE;
 		break;
-	}
+		}
+
 
 	return ans;
 }
+
 
 int portConfig(port_t *port, char c){
 
