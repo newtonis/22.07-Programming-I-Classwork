@@ -40,7 +40,6 @@ int main(){
 					printf("Enter choice: ");
 				break;
 				case EXIT:
-					end = TRUE;
 					global_state = 0;
 				break;
 				default:
@@ -60,19 +59,18 @@ int main(){
 					config_ok = portConfig(&mp.A, c);
 				break;
 				case 'A': case 'a':
-					config_ok = bit_setup(&mp.A, c)
+					config_ok = bit_setup(&mp.A, c);
 				break;
 				case 'B': case 'b':
-					// make int function
+					config_ok = bit_setup(&mp.B, c);
 				break;
 				case 'D': case 'd':
-					// make int funciton
+					config_ok = bit_setup(&mp.D, c);
 				break;
 			}
 
 			if(!config_ok){
 				if(c == EXIT){ // exit soft
-					end = TRUE;
 					global_state = 0;
 				}
 				else if(global_state == 3){
@@ -85,6 +83,13 @@ int main(){
 					bitConfig_print(port_chose);
 					printf("Invalid input option. Type again:\n");
 				}
+			}else{
+				global_state = 1;
+				printf("Press ENTER to return to main menu\n");
+				port_chose = get_input();
+				system("clear");
+				instruction_print();
+				printf("Enter choice: ");
 			}
 		}
 

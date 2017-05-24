@@ -11,6 +11,8 @@
 #define EXIT 'e'
 
 enum {FALSE, TRUE};
+enum{VALID, NOT_VALID};
+
 // PORT STRUCTURE //
 
 /// A port has a direction 
@@ -34,6 +36,8 @@ typedef struct{
 static void initReg(port_t* port , uint16_t *dir, char name , int sz);
 
 char get_input(void); // gets user input, only one char, otherwise returns INPUT_ERR
+
+int maskvalid(port_t *port, int random_mask);
 
 int initPorts(microPorts_t* mp); // initializate all port structure
 void endPorts(microPorts_t* mp); // free ports memory

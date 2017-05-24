@@ -66,19 +66,39 @@ void maskToggle(port_t *port, uint16_t mask){
 
 int bit_setup(port_t *port, char c){
 
-	int ans = TRUE, aux_var = INPUT_ERR;
+	int ans = TRUE, result;
+	char aux_var = INPUT_ERR;
+
 	switch(c){
 		case '1': // bitSet
 			printf("Enter bit to set: \n");
-			while(aux_var == INPUT_ERR){ // bit validation
+			aux_var = get_input();
+			while((aux_var == INPUT_ERR)||(aux_var < '0')||(aux_var > '7')){ // bit validation
 				printf("Invalid input option. Type again:\n");
 				aux_var = get_input();
 			}
-			bitSet(port, aux_var);
+			bitSet(port, (aux_var - '0'));
+			showPort(port);
 		break;
 		case '2': // clear bit
+			printf("Enter bit to clear: \n");
+			aux_var = get_input();
+			while((aux_var == INPUT_ERR)||(aux_var < '0')||(aux_var > '7')){ // bit validation
+				printf("Invalid input option. Type again:\n");
+				aux_var = get_input();
+			}
+			bitClr(port, (aux_var - '0'));
+			showPort(port);
 		break;
 		case '3': // get bit status
+			printf("Enter bit to get status: \n");
+			aux_var = get_input();
+			while((aux_var == INPUT_ERR)||(aux_var < '0')||(aux_var > '7')){ // bit validation
+				printf("Invalid input option. Type again:\n");
+				aux_var = get_input();
+			}
+			result = bitGet(port, (aux_var - '0'));
+			printf("Bit %c status: %d\n", aux_var, result);
 		break;
 		case '4': // mask on 
 		break;
@@ -86,7 +106,7 @@ int bit_setup(port_t *port, char c){
 		break;
 		case '6': // mask toogle
 		break;
-		case EXIT:
+		default:
 			ans = FALSE;
 		break;
 	}
@@ -144,4 +164,29 @@ char get_input(void){
 		in_char = INPUT_ERR;
 	
 	return in_char;
+}
+
+int maskvalid(port_t *port, int random_mask){
+	int ans;
+	if((port->sz)>(sizeof(uint16_t))){
+		ans=NOT_VALID;
+	}else{
+
+	if((port->sz) == sizeof(uint8_t)){
+		if((0<=random_mask)&& (random_mask<=0xFF)){
+			ans=VALID;
+		}else{
+			ans=NOT_VALID;
+		}
+	}
+
+	if((port->sz) == sizeof(uint16_t)){
+		if((0<=random_mask)&& (random_mask<=0xFFFF)){
+			ans=VALID;
+		}else{
+			ans=NOT_VALID;
+			}
+		}
+	}
+	return ans;
 }

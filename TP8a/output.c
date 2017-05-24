@@ -63,6 +63,5 @@ void bitConfig_print(char port){
 	printf("==> 3: get bit status\n");
 	printf("==> 4: mask ON bits\n");
 	printf("==> 5: mask OFF bits\n");
-	printf("==> 6: mask TOGGLE bits\n");
-	printf("==> e: terminates the program\n\n");
+	printf("==> 6: mask TOGGLE bits\n\n");
 }
