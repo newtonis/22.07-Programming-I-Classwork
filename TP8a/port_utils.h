@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 
+enum{VALID,NOT_VALID};
 
 #define INPUT_ERR -1
 #define INPUT_BIT -2
@@ -44,5 +45,6 @@ void maskOn(port_t *port, uint16_t mask);
 void maskOff(port_t *port, uint16_t mask);
 void maskToggle(port_t *port, uint16_t mask);
 
+int maskvalid(int sz_of_var, int random_mask);
 
 #endif

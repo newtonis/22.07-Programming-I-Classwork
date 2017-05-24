@@ -98,3 +98,28 @@ int portConfig(port_t *port, char c){
 
 	return operation_ok;
 }
+
+int maskvalid(int sz_of_var, int random_mask){
+	int ans;
+	if((sizeof (sz_of_var))>(sizeof(uint16_t))){
+		ans=NOT_VALID;
+	}else{
+
+	if(sz_of_var == sizeof(uint8_t)){
+		if((0<=random_mask)&& (random_mask<=0xFF)){
+			ans=VALID;
+		}else{
+			ans=NOT_VALID;
+		}
+	}
+
+	if(sz_of_var == sizeof(uint16_t)){
+		if((0<=random_mask)&& (random_mask<=0xFFFF)){
+			ans=VALID;
+		}else{
+			ans=NOT_VALID;
+			}
+		}
+	}
+	return ans;
+} 
