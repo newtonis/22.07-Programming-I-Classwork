@@ -7,7 +7,6 @@
 #include "output.h"
 #include "input.h"
 
-
 int main(){
 	microPorts_t mp;
 	int err = initPorts(&mp);
@@ -26,5 +25,6 @@ int main(){
 			//while (tm == (long)time(NULL)); // wait to next second
 		}
 		nonblock(NB_DISABLE);
+		system("clear");
 	}
 }
