@@ -6,7 +6,7 @@ void showPort(port_t *port){
 	printf("%c :",port->name);
 	if (port->dir != NULL){
 		int i;
-		for (i = 0;i < port->sz;i++){
+		for (i = (port->sz)-1;i >= 0;i--){
 			printf("%d",bitGet(port,i));
 		}
 	}else{
@@ -25,7 +25,6 @@ void instruction_print(void){
 	printf("==> A/a: port A\n");
 	printf("==> B/b: port B\n");
 	printf("==> D/d: port D\n");
-	printf("==> L/l: LED configuration\n");
 	printf("==> e: terminates the program\n\n");
 }
 
@@ -35,20 +34,6 @@ void initError_print(void){
 	printf("========================\n\n");
 
 	printf("Error at configuring ports. Program terminated.-\n\n");
-}
-
-void portSel_print(void){
-
-	printf("PORT SIMULATION SOFTWARE\n");
-	printf("========================\n\n");
-
-	printf("Enter option to set status of LEDs connected to port A\n");
-	printf("Command list:\n");
-	printf("==> numbers 0 to 7: port bit set corresponding to LED\n");
-	printf("==> b: the switched on LEDs will blink\n");
-	printf("==> s: sets all LEDs on\n");
-	printf("==> c: sets all LEDs off\n");
-	printf("==> e: terminates the program\n\n");
 }
 
 void bitConfig_print(char port){

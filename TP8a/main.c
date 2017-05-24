@@ -11,6 +11,8 @@ int main(){
 
 	int ans = initPorts(&mp);
 
+	system("clear");
+
 	if(ans == 1){
 		global_state = 0;
 		initError_print();
@@ -26,46 +28,37 @@ int main(){
 			port_chose = get_input();
 
 			switch(port_chose){
-				case 'A': case 'B': case 'D':
+				case 'A': case 'B': case 'D': // port select
 				case 'a': case 'b': case 'd': 
 					global_state = 2;
 					system("clear");
 					bitConfig_print(port_chose);
 					printf("Enter choice: ");
 				break;
-				case 'L': case 'l':
-					global_state = 3;
-					system("clear");
-					portSel_print();	
-					printf("Enter choice: ");
-				break;
-				case EXIT:
+				case EXIT: // terminate program
 					global_state = 0;
 				break;
-				default:
+				default: // invalid!
 					system("clear");
 					instruction_print();
-					printf("Invalid port choice. Type again:\n");
+					printf("Invalid port choice. Type again: ");
 				break;
 			}
 		}	
 
-		if((global_state == 2)||(global_state == 3)){
+		if(global_state == 2){
 
 			c = get_input(); // char input
 
 			switch(port_chose){
-				case 'L': case 'l':
-					config_ok = portConfig(&mp.A, c);
-				break;
 				case 'A': case 'a':
-					config_ok = bit_setup(&mp.A, c);
+					config_ok = bit_setup(&mp.A, c, 'A');
 				break;
 				case 'B': case 'b':
-					config_ok = bit_setup(&mp.B, c);
+					config_ok = bit_setup(&mp.B, c, 'B');
 				break;
 				case 'D': case 'd':
-					config_ok = bit_setup(&mp.D, c);
+					config_ok = bit_setup(&mp.D, c, 'D');
 				break;
 			}
 
@@ -73,15 +66,10 @@ int main(){
 				if(c == EXIT){ // exit soft
 					global_state = 0;
 				}
-				else if(global_state == 3){
-					system("clear");
-					portSel_print();
-					printf("Invalid input option. Type again:\n");
-				}
 				else if(global_state == 2){
 					system("clear");
 					bitConfig_print(port_chose);
-					printf("Invalid input option. Type again:\n");
+					printf("Invalid input option. Type again: ");
 				}
 			}else{
 				global_state = 1;
