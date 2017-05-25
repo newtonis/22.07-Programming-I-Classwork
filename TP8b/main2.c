@@ -7,8 +7,10 @@
 #include "output.h"
 #include "input.h"
 
+// netbeans test!
+
 int main(){
-	microPorts_t mp;
+	microPorts_t  mp;
 	int err = initPorts(&mp);
 
 	if (err == 1){
