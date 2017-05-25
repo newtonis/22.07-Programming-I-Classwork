@@ -7,7 +7,7 @@
 #include "output.h"
 #include "input.h"
 
-// netbeans test!
+// netbeans test !
 
 int main(){
 	microPorts_t  mp;
