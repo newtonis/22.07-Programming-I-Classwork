@@ -107,6 +107,8 @@ int main(){
         int end = false, tm = 0, timer_count = 0;
         int mode = NORMAL, i, key_pressed;
         
+        instruct_print();
+        
         while(!end){
             ALLEGRO_EVENT event_log;
             
