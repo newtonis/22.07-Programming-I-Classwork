@@ -2,6 +2,7 @@
 #include "output.h"
 
 extern ALLEGRO_FONT *iso_title;
+extern ALLEGRO_FONT *iso_text;
 
 void showPort(port_t *port){
 	
@@ -19,22 +20,27 @@ void showPort(port_t *port){
 
 void instruct_print(void){
     
-    float enter = T_TAB;
+    float enter = T_ENTER;
 
     al_draw_text(iso_title, WHITE, TAB, enter, 0, "PORT SIMULATION SOFTWARE");
-    enter += T_TAB;
+    enter += T_ENTER;
     al_draw_text(iso_title, WHITE, TAB, enter, 0, "=========================");
-    enter += T_TAB;
-    /*
-    printf("Enter option to set status of LEDs connected to port A.\n");
-    printf("If the option is not one of below nothing is modified.\n");
-    printf("Command list:\n");
-    printf("==> numbers 0 to 7: port bit set corresponding to LED\n");
-    printf("==> b: the switched on LEDs will blink changing the state per 1 sec\n");
-    printf("==> s: sets all LEDs on\n");
-    printf("==> c: sets all LEDs off\n");
-    printf("==> Esc key: terminates the program\n");
-    printf("Enter option:\n\n");*/
+    enter += T_ENTER + N_ENTER;
+    al_draw_text(iso_text, WHITE, 2*TAB, enter, 0, "Enter option to set status of LEDs connected to port A.");
+    enter += N_ENTER;
+    al_draw_text(iso_text, WHITE, 2*TAB, enter, 0, "If the option is not one of below nothing is modified.");
+    enter += N_ENTER;
+    al_draw_text(iso_text, WHITE, 2*TAB, enter, 0, "Command list:");
+    enter += N_ENTER;
+    al_draw_text(iso_text, WHITE, 2*TAB, enter, 0, "==> Numbers 0 to 7: port bit set corresponding to LED");
+    enter += N_ENTER;
+    al_draw_text(iso_text, WHITE, 2*TAB, enter, 0, "==> B: the switched on LEDs will blink changing the state per 1 sec");
+    enter += N_ENTER;
+    al_draw_text(iso_text, WHITE, 2*TAB, enter, 0, "==> S: sets all LEDs on");
+    enter += N_ENTER;
+    al_draw_text(iso_text, WHITE, 2*TAB, enter, 0, "==> C: sets all LEDs off");
+    enter += N_ENTER;
+    al_draw_text(iso_text, WHITE, 2*TAB, enter, 0, "==> ESC: exit program");
     
     al_flip_display();
     

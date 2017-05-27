@@ -15,6 +15,7 @@
 #define FPS 60.0
 
 ALLEGRO_FONT *iso_title = NULL;
+ALLEGRO_FONT *iso_text = NULL;
 
 int main(){
     ALLEGRO_DISPLAY *disp_a = NULL;
@@ -54,8 +55,9 @@ int main(){
     fprintf(fp, "OK - keyboard installed\n");
     
     iso_title = al_load_font("isocpeur.ttf", TITLE_W, 0); // title font
+    iso_text = al_load_font("isocpeur.ttf", TEXT_W, 0); // common text font
     
-    if(!iso_title){
+    if((!iso_title)||(!iso_text)){
         fprintf(fp, "ERROR - font init\n");
         al_destroy_event_queue(event_q);
         fclose(fp);
@@ -97,6 +99,10 @@ int main(){
             return -1;
     }else{	
         al_start_timer(timer_a); // inicia timer
+        
+        instruct_print();
+        
+        al_rest(10.0);
         /*
             int end = 0;
             int mode = NORMAL;
