@@ -6,6 +6,7 @@
 #include <unistd.h>
 
 #include <allegro5/allegro5.h>
+#include <allegro5/allegro_image.h>
 
 void update_display(microPorts_t *mp,int *mode){
 
