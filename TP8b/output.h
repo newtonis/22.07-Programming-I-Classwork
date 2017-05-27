@@ -16,9 +16,12 @@
 #include <allegro5/allegro_ttf.h>
 
 #define WHITE al_map_rgb(255,255,255)
-#define TITLE_W 30
 #define TAB 10
-#define T_TAB (TITLE_W/2)
+#define TITLE_W 30
+#define T_ENTER (TITLE_W/2)
+#define TEXT_W 20
+#define N_ENTER 20
+
 
 // showPort: prints in the standard out the new state of
 // port bits if modified by hand (not used for led configuration program).

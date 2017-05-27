@@ -8,6 +8,8 @@
 #define INPUT_H
 
 #include "port_utils.h"
+#include <allegro5/allegro5.h>
+
 enum {NORMAL , BLINK };
 
 // userInput: process keyboard input. If the option is incorrect,
@@ -15,7 +17,7 @@ enum {NORMAL , BLINK };
 // 	Input: pointer to ports struct, pointer to end program, 
 //         pointer to mode, long int of time for blinking mode.
 // 	Output: (none)
-void userInput(microPorts_t *mp,int *end,int *mode,long time);
+void userInput(microPorts_t *mp,int *end,int *mode,int time, int key);
 
 // fsmUpdate: modifies blinking for the leds.
 // 	Input: pointer to mode, pointer to ports, long int of time for blinking mode.

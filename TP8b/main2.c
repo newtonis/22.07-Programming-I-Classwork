@@ -14,8 +14,6 @@
 
 #define FPS 60.0
 
-enum USED_KEYS{ESC_KEY, B_KEY, S_KEY, C_KEY};
-
 ALLEGRO_FONT *iso_title = NULL;
 ALLEGRO_FONT *iso_text = NULL;
 
@@ -106,17 +104,37 @@ int main(){
     }else{	
         al_start_timer(timer_a); // inicia timer
         
-        bool end = false;
-        int mode = NORMAL;
+        int end = false;
+        int mode = NORMAL, i, key_pressed, tm;
+      
         
         while(!end){
+            ALLEGRO_EVENT event_log;
+            
+            if(al_get_next_event(event_q, &event_log)){ // si ocurrio algun evento
+                if(event_log.type == ALLEGRO_EVENT_DISPLAY_CLOSE){ // se cerro el display
+                    
+                    end = true;
+                }else if(event_log.type == ALLEGRO_EVENT_TIMER){ // evento de timer
+                    
+                    update_display(&mp,&mode);
+                    userInput(&mp,&end,&mode,tm,key_pressed);
+                }else if(event_log.type == ALLEGRO_EVENT_KEY_DOWN){
+                    
+                    key_pressed = event_log.keyboard.keycode;
+                    
+                }else if(event_log.type == ALLEGRO_EVENT_KEY_UP){
+                    
+                    key_pressed = event_log.keyboard.keycode;
+                }
+            }
         /*
 
             nonblock(NB_ENABLE);
             while (!end){
                     long tm = (long)time(NULL);
-                    update_display(&mp,&mode);
-                    userInput(&mp,&end,&mode,tm);
+                    
+                    
                     //while (tm == (long)time(NULL)); // wait to next second
             }
             nonblock(NB_DISABLE);

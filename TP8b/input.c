@@ -5,9 +5,9 @@
 #include "port_utils.h"
 
 
-void userInput(microPorts_t *mp,int *end,int *mode,long time){
+void userInput(microPorts_t *mp,int *end,int *mode,int time, int key){
 	int i = kbhit();
-	//printf("%d ",i);
+        
 
 	if (i != 0){
 		char c = fgetc(stdin);
