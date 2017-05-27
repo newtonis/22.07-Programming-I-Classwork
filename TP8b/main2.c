@@ -37,11 +37,6 @@ int main(){
     }
     fprintf(fp, "OK - allegro init\n");
     
-    if(!al_init_image_addon()) { // ADDON necesario para manejo(no olvidar el freno de mano) de imagenes 
-            fprintf(fp, "ERROR - image addon init\n");
-            return -1;
-    }
-    
     event_q = al_create_event_queue();
     
     if(!event_q){ // event queue init
@@ -59,7 +54,6 @@ int main(){
     }
     
     fprintf(fp, "OK - keyboard installed\n");
-    
         
     al_init_font_addon(); // initialize the font addon
     al_init_ttf_addon(); // initialize the ttf (True Type Font) addon
@@ -84,6 +78,26 @@ int main(){
         fclose(fp);
         return -1;
     }
+        
+    if(!al_init_image_addon()) { // ADDON necesario para manejo(no olvidar el freno de mano) de imagenes 
+            fprintf(fp, "ERROR - image addon init\n");
+            return -1;
+    }
+    
+    fprintf(fp, "OK - image addon init\n");
+    
+    /*
+    ledON = al_load_bitmap("ledON.jpg");
+    ledOFF = al_load_bitmap("ledOFF.jpg");
+    
+    if((!ledON)||(!ledOFF)){
+        fprintf(fp, "ERROR - no image\n");
+        al_destroy_event_queue(event_q);
+        al_destroy_timer(timer_a);
+        fclose(fp);
+        return -1;        
+    }
+    */
     
     disp_a = al_create_display(SCREEN_W, SCREEN_H);
     
@@ -91,6 +105,8 @@ int main(){
         fprintf(fp, "ERROR - display init\n");
         al_destroy_event_queue(event_q);
         al_destroy_timer(timer_a);
+        al_destroy_bitmap(ledON);
+        al_destroy_bitmap(ledOFF);
         fclose(fp);
         return -1;
     }
