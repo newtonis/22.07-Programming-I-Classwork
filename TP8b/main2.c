@@ -1,9 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-// Allegro libraries
-#include <allegro5/allegro5.h>
-#include <allegro5/allegro_font.h>
-#include <allegro5/allegro_ttf.h>
 
 #include <time.h>
 #include "nonblock.h"
@@ -11,6 +7,12 @@
 #include "port_utils.h"
 #include "output.h"
 #include "input.h"
+
+// Allegro libraries
+#include <allegro5/allegro5.h>
+#include <allegro5/allegro_image.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
 
 #define FPS 60.0
 
@@ -21,6 +23,8 @@ int main(){
     ALLEGRO_DISPLAY *disp_a = NULL;
     ALLEGRO_EVENT_QUEUE *event_q = NULL;
     ALLEGRO_TIMER *timer_a = NULL;
+    ALLEGRO_BITMAP *ledON = NULL;
+    ALLEGRO_BITMAP *ledOFF = NULL;
     
     FILE *fp = NULL;
     
@@ -33,8 +37,10 @@ int main(){
     }
     fprintf(fp, "OK - allegro init\n");
     
-    al_init_font_addon(); // initialize the font addon
-    al_init_ttf_addon(); // initialize the ttf (True Type Font) addon
+    if(!al_init_image_addon()) { // ADDON necesario para manejo(no olvidar el freno de mano) de imagenes 
+            fprintf(fp, "ERROR - image addon init\n");
+            return -1;
+    }
     
     event_q = al_create_event_queue();
     
@@ -53,6 +59,10 @@ int main(){
     }
     
     fprintf(fp, "OK - keyboard installed\n");
+    
+        
+    al_init_font_addon(); // initialize the font addon
+    al_init_ttf_addon(); // initialize the ttf (True Type Font) addon
     
     iso_title = al_load_font("isocpeur.ttf", TITLE_W, 0); // title font
     iso_text = al_load_font("isocpeur.ttf", TEXT_W, 0); // common text font
