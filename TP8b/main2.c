@@ -14,6 +14,8 @@
 
 #define FPS 60.0
 
+enum USED_KEYS{ESC_KEY, B_KEY, S_KEY, C_KEY};
+
 ALLEGRO_FONT *iso_title = NULL;
 ALLEGRO_FONT *iso_text = NULL;
 
@@ -26,7 +28,7 @@ int main(){
     
     fp = fopen("event_log","w");
     
-    if(!al_init()){
+    if(!al_init()){ // allegro init
         fprintf(fp, "ERROR - allegro init\n");
         fclose(fp);
         return -1;
@@ -38,14 +40,14 @@ int main(){
     
     event_q = al_create_event_queue();
     
-    if(!event_q){
+    if(!event_q){ // event queue init
         fprintf(fp, "ERROR - event queue init\n");
         fclose(fp);
         return -1;
     }
     fprintf(fp, "OK - event queue init\n");
     
-    if(!al_install_keyboard()){
+    if(!al_install_keyboard()){ // keyboard install
         fprintf(fp, "ERROR - keyboard install\n");
         al_destroy_event_queue(event_q);
         fclose(fp);
@@ -57,7 +59,7 @@ int main(){
     iso_title = al_load_font("isocpeur.ttf", TITLE_W, 0); // title font
     iso_text = al_load_font("isocpeur.ttf", TEXT_W, 0); // common text font
     
-    if((!iso_title)||(!iso_text)){
+    if((!iso_title)||(!iso_text)){ // iso font init
         fprintf(fp, "ERROR - font init\n");
         al_destroy_event_queue(event_q);
         fclose(fp);
@@ -68,7 +70,7 @@ int main(){
     
     timer_a = al_create_timer(1.0 / FPS);
     
-    if(!timer_a){
+    if(!timer_a){ // timer init
         fprintf(fp, "ERROR - font init\n");
         al_destroy_event_queue(event_q);
         fclose(fp);
@@ -77,7 +79,7 @@ int main(){
     
     disp_a = al_create_display(SCREEN_W, SCREEN_H);
     
-    if(!disp_a){
+    if(!disp_a){ // display init
         fprintf(fp, "ERROR - display init\n");
         al_destroy_event_queue(event_q);
         al_destroy_timer(timer_a);
@@ -90,8 +92,12 @@ int main(){
     al_clear_to_color(al_map_rgb(0,0,0));
     al_flip_display();
     
+    al_register_event_source(event_q, al_get_display_event_source(disp_a)); // registrar eventos de display
+    al_register_event_source(event_q, al_get_timer_event_source(timer_a)); // registrar eventos de timer
+    al_register_event_source(event_q, al_get_keyboard_event_source()); // registrar eventos de teclado
+    
     microPorts_t  mp;
-    int err = initPorts(&mp);
+    int err = initPorts(&mp); // port init
 
     if (err == 1){
             fprintf(fp, "ERROR - Can't port heap memory\n");
@@ -100,12 +106,11 @@ int main(){
     }else{	
         al_start_timer(timer_a); // inicia timer
         
-        instruct_print();
+        bool end = false;
+        int mode = NORMAL;
         
-        al_rest(10.0);
+        while(!end){
         /*
-            int end = 0;
-            int mode = NORMAL;
 
             nonblock(NB_ENABLE);
             while (!end){
@@ -117,7 +122,13 @@ int main(){
             nonblock(NB_DISABLE);
             system("clear");
                    */
+        }
     }
+    
+    fclose(fp);
     al_destroy_display(disp_a);
+    al_destroy_timer(timer_a);
+    al_destroy_event_queue(event_q);
+    
     return 0;
 }
