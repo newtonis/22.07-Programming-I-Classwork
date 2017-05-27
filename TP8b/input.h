@@ -22,6 +22,6 @@ void userInput(microPorts_t *mp,int *end,int *mode,int time, int key);
 // fsmUpdate: modifies blinking for the leds.
 // 	Input: pointer to mode, pointer to ports, long int of time for blinking mode.
 // 	Output: (none)
-static void fsmUpdate(int *mode,microPorts_t *mp,long time);
+static void fsmUpdate(int *mode,microPorts_t *mp,int time);
 
 #endif

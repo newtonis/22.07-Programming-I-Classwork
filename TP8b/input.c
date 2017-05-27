@@ -6,38 +6,34 @@
 
 
 void userInput(microPorts_t *mp,int *end,int *mode,int time, int key){
-	int i = kbhit();
-        
 
-	if (i != 0){
-		char c = fgetc(stdin);
-		switch (c){
-			case 27:
-				*end = 1;
-			break;
-			case 'c':
-			case 'C':
-				*mode = NORMAL;
-				maskOff(&mp->B,0xFF); // make all leds shut off
-			break;
-			case 's':
-			case 'S':
-				maskOn(&mp->B,0xFF);
-			break;
-			case 'b':
-			case 'B':
-				*mode = BLINK;
-			break;
-		}
-		if (c >= '0' && c <= '7'){
-			int led = c - '0';
-			bitSet(&mp->B,led);
-		}
-	}
+            switch (key){
+                    case ALLEGRO_KEY_ESCAPE:
+                            *end = 1;
+                    break;
+                   
+                    case ALLEGRO_KEY_C:
+                            *mode = NORMAL;
+                            maskOff(&mp->B,0xFF); // make all leds shut off
+                    break;
+                   
+                    case ALLEGRO_KEY_S:
+                            maskOn(&mp->B,0xFF);
+                    break;
+                    
+                    case ALLEGRO_KEY_B:
+                            *mode = BLINK;
+                    break;
+            }
+            if (key >= ALLEGRO_KEY_0 && key <= ALLEGRO_KEY_7){
+                    int led = key - ALLEGRO_KEY_0;
+                    bitSet(&mp->B,led);
+            }
+	
 	fsmUpdate(mode,mp,time);
 	
 }
-void fsmUpdate(int *mode,microPorts_t *mp,long time){
+void fsmUpdate(int *mode,microPorts_t *mp,int time){
 	
 		//mp->A = mp->B
 	int i;

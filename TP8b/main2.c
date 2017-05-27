@@ -105,8 +105,8 @@ int main(){
         al_start_timer(timer_a); // inicia timer
         
         int end = false;
-        int mode = NORMAL, i, key_pressed, tm;
-      
+        int mode = NORMAL, i, key_pressed;
+        bool tm = false;
         
         while(!end){
             ALLEGRO_EVENT event_log;
@@ -119,27 +119,16 @@ int main(){
                     
                     update_display(&mp,&mode);
                     userInput(&mp,&end,&mode,tm,key_pressed);
-                }else if(event_log.type == ALLEGRO_EVENT_KEY_DOWN){
+                }else if(event_log.type == ALLEGRO_EVENT_KEY_DOWN){ // tecla presionada
                     
                     key_pressed = event_log.keyboard.keycode;
                     
-                }else if(event_log.type == ALLEGRO_EVENT_KEY_UP){
+                }else if(event_log.type == ALLEGRO_EVENT_KEY_UP){ // se dejo de presionar
                     
-                    key_pressed = event_log.keyboard.keycode;
+                    key_pressed = NULL;
                 }
             }
-        /*
 
-            nonblock(NB_ENABLE);
-            while (!end){
-                    long tm = (long)time(NULL);
-                    
-                    
-                    //while (tm == (long)time(NULL)); // wait to next second
-            }
-            nonblock(NB_DISABLE);
-            system("clear");
-                   */
         }
     }
     
