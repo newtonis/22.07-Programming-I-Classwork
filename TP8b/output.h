@@ -11,9 +11,6 @@
 #define SCREEN_H 480
 
 #include "port_utils.h"
-#include <allegro5/allegro5.h>
-#include <allegro5/allegro_font.h>
-#include <allegro5/allegro_ttf.h>
 
 #define WHITE al_map_rgb(255,255,255)
 #define TAB 10

@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include "output.h"
 
+#include <allegro5/allegro5.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
+
 extern ALLEGRO_FONT *iso_title;
 extern ALLEGRO_FONT *iso_text;
 

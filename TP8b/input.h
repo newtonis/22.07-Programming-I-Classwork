@@ -8,7 +8,6 @@
 #define INPUT_H
 
 #include "port_utils.h"
-#include <allegro5/allegro5.h>
 
 enum {NORMAL , BLINK };
 

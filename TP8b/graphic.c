@@ -5,6 +5,7 @@
 #include "output.h"
 #include <unistd.h>
 
+#include <allegro5/allegro5.h>
 
 void update_display(microPorts_t *mp,int *mode){
 
@@ -13,7 +14,6 @@ void update_display(microPorts_t *mp,int *mode){
 		printf("%s ",bitGet(&mp->A,i) ? "***" : "   ");
 		printf("|");
 	}
-
 
 	printf("\n");
 

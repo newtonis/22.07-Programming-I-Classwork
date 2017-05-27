@@ -4,6 +4,7 @@
 #include "nonblock.h"
 #include "port_utils.h"
 
+#include <allegro5/allegro5.h>
 
 void userInput(microPorts_t *mp,int *end,int *mode,int time, int key){
 
