@@ -8,6 +8,7 @@
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
+      <itemPath>isocpeur.ttf</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
@@ -45,6 +46,15 @@
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerOptionItem>`pkg-config --libs allegro-5.0`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_color-5.0`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_font-5.0`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_image-5.0`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_ttf-5.0`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
       </compileType>
       <item path="../graphic.c" ex="false" tool="0" flavor2="0">
       </item>
@@ -67,6 +77,8 @@
       <item path="../port_utils.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="../port_utils.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="isocpeur.ttf" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -110,6 +122,8 @@
       <item path="../port_utils.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="../port_utils.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="isocpeur.ttf" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>

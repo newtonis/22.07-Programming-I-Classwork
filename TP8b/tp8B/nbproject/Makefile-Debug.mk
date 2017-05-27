@@ -57,7 +57,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=
+LDLIBSOPTIONS=`pkg-config --libs allegro-5.0` `pkg-config --libs allegro_color-5.0` `pkg-config --libs allegro_font-5.0` `pkg-config --libs allegro_image-5.0` `pkg-config --libs allegro_ttf-5.0`  
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -70,32 +70,32 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tp8b: ${OBJECTFILES}
 ${OBJECTDIR}/_ext/5c0/graphic.o: ../graphic.c
 	${MKDIR} -p ${OBJECTDIR}/_ext/5c0
 	${RM} "$@.d"
-	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/5c0/graphic.o ../graphic.c
+	$(COMPILE.c) -g `pkg-config --cflags allegro-5.0` `pkg-config --cflags allegro_color-5.0` `pkg-config --cflags allegro_font-5.0` `pkg-config --cflags allegro_image-5.0` `pkg-config --cflags allegro_ttf-5.0`   -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/5c0/graphic.o ../graphic.c
 
 ${OBJECTDIR}/_ext/5c0/input.o: ../input.c
 	${MKDIR} -p ${OBJECTDIR}/_ext/5c0
 	${RM} "$@.d"
-	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/5c0/input.o ../input.c
+	$(COMPILE.c) -g `pkg-config --cflags allegro-5.0` `pkg-config --cflags allegro_color-5.0` `pkg-config --cflags allegro_font-5.0` `pkg-config --cflags allegro_image-5.0` `pkg-config --cflags allegro_ttf-5.0`   -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/5c0/input.o ../input.c
 
 ${OBJECTDIR}/_ext/5c0/main2.o: ../main2.c
 	${MKDIR} -p ${OBJECTDIR}/_ext/5c0
 	${RM} "$@.d"
-	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/5c0/main2.o ../main2.c
+	$(COMPILE.c) -g `pkg-config --cflags allegro-5.0` `pkg-config --cflags allegro_color-5.0` `pkg-config --cflags allegro_font-5.0` `pkg-config --cflags allegro_image-5.0` `pkg-config --cflags allegro_ttf-5.0`   -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/5c0/main2.o ../main2.c
 
 ${OBJECTDIR}/_ext/5c0/nonblock.o: ../nonblock.c
 	${MKDIR} -p ${OBJECTDIR}/_ext/5c0
 	${RM} "$@.d"
-	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/5c0/nonblock.o ../nonblock.c
+	$(COMPILE.c) -g `pkg-config --cflags allegro-5.0` `pkg-config --cflags allegro_color-5.0` `pkg-config --cflags allegro_font-5.0` `pkg-config --cflags allegro_image-5.0` `pkg-config --cflags allegro_ttf-5.0`   -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/5c0/nonblock.o ../nonblock.c
 
 ${OBJECTDIR}/_ext/5c0/output.o: ../output.c
 	${MKDIR} -p ${OBJECTDIR}/_ext/5c0
 	${RM} "$@.d"
-	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/5c0/output.o ../output.c
+	$(COMPILE.c) -g `pkg-config --cflags allegro-5.0` `pkg-config --cflags allegro_color-5.0` `pkg-config --cflags allegro_font-5.0` `pkg-config --cflags allegro_image-5.0` `pkg-config --cflags allegro_ttf-5.0`   -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/5c0/output.o ../output.c
 
 ${OBJECTDIR}/_ext/5c0/port_utils.o: ../port_utils.c
 	${MKDIR} -p ${OBJECTDIR}/_ext/5c0
 	${RM} "$@.d"
-	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/5c0/port_utils.o ../port_utils.c
+	$(COMPILE.c) -g `pkg-config --cflags allegro-5.0` `pkg-config --cflags allegro_color-5.0` `pkg-config --cflags allegro_font-5.0` `pkg-config --cflags allegro_image-5.0` `pkg-config --cflags allegro_ttf-5.0`   -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/5c0/port_utils.o ../port_utils.c
 
 # Subprojects
 .build-subprojects:
