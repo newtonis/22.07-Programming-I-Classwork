@@ -12,10 +12,14 @@
 #include "output.h"
 #include "input.h"
 
+#define FPS 60.0
+
 ALLEGRO_FONT *iso_title = NULL;
 
 int main(){
     ALLEGRO_DISPLAY *disp_a = NULL;
+    ALLEGRO_EVENT_QUEUE *event_q = NULL;
+    ALLEGRO_TIMER *timer_a = NULL;
     
     FILE *fp = NULL;
     
@@ -31,26 +35,55 @@ int main(){
     al_init_font_addon(); // initialize the font addon
     al_init_ttf_addon(); // initialize the ttf (True Type Font) addon
     
-    disp_a = al_create_display(SCREEN_W, SCREEN_H);
+    event_q = al_create_event_queue();
     
-    if(!disp_a){
-        fprintf(fp, "ERROR - display init\n");
+    if(!event_q){
+        fprintf(fp, "ERROR - event queue init\n");
+        fclose(fp);
+        return -1;
+    }
+    fprintf(fp, "OK - event queue init\n");
+    
+    if(!al_install_keyboard()){
+        fprintf(fp, "ERROR - keyboard install\n");
+        al_destroy_event_queue(event_q);
         fclose(fp);
         return -1;
     }
     
-    fprintf(fp, "OK - display init\n");
+    fprintf(fp, "OK - keyboard installed\n");
     
     iso_title = al_load_font("isocpeur.ttf", TITLE_W, 0); // title font
     
     if(!iso_title){
         fprintf(fp, "ERROR - font init\n");
-        al_destroy_display(disp_a);
+        al_destroy_event_queue(event_q);
         fclose(fp);
         return -1;
     }
     
     fprintf(fp, "OK - font init\n");
+    
+    timer_a = al_create_timer(1.0 / FPS);
+    
+    if(!timer_a){
+        fprintf(fp, "ERROR - font init\n");
+        al_destroy_event_queue(event_q);
+        fclose(fp);
+        return -1;
+    }
+    
+    disp_a = al_create_display(SCREEN_W, SCREEN_H);
+    
+    if(!disp_a){
+        fprintf(fp, "ERROR - display init\n");
+        al_destroy_event_queue(event_q);
+        al_destroy_timer(timer_a);
+        fclose(fp);
+        return -1;
+    }
+    
+    fprintf(fp, "OK - display init\n");
     
     al_clear_to_color(al_map_rgb(0,0,0));
     al_flip_display();
@@ -63,10 +96,7 @@ int main(){
             fclose(fp);
             return -1;
     }else{	
-        instruct_print();
-        
-        al_rest(5.0);
-        
+        al_start_timer(timer_a); // inicia timer
         /*
             int end = 0;
             int mode = NORMAL;
