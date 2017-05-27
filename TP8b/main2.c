@@ -129,7 +129,7 @@ int main(){
                     
                 }else if(event_log.type == ALLEGRO_EVENT_KEY_UP){ // se dejo de presionar
                     
-                    key_pressed = ALLEGRO_KEY_MAX;
+                    key_pressed = ALLEGRO_KEY_MAX; // para que no se actualice la misma tecla todo el tiempo
                 }
             }
 

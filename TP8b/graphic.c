@@ -7,7 +7,7 @@
 
 
 void update_display(microPorts_t *mp,int *mode){
-	system("clear");
+	
 	instruct_print();
 	int i;	
 	for (i = 0;i < mp->A.sz;i++){
@@ -17,8 +17,5 @@ void update_display(microPorts_t *mp,int *mode){
 
 
 	printf("\n");
-
-	usleep(100000);
-	
 
 }
