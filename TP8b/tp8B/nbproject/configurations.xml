@@ -4,6 +4,11 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>../graphic.h</itemPath>
+      <itemPath>../input.h</itemPath>
+      <itemPath>../nonblock.h</itemPath>
+      <itemPath>../output.h</itemPath>
+      <itemPath>../port_utils.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -14,16 +19,11 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>../graphic.c</itemPath>
-      <itemPath>../graphic.h</itemPath>
       <itemPath>../input.c</itemPath>
-      <itemPath>../input.h</itemPath>
       <itemPath>../main2.c</itemPath>
       <itemPath>../nonblock.c</itemPath>
-      <itemPath>../nonblock.h</itemPath>
       <itemPath>../output.c</itemPath>
-      <itemPath>../output.h</itemPath>
       <itemPath>../port_utils.c</itemPath>
-      <itemPath>../port_utils.h</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
