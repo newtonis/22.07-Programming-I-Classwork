@@ -104,9 +104,8 @@ int main(){
     }else{	
         al_start_timer(timer_a); // inicia timer
         
-        int end = false;
+        int end = false, tm = 0, timer_count = 0;
         int mode = NORMAL, i, key_pressed;
-        bool tm = false;
         
         while(!end){
             ALLEGRO_EVENT event_log;
@@ -117,6 +116,11 @@ int main(){
                     end = true;
                 }else if(event_log.type == ALLEGRO_EVENT_TIMER){ // evento de timer
                     
+                    if(++timer_count == ((int)FPS)/2){ // cada 0,5 seg se actualiza tm, para el caso de blink
+                        tm = ~tm;
+                        timer_count = 0;
+                    }
+                   
                     update_display(&mp,&mode);
                     userInput(&mp,&end,&mode,tm,key_pressed);
                 }else if(event_log.type == ALLEGRO_EVENT_KEY_DOWN){ // tecla presionada
@@ -125,7 +129,7 @@ int main(){
                     
                 }else if(event_log.type == ALLEGRO_EVENT_KEY_UP){ // se dejo de presionar
                     
-                    key_pressed = NULL;
+                    key_pressed = ALLEGRO_KEY_MAX;
                 }
             }
 
