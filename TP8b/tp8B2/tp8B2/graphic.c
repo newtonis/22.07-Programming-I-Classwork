@@ -87,6 +87,9 @@ void fe_update_events(graphic_vars_t* vars){
             case ALLEGRO_EVENT_KEY_DOWN:
                 vars->key_press( vars , event_log.keyboard.keycode);
             break;
+            case ALLEGRO_EVENT_TIMER:
+                fe_update_graphic(vars);
+            break;
         }
     }
 }
