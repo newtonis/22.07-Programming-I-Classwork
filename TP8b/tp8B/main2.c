@@ -143,7 +143,11 @@ int main(){
                 }else if(event_log.type == ALLEGRO_EVENT_TIMER){ 
                     
                     if(++timer_count == ((int)FPS)/2){ // for blink case, refreshes at 0.5 secs
-                        tm = ~tm;
+                        if(tm)
+                            tm = 0;
+                        else
+                            tm = 1;
+                        
                         timer_count = 0;
                     }
                     if((mode == BLINK)||(key_pressed != ALLEGRO_KEY_MAX)){ // for avoiding refreshing all time!

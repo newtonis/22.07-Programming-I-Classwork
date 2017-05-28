@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include "port_utils.h"
 
+#define BYTE 8
+
 static void initReg(port_t* port , uint16_t *dir, char name , int sz);
 
 void initReg(port_t* port , uint16_t *dir, char name , int sz){
@@ -19,13 +21,13 @@ int initPorts(microPorts_t* mp){ // initializate all port structure
 
 	int err;
 	if (a == NULL || b == NULL || d == NULL){
-		err = 1;
+		err = TRUE;
 	}else{
 		// init ports
-		initReg(&mp->A,a,'A',8);
-		initReg(&mp->B,b,'B',8);
-		initReg(&mp->D,d,'D',16);
-		err = 0;
+		initReg(&mp->A,a,'A',BYTE);
+		initReg(&mp->B,b,'B',BYTE);
+		initReg(&mp->D,d,'D',(2*BYTE));
+		err = FALSE;
 	}
 	return err;
 }

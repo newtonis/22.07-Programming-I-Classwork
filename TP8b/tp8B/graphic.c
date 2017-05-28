@@ -5,13 +5,16 @@
 #include "output.h"
 #include "graphic.h"
 
+#define NO_FLAG 0
+#define SRC_X 0
+#define SRC_Y 0
 #define N_LEDS 8
 #define NEW_LEDSIZE 64
 
 #define X_LED_POS 20
 #define Y_LED_POS 270
 
-#define LED_STEP ((SCREEN_W - (2*X_LED_POS) - (N_LEDS*64))/(N_LEDS -1))
+#define LED_STEP ((SCREEN_W - (2*X_LED_POS) - (N_LEDS*NEW_LEDSIZE))/(N_LEDS -1))
 
 static void show_led(ALLEGRO_BITMAP *pled, int led_index);
 
@@ -36,5 +39,5 @@ void show_led(ALLEGRO_BITMAP *pled, int led_index){
     
     int X_TAB = X_LED_POS + (led_index*(NEW_LEDSIZE + LED_STEP));
     
-    al_draw_scaled_bitmap(pled,0,0,src_pled_W,src_pled_H,X_TAB,Y_LED_POS,NEW_LEDSIZE,NEW_LEDSIZE,0);
+    al_draw_scaled_bitmap(pled,SRC_X,SRC_Y,src_pled_W,src_pled_H,X_TAB,Y_LED_POS,NEW_LEDSIZE,NEW_LEDSIZE,NO_FLAG);
 }

@@ -14,7 +14,7 @@ void userInput(microPorts_t *mp,int *end,int *mode,int time, int key){
 
             switch (key){
                     case ALLEGRO_KEY_ESCAPE:
-                            *end = 1;
+                            *end = TRUE;
                     break;
                    
                     case ALLEGRO_KEY_C:
@@ -23,7 +23,7 @@ void userInput(microPorts_t *mp,int *end,int *mode,int time, int key){
                     break;
                    
                     case ALLEGRO_KEY_S:
-                            maskOn(&mp->B,0xFF);
+                            maskOn(&mp->B,0xFF); 
                     break;
                     
                     case ALLEGRO_KEY_B:
@@ -47,7 +47,7 @@ void fsmUpdate(int *mode,microPorts_t *mp,int time){
 			if (*mode == NORMAL){
 				bitSet(&mp->A, i );
 			}else if(*mode == BLINK){
-				if (time % 2 == 0){
+				if (time % 2 == 0){ // time switches between 0 and 1
 					bitSet(&mp->A, i );
 				}else{
 					bitClr(&mp->A, i);
