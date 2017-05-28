@@ -83,7 +83,7 @@ void my_key_press(graphic_vars_t* vars, int key){
                 game_guess(vars->logic_ref , key - ALLEGRO_KEY_0 , &ans);
                 
                 if (vars->logic_ref->status == WIN){
-                    copy_str("Press Enter to continue",vars->status_text->text);
+                    copy_str("You Win!",vars->status_text->text);
                 }else{
                     copy_str("You lose!",vars->status_text->text);
                 }
