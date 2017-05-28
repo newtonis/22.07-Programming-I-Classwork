@@ -13,7 +13,7 @@
 #include "port_utils.h"
 
 #define WHITE al_map_rgb(255,255,255)
-#define TAB 10
+#define TAB 20
 #define TITLE_W 30
 #define T_ENTER (TITLE_W/2)
 #define TEXT_W 20

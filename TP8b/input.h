@@ -9,7 +9,7 @@
 
 #include "port_utils.h"
 
-enum {NORMAL , BLINK };
+enum {NORMAL , BLINK};
 
 // userInput: process keyboard input. If the option is incorrect,
 // nothing is modified.

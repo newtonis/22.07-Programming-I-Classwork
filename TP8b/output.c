@@ -30,21 +30,21 @@ void instruct_print(void){
     enter += T_ENTER;
     al_draw_text(iso_title, WHITE, TAB, enter, 0, "=========================");
     enter += T_ENTER + N_ENTER;
-    al_draw_text(iso_text, WHITE, 2*TAB, enter, 0, "Enter option to set status of LEDs connected to port A.");
+    al_draw_text(iso_text, WHITE, TAB, enter, 0, "Enter option to set status of LEDs connected to port A.");
     enter += N_ENTER;
-    al_draw_text(iso_text, WHITE, 2*TAB, enter, 0, "If the option is not one of below nothing is modified.");
+    al_draw_text(iso_text, WHITE, TAB, enter, 0, "If the entered option is not one of below, nothing happens.");
     enter += N_ENTER;
-    al_draw_text(iso_text, WHITE, 2*TAB, enter, 0, "Command list:");
+    al_draw_text(iso_text, WHITE, TAB, enter, 0, "Command list:");
     enter += N_ENTER;
-    al_draw_text(iso_text, WHITE, 2*TAB, enter, 0, "==> Numbers 0 to 7: port bit set corresponding to LED");
+    al_draw_text(iso_text, WHITE, TAB, enter, 0, "==> Numbers 0 to 7: port bit set corresponding to LED");
     enter += N_ENTER;
-    al_draw_text(iso_text, WHITE, 2*TAB, enter, 0, "==> B: the switched on LEDs will blink changing the state per 1 sec");
+    al_draw_text(iso_text, WHITE, TAB, enter, 0, "==> B: the switched on LEDs will blink changing the state per 1 sec");
     enter += N_ENTER;
-    al_draw_text(iso_text, WHITE, 2*TAB, enter, 0, "==> S: sets all LEDs on");
+    al_draw_text(iso_text, WHITE, TAB, enter, 0, "==> S: sets all LEDs on");
     enter += N_ENTER;
-    al_draw_text(iso_text, WHITE, 2*TAB, enter, 0, "==> C: sets all LEDs off");
+    al_draw_text(iso_text, WHITE, TAB, enter, 0, "==> C: sets all LEDs off");
     enter += N_ENTER;
-    al_draw_text(iso_text, WHITE, 2*TAB, enter, 0, "==> ESC: exit program");
+    al_draw_text(iso_text, WHITE, TAB, enter, 0, "==> ESC: exit program (closing display also works)");
     
     al_flip_display();
     
