@@ -147,7 +147,7 @@ int main(){
                         timer_count = 0;
                     }
                    
-                    update_display(&mp,&mode);
+                    update_display(&mp,&mode,ledON,ledOFF);
                     userInput(&mp,&end,&mode,tm,key_pressed);
                 }else if(event_log.type == ALLEGRO_EVENT_KEY_DOWN){ // tecla presionada
                     

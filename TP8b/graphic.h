@@ -9,6 +9,6 @@
 
 #include "port_utils.h"
 
-void update_display(microPorts_t *mp,int *mode);
+void update_display(microPorts_t *mp,int *mode, ALLEGRO_BITMAP *led_ON, ALLEGRO_BITMAP *led_OFF);
 
 #endif // GRAPHIC_H

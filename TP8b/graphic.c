@@ -4,10 +4,7 @@
 #include "output.h"
 #include <unistd.h>
 
-#include <allegro5/allegro5.h>
-#include <allegro5/allegro_image.h>
-
-void update_display(microPorts_t *mp,int *mode){
+void update_display(microPorts_t *mp,int *mode, ALLEGRO_BITMAP *led_ON, ALLEGRO_BITMAP *led_OFF){
 /*
 	int i;	
 	for (i = 0;i < mp->A.sz;i++){
