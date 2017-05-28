@@ -28,7 +28,7 @@ void game_start(game_vars_t * game){
     
     clock_run(&game->clock);
     game->status = GAME_PLAYING;
-    game->number = rand() % MAX_NUMBER + 1;
+    game->number = rand() % MAX_NUMBER ;
     
 } // genertae random number and start clock
 void  game_guess(game_vars_t * game, int number ,int *answer){
