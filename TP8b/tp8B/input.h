@@ -14,13 +14,8 @@ enum {NORMAL , BLINK};
 // userInput: process keyboard input. If the option is incorrect,
 // nothing is modified.
 // 	Input: pointer to ports struct, pointer to end program, 
-//         pointer to mode, long int of time for blinking mode.
+//         pointer to mode, time reference for blinking mode, key pressed
 // 	Output: (none)
 void userInput(microPorts_t *mp,int *end,int *mode,int time, int key);
-
-// fsmUpdate: modifies blinking for the leds.
-// 	Input: pointer to mode, pointer to ports, long int of time for blinking mode.
-// 	Output: (none)
-static void fsmUpdate(int *mode,microPorts_t *mp,int time);
 
 #endif

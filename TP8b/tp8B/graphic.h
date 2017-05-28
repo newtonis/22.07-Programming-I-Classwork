@@ -8,17 +8,13 @@
 #define GRAPHIC_H
 
 #include "port_utils.h"
+#include <allegro5/allegro5.h>
+#include <allegro5/allegro_image.h>
 
-#define N_LEDS 8
-#define NEW_LEDSIZE 64
-
-#define X_LED_POS 20
-#define Y_LED_POS 250
-
-#define LED_STEP ((640 - (2*X_LED_POS) - (N_LEDS*64))/(N_LEDS -1)) // for SCREEN_W = 640
-
+// update_display: refresh the information shown in the standard out
+// acording to the selected mode.
+// 	Input: pointer to ports structure, pointer to mode, pointer to led ON image, pointer to led OFF image
+// 	Output: (none)
 void update_display(microPorts_t *mp,int *mode, ALLEGRO_BITMAP *led_ON, ALLEGRO_BITMAP *led_OFF);
-
-void show_led(ALLEGRO_BITMAP *pled, int led_index);
 
 #endif // GRAPHIC_H

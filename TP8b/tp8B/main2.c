@@ -77,7 +77,7 @@ int main(){
         return -1;
     }
         
-    if(!al_init_image_addon()) { // ADDON necesario para manejo(no olvidar el freno de mano) de imagenes 
+    if(!al_init_image_addon()) { // ADDON for image manage
             fprintf(fp, "ERROR - image addon init\n");
             return -1;
     }
@@ -114,9 +114,9 @@ int main(){
     al_clear_to_color(al_map_rgb(0,0,0));
     al_flip_display();
     
-    al_register_event_source(event_q, al_get_display_event_source(disp_a)); // registrar eventos de display
-    al_register_event_source(event_q, al_get_timer_event_source(timer_a)); // registrar eventos de timer
-    al_register_event_source(event_q, al_get_keyboard_event_source()); // registrar eventos de teclado
+    al_register_event_source(event_q, al_get_display_event_source(disp_a)); // register display events
+    al_register_event_source(event_q, al_get_timer_event_source(timer_a)); // register timer events
+    al_register_event_source(event_q, al_get_keyboard_event_source()); // register keyboard events
     
     microPorts_t  mp;
     int err = initPorts(&mp); // port init
@@ -126,7 +126,7 @@ int main(){
             fclose(fp);
             return -1;
     }else{	
-        al_start_timer(timer_a); // inicia timer
+        al_start_timer(timer_a); 
         
         int end = false, tm = 0, timer_count = 0;
         int mode = NORMAL, i, key_pressed;
@@ -136,28 +136,28 @@ int main(){
         while(!end){
             ALLEGRO_EVENT event_log;
             
-            if(al_get_next_event(event_q, &event_log)){ // si ocurrio algun evento
-                if(event_log.type == ALLEGRO_EVENT_DISPLAY_CLOSE){ // se cerro el display
+            if(al_get_next_event(event_q, &event_log)){ // if event
+                if(event_log.type == ALLEGRO_EVENT_DISPLAY_CLOSE){ // display closed - end program
                     
                     end = true;
-                }else if(event_log.type == ALLEGRO_EVENT_TIMER){ // evento de timer
+                }else if(event_log.type == ALLEGRO_EVENT_TIMER){ 
                     
-                    if(++timer_count == ((int)FPS)/2){ // cada 0,5 seg se actualiza tm, para el caso de blink
+                    if(++timer_count == ((int)FPS)/2){ // for blink case, refreshes at 0.5 secs
                         tm = ~tm;
                         timer_count = 0;
                     }
-                    if((mode == BLINK)||(key_pressed != ALLEGRO_KEY_MAX)){
+                    if((mode == BLINK)||(key_pressed != ALLEGRO_KEY_MAX)){ // for avoiding refreshing all time!
                         update_display(&mp,&mode,ledON,ledOFF);
                     }
                     
                     userInput(&mp,&end,&mode,tm,key_pressed);
-                }else if(event_log.type == ALLEGRO_EVENT_KEY_DOWN){ // tecla presionada
+                }else if(event_log.type == ALLEGRO_EVENT_KEY_DOWN){ 
                     
                     key_pressed = event_log.keyboard.keycode;
                     
-                }else if(event_log.type == ALLEGRO_EVENT_KEY_UP){ // se dejo de presionar
+                }else if(event_log.type == ALLEGRO_EVENT_KEY_UP){ 
                     
-                    key_pressed = ALLEGRO_KEY_MAX; // para que no se actualice la misma tecla todo el tiempo
+                    key_pressed = ALLEGRO_KEY_MAX; 
                 }
             }
 

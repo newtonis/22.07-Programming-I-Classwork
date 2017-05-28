@@ -1,9 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "port_utils.h"
 #include "output.h"
-#include  "graphic.h"
-#include <unistd.h>
+#include "graphic.h"
+
+#define N_LEDS 8
+#define NEW_LEDSIZE 64
+
+#define X_LED_POS 20
+#define Y_LED_POS 270
+
+#define LED_STEP ((SCREEN_W - (2*X_LED_POS) - (N_LEDS*64))/(N_LEDS -1))
+
+static void show_led(ALLEGRO_BITMAP *pled, int led_index);
 
 void update_display(microPorts_t *mp,int *mode, ALLEGRO_BITMAP *led_ON, ALLEGRO_BITMAP *led_OFF){
 

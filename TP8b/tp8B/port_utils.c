@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "port_utils.h"
-#include "output.h"
+
+static void initReg(port_t* port , uint16_t *dir, char name , int sz);
 
 void initReg(port_t* port , uint16_t *dir, char name , int sz){
 	port->name = name;
@@ -64,37 +65,3 @@ void maskToggle(port_t *port, uint16_t mask){
 	(*port->dir) ^= mask;
 }
 
-int portConfig(port_t *port, char c){
-
-	int operation_ok = TRUE;
-
-	if(('0' <= c ) && ( c <= '7')){ // Bit set to port
-		bitSet(port,(int)(c-'0'));
-		printf("Status port ");
-		showPort(port);
-	}else if(c == 'b'){ // Blink bit
-		int i = 0;
-		int mask_aux = 0;
-		for( int i ; i < sizeof(uint8_t) ; i++ ){
-			if( bitGet (port,i) == 1 ){
-				mask_aux |= 1<<i ;
-			}						   
-		}
-		printf("Status port ");
-		printf("%d",mask_aux);
-		maskToggle(port,mask_aux);
-		showPort(port);
-	}else if(c == 'c'){ // Turn off bits
-		maskOff(port,ALL_BITS_MASK);
-		printf("Status port ");
-		showPort(port);
-	}else if(c == 's'){ // Set all bits 
-		maskOn(port,ALL_BITS_MASK);
-		printf("Status port ");
-		showPort(port);
-	}else{
-		operation_ok = FALSE;
-	}
-
-	return operation_ok;
-}
