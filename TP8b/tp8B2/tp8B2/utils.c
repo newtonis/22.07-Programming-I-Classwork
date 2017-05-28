@@ -32,3 +32,9 @@ void clock_get_values(rev_clock_t *clock,int *sec){
     *sec = clock->seconds;
 } // get clock seconds and miliseconds
 
+bool is_num(int keycode){
+    return keycode >= ALLEGRO_KEY_0 && keycode <= ALLEGRO_KEY_9;
+}
+int get_num(int keycode){
+    return keycode - ALLEGRO_KEY_0;
+}

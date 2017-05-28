@@ -38,6 +38,8 @@ typedef struct{
     char *text;
 }show_text_t;
 
+struct graphic_vars_t;
+
 typedef struct{
     fonts_t fonts;
     ALLEGRO_DISPLAY *disp_a;
