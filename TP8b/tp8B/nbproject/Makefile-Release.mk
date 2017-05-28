@@ -35,12 +35,11 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/_ext/5c0/graphic.o \
-	${OBJECTDIR}/_ext/5c0/input.o \
-	${OBJECTDIR}/_ext/5c0/main2.o \
-	${OBJECTDIR}/_ext/5c0/nonblock.o \
-	${OBJECTDIR}/_ext/5c0/output.o \
-	${OBJECTDIR}/_ext/5c0/port_utils.o
+	${OBJECTDIR}/graphic.o \
+	${OBJECTDIR}/input.o \
+	${OBJECTDIR}/main2.o \
+	${OBJECTDIR}/output.o \
+	${OBJECTDIR}/port_utils.o
 
 
 # C Compiler Flags
@@ -67,35 +66,30 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tp8b: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tp8b ${OBJECTFILES} ${LDLIBSOPTIONS}
 
-${OBJECTDIR}/_ext/5c0/graphic.o: ../graphic.c
-	${MKDIR} -p ${OBJECTDIR}/_ext/5c0
+${OBJECTDIR}/graphic.o: graphic.c
+	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/5c0/graphic.o ../graphic.c
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/graphic.o graphic.c
 
-${OBJECTDIR}/_ext/5c0/input.o: ../input.c
-	${MKDIR} -p ${OBJECTDIR}/_ext/5c0
+${OBJECTDIR}/input.o: input.c
+	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/5c0/input.o ../input.c
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/input.o input.c
 
-${OBJECTDIR}/_ext/5c0/main2.o: ../main2.c
-	${MKDIR} -p ${OBJECTDIR}/_ext/5c0
+${OBJECTDIR}/main2.o: main2.c
+	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/5c0/main2.o ../main2.c
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main2.o main2.c
 
-${OBJECTDIR}/_ext/5c0/nonblock.o: ../nonblock.c
-	${MKDIR} -p ${OBJECTDIR}/_ext/5c0
+${OBJECTDIR}/output.o: output.c
+	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/5c0/nonblock.o ../nonblock.c
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/output.o output.c
 
-${OBJECTDIR}/_ext/5c0/output.o: ../output.c
-	${MKDIR} -p ${OBJECTDIR}/_ext/5c0
+${OBJECTDIR}/port_utils.o: port_utils.c
+	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/5c0/output.o ../output.c
-
-${OBJECTDIR}/_ext/5c0/port_utils.o: ../port_utils.c
-	${MKDIR} -p ${OBJECTDIR}/_ext/5c0
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/5c0/port_utils.o ../port_utils.c
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/port_utils.o port_utils.c
 
 # Subprojects
 .build-subprojects:

@@ -4,28 +4,26 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>../graphic.h</itemPath>
-      <itemPath>../input.h</itemPath>
-      <itemPath>../nonblock.h</itemPath>
-      <itemPath>../output.h</itemPath>
-      <itemPath>../port_utils.h</itemPath>
+      <itemPath>graphic.h</itemPath>
+      <itemPath>input.h</itemPath>
+      <itemPath>output.h</itemPath>
+      <itemPath>port_utils.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
       <itemPath>isocpeur.ttf</itemPath>
-      <itemPath>led_off.jpg</itemPath>
-      <itemPath>led_on.jpg</itemPath>
+      <itemPath>led_off.png</itemPath>
+      <itemPath>led_on.png</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>../graphic.c</itemPath>
-      <itemPath>../input.c</itemPath>
-      <itemPath>../main2.c</itemPath>
-      <itemPath>../nonblock.c</itemPath>
-      <itemPath>../output.c</itemPath>
-      <itemPath>../port_utils.c</itemPath>
+      <itemPath>graphic.c</itemPath>
+      <itemPath>input.c</itemPath>
+      <itemPath>main2.c</itemPath>
+      <itemPath>output.c</itemPath>
+      <itemPath>port_utils.c</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -59,33 +57,29 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
-      <item path="../graphic.c" ex="false" tool="0" flavor2="0">
+      <item path="graphic.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="../graphic.h" ex="false" tool="3" flavor2="0">
+      <item path="graphic.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="../input.c" ex="false" tool="0" flavor2="0">
+      <item path="input.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="../input.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../main2.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../nonblock.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../nonblock.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../output.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../output.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../port_utils.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../port_utils.h" ex="false" tool="3" flavor2="0">
+      <item path="input.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="isocpeur.ttf" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="led_off.jpg" ex="false" tool="3" flavor2="0">
+      <item path="led_off.png" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="led_on.jpg" ex="false" tool="3" flavor2="0">
+      <item path="led_on.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="main2.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="output.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="output.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="port_utils.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="port_utils.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -108,33 +102,29 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="../graphic.c" ex="false" tool="0" flavor2="0">
+      <item path="graphic.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="../graphic.h" ex="false" tool="3" flavor2="0">
+      <item path="graphic.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="../input.c" ex="false" tool="0" flavor2="0">
+      <item path="input.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="../input.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../main2.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../nonblock.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../nonblock.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../output.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../output.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../port_utils.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../port_utils.h" ex="false" tool="3" flavor2="0">
+      <item path="input.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="isocpeur.ttf" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="led_off.jpg" ex="false" tool="3" flavor2="0">
+      <item path="led_off.png" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="led_on.jpg" ex="false" tool="3" flavor2="0">
+      <item path="led_on.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="main2.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="output.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="output.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="port_utils.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="port_utils.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>
