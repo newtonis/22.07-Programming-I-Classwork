@@ -1,7 +1,6 @@
 #include "input.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "nonblock.h"
 #include "port_utils.h"
 
 #include <allegro5/allegro5.h>

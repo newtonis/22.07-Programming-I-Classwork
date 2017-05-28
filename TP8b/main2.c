@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <time.h>
-#include "nonblock.h"
 #include "graphic.h"
 #include "port_utils.h"
 #include "output.h"
@@ -87,8 +85,8 @@ int main(){
     fprintf(fp, "OK - image addon init\n");
     
     
-    ledON = al_load_bitmap("led_on.jpg");
-    ledOFF = al_load_bitmap("led_off.jpg");
+    ledON = al_load_bitmap("led_on.png");
+    ledOFF = al_load_bitmap("led_off.png");
     
     if((!ledON)||(!ledOFF)){ // image load
         fprintf(fp, "ERROR - no image\n");
