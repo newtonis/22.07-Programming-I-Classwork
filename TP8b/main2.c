@@ -86,18 +86,18 @@ int main(){
     
     fprintf(fp, "OK - image addon init\n");
     
-    /*
-    ledON = al_load_bitmap("ledON.jpg");
-    ledOFF = al_load_bitmap("ledOFF.jpg");
     
-    if((!ledON)||(!ledOFF)){
+    ledON = al_load_bitmap("led_on.jpg");
+    ledOFF = al_load_bitmap("led_off.jpg");
+    
+    if((!ledON)||(!ledOFF)){ // image load
         fprintf(fp, "ERROR - no image\n");
         al_destroy_event_queue(event_q);
         al_destroy_timer(timer_a);
         fclose(fp);
         return -1;        
     }
-    */
+    
     
     disp_a = al_create_display(SCREEN_W, SCREEN_H);
     
