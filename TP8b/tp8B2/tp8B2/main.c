@@ -55,10 +55,8 @@ int main(int argc, char** argv) {
             game_init(&logic_vars);
         }
         
-        
-        fe_update_graphic(&g_vars);
-        fe_update_events(&g_vars);
-        
+
+        fe_update_events(&g_vars); 
         
     }
     fe_end_graphic(&g_vars);
