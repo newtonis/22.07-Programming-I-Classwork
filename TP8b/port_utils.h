@@ -9,6 +9,9 @@
 
 #include <stdint.h>
 
+#include <allegro5/allegro5.h>
+#include <allegro5/allegro_image.h>
+
 #define INPUT_ERR -1
 #define INPUT_BIT -2
 #define ALL_BITS_MASK 0xFF

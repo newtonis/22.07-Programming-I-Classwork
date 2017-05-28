@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <time.h>
-#include "nonblock.h"
 #include "graphic.h"
 #include "port_utils.h"
 #include "output.h"
@@ -86,18 +84,18 @@ int main(){
     
     fprintf(fp, "OK - image addon init\n");
     
-    /*
-    ledON = al_load_bitmap("ledON.jpg");
-    ledOFF = al_load_bitmap("ledOFF.jpg");
     
-    if((!ledON)||(!ledOFF)){
+    ledON = al_load_bitmap("led_on.png");
+    ledOFF = al_load_bitmap("led_off.png");
+    
+    if((!ledON)||(!ledOFF)){ // image load
         fprintf(fp, "ERROR - no image\n");
         al_destroy_event_queue(event_q);
         al_destroy_timer(timer_a);
         fclose(fp);
         return -1;        
     }
-    */
+    
     
     disp_a = al_create_display(SCREEN_W, SCREEN_H);
     
@@ -149,7 +147,7 @@ int main(){
                         timer_count = 0;
                     }
                    
-                    update_display(&mp,&mode);
+                    update_display(&mp,&mode,ledON,ledOFF);
                     userInput(&mp,&end,&mode,tm,key_pressed);
                 }else if(event_log.type == ALLEGRO_EVENT_KEY_DOWN){ // tecla presionada
                     
