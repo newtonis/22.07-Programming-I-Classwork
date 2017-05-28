@@ -38,3 +38,11 @@ bool is_num(int keycode){
 int get_num(int keycode){
     return keycode - ALLEGRO_KEY_0;
 }
+void copy_str(char *a,char *b){
+    int i = 0;
+    while (a[i]){
+        b[i] = a[i];
+        i++;
+    }
+    b[i] = a[i];
+}

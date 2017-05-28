@@ -42,11 +42,11 @@ void  game_guess(game_vars_t * game, int number ,int *answer){
     *answer = game->number;
 } // user guesses a number, return game status
 void  game_update(game_vars_t * game, int *status , int *sec ){
-
-    if (clock_update(&game->clock)){
-        clock_get_values(&game->clock,sec);
-    }else{
-        game->status = TIME_OUT;
+    if (game->status == GAME_PLAYING){    if (clock_update(&game->clock)){
+            clock_get_values(&game->clock,sec);
+        }else{
+            game->status = TIME_OUT;
+        }
     }
     *status = game->status;
 }

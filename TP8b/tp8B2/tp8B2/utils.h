@@ -19,7 +19,10 @@ extern "C" {
 #endif
 
 #include <stdbool.h>
-
+#include <allegro5/allegro5.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
+#include <allegro5/allegro_image.h>
 
 typedef struct{
     int end_time; // time when clock started running
@@ -35,6 +38,7 @@ void clock_get_values(rev_clock_t *clock,int *sec); // get clock seconds
 
 bool is_num(int keycode);
 int get_num(int keycode);
+void copy_str(char *a,char *b);
 
 #ifdef __cplusplus
 }

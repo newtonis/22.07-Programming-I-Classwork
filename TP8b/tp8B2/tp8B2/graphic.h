@@ -25,8 +25,10 @@ extern "C" {
 #include <allegro5/allegro_image.h>
     
 #include <stdbool.h>
+#include "game_logic.h"
     
 #define MAX_TEXT_CNT 10
+#define DEF_SZ 50
     
 typedef struct{
     ALLEGRO_FONT *iso_title;
@@ -35,31 +37,33 @@ typedef struct{
 
 typedef struct{
     int x,y;
-    char *text;
+    char text[DEF_SZ];
 }show_text_t;
 
-struct graphic_vars_t;
+typedef struct graphic_vars graphic_vars_t;
 
-typedef struct{
+struct graphic_vars{
     fonts_t fonts;
     ALLEGRO_DISPLAY *disp_a;
     ALLEGRO_EVENT_QUEUE *event_q;
     ALLEGRO_TIMER *timer_a;
     bool end;
-    void * key_press(graphic_vars_t* , int);
-    
-    show_text_t texts[MAX_TEXT_CNT];
+    void (*key_press)(graphic_vars_t* , int);
+    game_vars_t *logic_ref; // we need a reference of logic game to be used by callbacks
+    show_text_t texts[MAX_TEXT_CNT]; // texts to show in the screen
     int texts_cnt;
-} graphic_vars_t;
+    show_text_t *status_text;
+    show_text_t *time_left_text;
+} ;
+typedef struct graphic_vars graphic_vars_t ;
 
-int init_graphic(graphic_vars_t * vars);
+int fe_init_graphic(graphic_vars_t * vars);
 
-void set_show_text_pos( int text_id,int px,int py);
-void update_show_text( char *text ,int text_id);
+show_text_t* fe_add_show_text(graphic_vars_t* vars,int px,int py);
 
-void update_graphic(graphic_vars_t* vars);
-void update_events(graphic_vars_t* vars);
-int end_graphic(graphic_vars_t* vars);
+void fe_update_graphic(graphic_vars_t* vars);
+void fe_update_events(graphic_vars_t* vars);
+int fe_end_graphic(graphic_vars_t* vars);
 
 
 #ifdef __cplusplus

@@ -28,6 +28,7 @@ typedef struct {
     int status;
 }game_vars_t;
     
+
 void game_init(game_vars_t *game);
 void game_start(game_vars_t * game); // generte random number and start clock
 void game_guess(game_vars_t * game, int number ,int *answer); // user guesses a number, return game status

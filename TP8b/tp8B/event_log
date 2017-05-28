@@ -1,3 +1,6 @@
 OK - allegro init
-OK - display init
+OK - event queue init
+OK - keyboard installed
 OK - font init
+OK - image addon init
+OK - display init

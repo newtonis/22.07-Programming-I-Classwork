@@ -19,13 +19,15 @@ extern "C" {
 #endif
 
 #define BASE_FONT "fonts/isocpeur.ttf"
-#define BASE_SIZE 25
+#define BASE_SIZE 50
 #define SCREEN_W 800
 #define SCREEN_H 600
     
 #define FPS 60.0
 #define GAME_TIME 5
 #define MAX_NUMBER 10
+    
+#define DEF_SZ 50 // default auxiliar text size
     
 #ifdef __cplusplus
 }

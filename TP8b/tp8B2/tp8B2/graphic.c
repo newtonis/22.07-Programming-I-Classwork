@@ -15,7 +15,7 @@
 
 
 
-int init_graphic(graphic_vars_t * vars){
+int fe_init_graphic(graphic_vars_t * vars){
     if (!al_init()){
          fprintf(stderr , "Fatal error, could not init allegro");
         return 0;
@@ -62,14 +62,22 @@ int init_graphic(graphic_vars_t * vars){
     vars->end = false;
     vars->texts_cnt = 0;
 }
-void add_show_text(graphic_vars_t* vars, int text_id,int px,int py){
- 
-    
-    return & texts[vars->text_cnt++];
+show_text_t* fe_add_show_text(graphic_vars_t* vars,int px,int py){
+    vars->texts[vars->texts_cnt].x = px;
+    vars->texts[vars->texts_cnt].y = py;
+    return & vars->texts[vars->texts_cnt++];
 }
 
+void fe_update_graphic(graphic_vars_t* vars){
+    int i;
+    al_clear_to_color(al_map_rgb(0,0,0));
+    for (i = 0;i < vars->texts_cnt;i++){
+        al_draw_text(vars->fonts.iso_text, al_map_rgb(255,255,255),vars->texts[i].x, vars->texts[i].y,ALLEGRO_ALIGN_CENTER, vars->texts[i].text);
+    }
+    al_flip_display();
+}
 
-void update_events(graphic_vars_t* vars){
+void fe_update_events(graphic_vars_t* vars){
     ALLEGRO_EVENT event_log;
     if(al_get_next_event(vars->event_q, &event_log)){
         switch (event_log.type){
@@ -82,6 +90,9 @@ void update_events(graphic_vars_t* vars){
         }
     }
 }
-int end_graphic(graphic_vars_t* vars){
-    
+int fe_end_graphic(graphic_vars_t* vars){
+    al_destroy_event_queue(vars->event_q);
+    al_destroy_timer(vars->timer_a);
+    al_destroy_display(vars->disp_a);
+    al_destroy_font(vars->fonts.iso_text);
 }
