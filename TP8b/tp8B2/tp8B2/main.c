@@ -1,33 +1,84 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   main.c
- * Author: newtonis
- *
- * Created on May 27, 2017, 8:14 PM
- */
-
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include "utils.h"
 #include "game_logic.h"
 #include "graphic.h"
 #include "config.h"
+#include "sound.h"
+
+
 /*
  * 
  */
 
-void my_key_press(graphic_vars_t* vars, int key);
+void my_key_press(graphic_vars_t* vars, int key); //
+
+
+ ALLEGRO_SAMPLE *win_audio=NULL;
+    ALLEGRO_SAMPLE *lose_audio=NULL;
+    ALLEGRO_SAMPLE *loop_audio=NULL;
+    ALLEGRO_SAMPLE_INSTANCE *instance1=NULL;
+   ALLEGRO_SAMPLE_INSTANCE *instance2=NULL;
+   
 
 int main(int argc, char** argv) {
+    
+    
+     ALLEGRO_SAMPLE_INSTANCE *instance3=NULL;
+   
+
+if(!al_install_audio()){
+      fprintf(stderr, "failed to initialize audio!\n");
+      return -1;
+   }
+
+   if(!al_init_acodec_addon()){
+      fprintf(stderr, "failed to initialize audio codecs!\n");
+      return -1;
+   }
+	
+   if (!al_reserve_samples(3)){
+      fprintf(stderr, "failed to reserve samples!\n");
+      return -1;
+   }
+    
+
+win_audio=al_load_sample( "yay.wav" );
+if (!win_audio){
+      printf( "Audio clip sample not loaded!\n" ); 
+      return -1;
+   }
+lose_audio=al_load_sample( "oops.wav" );
+if (!lose_audio){
+      printf( "Audio clip sample not loaded!\n" ); 
+      return -1;
+   }
+
+loop_audio=al_load_sample( "greenhill.wav" );
+if (!loop_audio){
+      printf( "Audio clip sample not loaded!\n" ); 
+      return -1;
+   }
+
+    
+instance1=al_create_sample_instance(win_audio);
+instance2=al_create_sample_instance(lose_audio);
+instance3=al_create_sample_instance(loop_audio);    
+
+
+al_attach_sample_instance_to_mixer(instance1,al_get_default_mixer());
+al_attach_sample_instance_to_mixer(instance2,al_get_default_mixer());
+
+//al_set_sample_instance_playmode(instance3,ALLEGRO_PLAYMODE_LOOP);
+
+
+
+//al_play_sample_instance(instance3);
+
+  al_play_sample(loop_audio, 1.0, 0.0,1.0,ALLEGRO_PLAYMODE_LOOP,NULL);
+
+  
     graphic_vars_t g_vars; 
     game_vars_t logic_vars;
+    
     
     game_init(&logic_vars);
     g_vars.key_press = my_key_press; // set callback
@@ -61,6 +112,13 @@ int main(int argc, char** argv) {
     }
     fe_end_graphic(&g_vars);
     
+    al_destroy_sample_instance(instance1);
+    al_destroy_sample(win_audio);
+    al_destroy_sample_instance(instance2);
+    al_destroy_sample(lose_audio);
+    al_destroy_sample_instance(instance3);
+    al_destroy_sample(loop_audio);
+    
             
     return (EXIT_SUCCESS);
 }
@@ -70,7 +128,7 @@ int main(int argc, char** argv) {
 void my_key_press(graphic_vars_t* vars, int key){
 
     switch (vars->logic_ref->status){
-        case LOSE:
+        case LOSE: //
         case WIN:
         case GAME_PAUSED:
             if (key == ALLEGRO_KEY_ENTER){
@@ -84,8 +142,14 @@ void my_key_press(graphic_vars_t* vars, int key){
                 
                 if (vars->logic_ref->status == WIN){
                     copy_str("You Win!",vars->status_text->text);
+                    
+                   al_play_sample_instance(instance1);
+                    
                 }else{
                     copy_str("You lose!",vars->status_text->text);
+                    
+                    al_play_sample_instance(instance2);
+                    
                 }
                 char new_char[DEF_SZ] =  "press enter, answer: ";
                 int sz = strlen(new_char);
