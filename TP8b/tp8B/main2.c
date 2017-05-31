@@ -6,9 +6,6 @@
 #include "output.h"
 #include "input.h"
 
-ALLEGRO_FONT *iso_title = NULL;
-ALLEGRO_FONT *iso_text = NULL;
-
 int main(){
     
     allegro_utils_t led_sys; // struct with disp, timer, event queue and bitmaps
