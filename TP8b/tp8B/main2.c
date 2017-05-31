@@ -1,3 +1,11 @@
+// TP 8 Item A (1)
+// Marcelo Regueira
+// Joaquin Mestanza
+// Ariel Nowik
+
+// Git: https://github.com/newtonis/ITBA_PROG_TPS/tree/master/TP8b/tp8B
+
+
 #include <stdio.h>
 #include <stdlib.h>
 
