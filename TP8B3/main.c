@@ -1,13 +1,17 @@
+// TP 8 Item A (1)
+// Marcelo Regueira
+// Joaquin Mestanza
+// Ariel Nowik
+
+// Usage :  Press Enter to start; Press a number 0-9 to guess the answer
+
+
 #include <stdio.h>
 #include "game_logic.h"
 #include "front_end.h"
 #include "config.h"
 #include "sound.h"
 
-
-/*
- * 
- */
 
 void my_key_press(graphic_vars_t* vars, int key); //
 
