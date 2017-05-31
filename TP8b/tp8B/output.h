@@ -46,6 +46,9 @@ struct allegro_utils{ // struct type for allegro stuff
 //  Input/Output: (none)
 void instruct_print(ALLEGRO_FONT *titleF, ALLEGRO_FONT *textF);
 
+// init_allegro_soft: initializes a struct of allegro parameters declared at allegro_utils struct
+//  Input: pointer to allegro_utils struct type
+//  Output: int with start result: OK or ERR
 int init_allegro_soft(allegro_utils_t *simulator);
 
 #endif // OUTPUT_H
