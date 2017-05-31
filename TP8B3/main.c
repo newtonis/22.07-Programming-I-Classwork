@@ -4,7 +4,7 @@
 // Ariel Nowik
 
 // Usage :  Press Enter to start; Press a number 0-9 to guess the answer
-
+// Git: https://github.com/newtonis/ITBA_PROG_TPS/tree/master/TP8B3
 
 #include <stdio.h>
 #include "game_logic.h"
