@@ -38,6 +38,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/game_logic.o \
 	${OBJECTDIR}/graphic.o \
 	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/sound.o \
 	${OBJECTDIR}/utils.o
 
 
@@ -79,6 +80,11 @@ ${OBJECTDIR}/main.o: main.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.c
+
+${OBJECTDIR}/sound.o: sound.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/sound.o sound.c
 
 ${OBJECTDIR}/utils.o: utils.c
 	${MKDIR} -p ${OBJECTDIR}
