@@ -7,10 +7,14 @@
 #include "input.h"
 
 int main(){
+    int start_control = false;
     
     allegro_utils_t led_sys; // struct with disp, timer, event queue and bitmaps
     
-    init_allegro_soft(&led_sys); // initialize of struct
+    start_control = init_allegro_soft(&led_sys); // initialize of struct
+    
+    if(start_control == START_ERR)
+        return -1;
     
     al_clear_to_color(al_map_rgb(0,0,0));
     al_flip_display();

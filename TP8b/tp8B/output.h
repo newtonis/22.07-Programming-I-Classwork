@@ -15,6 +15,9 @@
 
 #define FPS 60.0
 
+#define START_ERR -1
+#define START_OK 1
+
 #define SCREEN_W 640
 #define SCREEN_H 380
 

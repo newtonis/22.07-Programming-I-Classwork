@@ -14,7 +14,7 @@ int init_allegro_soft(allegro_utils_t *simulator){
     if(!al_init()){ // allegro init
         fprintf(simulator->log, "ERROR - allegro init\n");
         fclose(simulator->log);
-        return -1;
+        return START_ERR;
     }
     fprintf(simulator->log, "OK - allegro init\n");
     
@@ -23,7 +23,7 @@ int init_allegro_soft(allegro_utils_t *simulator){
     if(!(simulator->event_q)){ // event queue init
         fprintf(simulator->log, "ERROR - event queue init\n");
         fclose(simulator->log);
-        return -1;
+        return START_ERR;
     }
     fprintf(simulator->log, "OK - event queue init\n");
     
@@ -31,7 +31,7 @@ int init_allegro_soft(allegro_utils_t *simulator){
         fprintf(simulator->log, "ERROR - keyboard install\n");
         al_destroy_event_queue(simulator->event_q);
         fclose(simulator->log);
-        return -1;
+        return START_ERR;
     }
     fprintf(simulator->log, "OK - keyboard installed\n");
     
@@ -41,7 +41,7 @@ int init_allegro_soft(allegro_utils_t *simulator){
         fprintf(simulator->log, "ERROR - timer init\n");
         al_destroy_event_queue(simulator->event_q);
         fclose(simulator->log);
-        return -1;
+        return START_ERR;
     }
     fprintf(simulator->log, "OK - timer init\n");
   
@@ -56,7 +56,7 @@ int init_allegro_soft(allegro_utils_t *simulator){
         al_destroy_timer(simulator->timer_a);
         al_destroy_event_queue(simulator->event_q);
         fclose(simulator->log);
-        return -1;
+        return START_ERR;
     }
     fprintf(simulator->log, "OK - font init\n");
     
@@ -64,7 +64,7 @@ int init_allegro_soft(allegro_utils_t *simulator){
         al_destroy_timer(simulator->timer_a);
         al_destroy_event_queue(simulator->event_q);
         fprintf(simulator->log, "ERROR - image addon init\n");
-        return -1;
+        return START_ERR;
     }
     fprintf(simulator->log, "OK - image addon init\n");
     
@@ -76,7 +76,7 @@ int init_allegro_soft(allegro_utils_t *simulator){
         al_destroy_event_queue(simulator->event_q);
         al_destroy_timer(simulator->timer_a);
         fclose(simulator->log);
-        return -1;        
+        return START_ERR;        
     }
     fprintf(simulator->log, "OK - image load");
     
@@ -90,9 +90,11 @@ int init_allegro_soft(allegro_utils_t *simulator){
         al_destroy_bitmap(simulator->ledON);
         al_destroy_bitmap(simulator->ledOFF);
         fclose(simulator->log);
-        return -1;
+        return START_ERR;
     }
     fprintf(simulator->log, "OK - display init\n");
+    
+    return START_OK;
 }
 
 void instruct_print(ALLEGRO_FONT *titleF, ALLEGRO_FONT *textF){
