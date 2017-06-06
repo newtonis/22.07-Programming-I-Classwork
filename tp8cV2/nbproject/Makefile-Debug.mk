@@ -35,8 +35,13 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/led_api.o \
-	${OBJECTDIR}/main.o
+	${OBJECTDIR}/_ext/7aa426f7/graphic.o \
+	${OBJECTDIR}/_ext/7aa426f7/input.o \
+	${OBJECTDIR}/_ext/7aa426f7/main2.o \
+	${OBJECTDIR}/_ext/7aa426f7/nonblock.o \
+	${OBJECTDIR}/_ext/7aa426f7/output.o \
+	${OBJECTDIR}/_ext/7aa426f7/port_utils.o \
+	${OBJECTDIR}/led_api.o
 
 
 # C Compiler Flags
@@ -63,15 +68,40 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tp8cv2: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tp8cv2 ${OBJECTFILES} ${LDLIBSOPTIONS}
 
+${OBJECTDIR}/_ext/7aa426f7/graphic.o: ../TP8_24-05/TP8b/graphic.c
+	${MKDIR} -p ${OBJECTDIR}/_ext/7aa426f7
+	${RM} "$@.d"
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/7aa426f7/graphic.o ../TP8_24-05/TP8b/graphic.c
+
+${OBJECTDIR}/_ext/7aa426f7/input.o: ../TP8_24-05/TP8b/input.c
+	${MKDIR} -p ${OBJECTDIR}/_ext/7aa426f7
+	${RM} "$@.d"
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/7aa426f7/input.o ../TP8_24-05/TP8b/input.c
+
+${OBJECTDIR}/_ext/7aa426f7/main2.o: ../TP8_24-05/TP8b/main2.c
+	${MKDIR} -p ${OBJECTDIR}/_ext/7aa426f7
+	${RM} "$@.d"
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/7aa426f7/main2.o ../TP8_24-05/TP8b/main2.c
+
+${OBJECTDIR}/_ext/7aa426f7/nonblock.o: ../TP8_24-05/TP8b/nonblock.c
+	${MKDIR} -p ${OBJECTDIR}/_ext/7aa426f7
+	${RM} "$@.d"
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/7aa426f7/nonblock.o ../TP8_24-05/TP8b/nonblock.c
+
+${OBJECTDIR}/_ext/7aa426f7/output.o: ../TP8_24-05/TP8b/output.c
+	${MKDIR} -p ${OBJECTDIR}/_ext/7aa426f7
+	${RM} "$@.d"
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/7aa426f7/output.o ../TP8_24-05/TP8b/output.c
+
+${OBJECTDIR}/_ext/7aa426f7/port_utils.o: ../TP8_24-05/TP8b/port_utils.c
+	${MKDIR} -p ${OBJECTDIR}/_ext/7aa426f7
+	${RM} "$@.d"
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/7aa426f7/port_utils.o ../TP8_24-05/TP8b/port_utils.c
+
 ${OBJECTDIR}/led_api.o: led_api.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/led_api.o led_api.c
-
-${OBJECTDIR}/main.o: main.c
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.c
 
 # Subprojects
 .build-subprojects:

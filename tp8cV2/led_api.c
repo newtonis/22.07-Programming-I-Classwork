@@ -22,7 +22,7 @@
 #include <string.h>
 #include "led_api.h"
 
-#define DEF_SZ 30
+#define DEF_SZ 35
 
 void super_cat(char *dst , char *str1 ,char *str2,char *str3){
     strcat(dst , str1);
@@ -50,7 +50,7 @@ void led_api_init(led_vars_t* vars , uint16_t *led_handler, char * codes[],int c
 void led_flush(led_vars_t* vars){
     int i;
     for (i = 0;i < vars->cnt_leds;i++){
-        int status = (vars->led && (1<<i)) != 0;
+        int status = (*vars->led && (1<<i)) != 0;
         if ( status != vars->upd[i]){ // we need to update!
             led_update( vars->led_db[i] , status);
             vars->upd[i] = status;
@@ -63,7 +63,7 @@ void led_init( char * pin_code){
     FILE *handle_direction;
     FILE *handle;
     
-    char dst1[DEF_SZ];
+    char dst1[DEF_SZ] = "";
     
     //= "/sys/class/gpio/gpio17/value";
     
@@ -84,13 +84,15 @@ void led_init( char * pin_code){
     }else{
         fprintf(stderr,"EXPORT File opened succesfully \n");
     }
+    fclose(handle_export);
     
     
-    char dst2[DEF_SZ];
+    char dst2[DEF_SZ] = "";
     super_cat(dst2 , "/sys/class/gpio/gpio" , pin_code , "/direction");
+    printf("%s \n",dst2);
     
     if ((handle_direction = fopen(dst2,"w")) == NULL){
-	fprintf(stderr,"Cannot open DIRECTION File");
+	fprintf(stderr,"Cannot open DIRECTION File\n");
         exit(1);
     }
     // Set pin Direction
@@ -101,21 +103,24 @@ void led_init( char * pin_code){
 	fprintf(stderr,"DIRECTION File for PIN opened succesfully\n");
     }
     fflush(handle_direction);
+    fclose(handle_direction);
     
-   
+    
     if ((handle = fopen(dst1,"w")) == NULL){
 	fprintf(stderr,"Cannot open device. Try again later.\n");
 	exit(1);
     }else{
 	fprintf(stderr,"Device successfully opened\n");
     }
+    fclose(handle);
     
 }
 void led_update(char *led_pin,int status){
     FILE *handle;
-    char file_path[DEF_SZ];
+    char file_path[DEF_SZ] = "";
     super_cat(file_path , "/sys/class/gpio/gpio",led_pin,"/value");
-    if (file_path == NULL){
+    
+    if ((handle = fopen(file_path,"w")) == NULL){
         fprintf(stderr,"Cannot write led %s. Try again later.\n",led_pin);
         exit(1);
     }
