@@ -32,9 +32,13 @@ void super_cat(char *dst , char *str1 ,char *str2,char *str3){
 
 void led_api_init(led_vars_t* vars , uint16_t *led_handler, char * codes[],int cnt_leds){
     // copy led codes
+    
     vars->cnt_leds = cnt_leds;
     vars->led = led_handler; // set led manager
     int i;
+    for (i = 0;i < cnt_leds;i++){
+        vars->upd[i] = -1; // led not started
+    }
     for (i = 0;i < cnt_leds;i++){
         vars->led_db[i] = codes[i];
     }
