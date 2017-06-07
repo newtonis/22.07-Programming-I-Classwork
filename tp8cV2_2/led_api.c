@@ -115,6 +115,20 @@ void led_init( char * pin_code){
     fclose(handle);
     
 }
+void led_end(char *codes[]){
+    
+    FILE *handle_unexport;
+    int i;
+    char *gpio_unexp = "/sys/class/gpio/unexport"; // string for unexport file
+    
+    for(i = 0; i < CNT_LEDS; i++){
+        
+        handle_unexport = fopen(gpio_unexp,"w");
+        fputs(codes[i], handle_unexport);
+        fclose(handle_unexport);
+    }
+}
+
 void led_update(char *led_pin,unsigned int status){
     FILE *handle;
     char file_path[DEF_SZ] = "";

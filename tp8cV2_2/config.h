@@ -17,8 +17,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#define CNT_LEDS 7
     
 
     //indexed leds  e.g. led0 is 4, led1 is 17 and so on
