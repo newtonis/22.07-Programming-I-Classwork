@@ -21,15 +21,8 @@ extern "C" {
 #define CNT_LEDS 7
     
 
-char *led_codes[] = {
-    "17",
-    "10",
-    "11",
-    "12",
-    "13",
-    "14",
-    "15"
-};
+    //indexed leds  e.g. led0 is 4, led1 is 17 and so on
+char* led_codes[]={"4","17","27","18","22","23","24"}; 
 
 #ifdef __cplusplus
 }

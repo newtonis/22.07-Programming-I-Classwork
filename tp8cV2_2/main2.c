@@ -36,12 +36,9 @@
 ////////////////////////////////////////////////////////////////////////////
 
 int main(){
-    //indexed leds  e.g. led0 is 4, led1 is 17 and so on
-    char* led_codes[]={"4","17","27","22","18","23","24","25"}; 
     
     microPorts_t mp;
     int err = initPorts(&mp);
-    
     // init led interface, config to port A
     led_vars_t led_var;
     led_api_init( &led_var , mp.A.dir, led_codes,CNT_LEDS);
@@ -50,8 +47,8 @@ int main(){
 	printf("Fatal error, can't port heap memory");
     }else{	
 	int end = 0;
-        int mode = NORMAL;
-               
+        int mode = NORMAL;     
+        
 	nonblock(NB_ENABLE);
 	while (!end){ // loop until Esc key is hit
             long tm = (long)time(NULL);
