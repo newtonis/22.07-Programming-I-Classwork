@@ -1,11 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+
+#include "led_api.h"
 #include "nonblock.h"
 #include "graphic.h"
 #include "port_utils.h"
 #include "output.h"
 #include "input.h"
+#include "config.h"
 //////////////////////////////////////////////////
 //// TP8b - STRUCT, UNION, BITFIELD - GROUP 3 ////
 //// ---------------------------------------- ////
@@ -30,9 +33,14 @@
 /////////////////////////////////////////////////////////////////////////
 int main(){
     char* led_codes[]={"4","17","27","22","18","23","24","25"}; 
-   
+    
     microPorts_t mp;
     int err = initPorts(&mp);
+    
+    // init led interface, config to port A
+    led_vars_t led_var;
+    led_api_init( &led_var , mp.A.dir, led_codes,CNT_LEDS);
+    
     if (err == 1){
 	printf("Fatal error, can't port heap memory");
     }else{	
@@ -45,10 +53,14 @@ int main(){
             update_display(&mp,&mode);
             userInput(&mp,&end,&mode,tm);
 			//while (tm == (long)time(NULL)); // wait to next second
+            led_flush(&led_var);
         }
         nonblock(NB_DISABLE); 
 	system("clear");
+        
     }
+    endPorts(&mp);
+     
 }
 
 
