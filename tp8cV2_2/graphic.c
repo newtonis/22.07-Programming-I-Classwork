@@ -10,7 +10,7 @@ void update_display(microPorts_t *mp,int *mode){
 	system("clear");
 	instruct_print();
 	int i;	
-	for (i = 0;i < mp->A.sz;i++){
+	for (i = 0;i < ((mp->A.sz)-1);i++){
 		printf("%s ",bitGet(&mp->A,i) ? "***" : "   ");
 		printf("|");
 	}

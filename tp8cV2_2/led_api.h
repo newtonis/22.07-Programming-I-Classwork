@@ -20,6 +20,7 @@ extern "C" {
 
 #include <stdint.h>
 
+#define CNT_LEDS 7
 #define MAX_CNT_LEDS 20
     
 typedef struct led_vars{
@@ -34,7 +35,8 @@ void led_flush(led_vars_t* vars);
 void led_api_init(led_vars_t* vars , uint16_t *led_handler, char * codes[],int cnt_leds);
 
 void led_init(char *led_pin);
-void led_update(char *led_pin,int status); // update a single led
+void led_end(char *codes[]);
+void led_update(char *led_pin,unsigned int status); // update a single led
 static void super_cat(char *dst , char *str1 ,char *str2,char *str3);
 
 #ifdef __cplusplus

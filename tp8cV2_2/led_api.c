@@ -50,7 +50,7 @@ void led_api_init(led_vars_t* vars , uint16_t *led_handler, char * codes[],int c
 void led_flush(led_vars_t* vars){
     int i;
     for (i = 0;i < vars->cnt_leds;i++){
-        int status = (*vars->led && (1<<i)) != 0;
+        unsigned int status = (*(vars->led) & (1<<i)) != 0;
         if ( status != vars->upd[i]){ // we need to update!
             led_update( vars->led_db[i] , status);
             vars->upd[i] = status;
@@ -115,7 +115,21 @@ void led_init( char * pin_code){
     fclose(handle);
     
 }
-void led_update(char *led_pin,int status){
+void led_end(char *codes[]){
+    
+    FILE *handle_unexport;
+    int i;
+    char *gpio_unexp = "/sys/class/gpio/unexport"; // string for unexport file
+    
+    for(i = 0; i < CNT_LEDS; i++){
+        
+        handle_unexport = fopen(gpio_unexp,"w");
+        fputs(codes[i], handle_unexport);
+        fclose(handle_unexport);
+    }
+}
+
+void led_update(char *led_pin,unsigned int status){
     FILE *handle;
     char file_path[DEF_SZ] = "";
     super_cat(file_path , "/sys/class/gpio/gpio",led_pin,"/value");
