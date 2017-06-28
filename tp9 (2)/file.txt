@@ -1,0 +1,5 @@
+Triangle plot data: 
+Order: 3 
+Tolerance: 20.00 px
+Perimeter: 4266.67 px
+Area: 147673.38 px
