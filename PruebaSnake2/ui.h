@@ -17,7 +17,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
+/*
 struct button{
     double x , y , w , h;
     ALLEGRO_BITMAP * surface;
@@ -33,7 +33,7 @@ void update_button(button* ref){
     if (mx > x - w / 2 && mx < x + w / 2 && my > y - h / 2 && my < y + h / 2){
         al_draw_text(vars->fonts.iso_text, al_map_rgb(0,0,0),x , y,ALLEGRO_ALIGN_CENTER, ref.);
     }
-}
+}*/
 
 #ifdef __cplusplus
 }
