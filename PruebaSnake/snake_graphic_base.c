@@ -32,8 +32,14 @@ void init_snake_pc(full_graphic_content *content){
 	exit(1);
     }
  
-    content->timer = al_create_timer(1.0 / FPS);
-    if(!content->timer) {
+    content->timer_a = al_create_timer(1.0 / FPS);
+    if(!content->timer_a) {
+	fprintf(stderr, "failed to create timer!\n");
+	exit(1);
+    }
+    
+    content->timer_b = al_create_timer(1.0 / FPS);
+    if(!content->timer_b) {
 	fprintf(stderr, "failed to create timer!\n");
 	exit(1);
     }
@@ -42,7 +48,9 @@ void init_snake_pc(full_graphic_content *content){
         content->plot_game_graphic->snake[i] = al_create_bitmap(CUADRADITO_SIZE, CUADRADITO_SIZE);
         if(!content->plot_game_graphic->snake[i]) {
             fprintf(stderr, "failed to create snake bitmap!\n");
-            al_destroy_timer(content->timer);
+            al_destroy_timer(content->timer_a);
+            al_destroy_timer(content->timer_b);
+
             while(i >= 0){
                 al_destroy_bitmap(content->plot_game_graphic->snake[i]);
                 i--;
@@ -54,7 +62,9 @@ void init_snake_pc(full_graphic_content *content){
     content->plot_game_graphic->food = al_create_bitmap(CUADRADITO_SIZE, CUADRADITO_SIZE); // food create
     if(!content->plot_game_graphic->food){
         fprintf(stderr, "failed to create food bitmap!\n");
-        al_destroy_timer(content->timer);
+        al_destroy_timer(content->timer_a);
+	al_destroy_timer(content->timer_b);
+
         al_destroy_bitmap(content->plot_game_graphic->snake[i]);
         exit(1);
     }
@@ -66,14 +76,16 @@ void init_snake_pc(full_graphic_content *content){
             al_destroy_bitmap(content->plot_game_graphic->snake[i]);
         }
         al_destroy_bitmap(content->plot_game_graphic->food);
-	al_destroy_timer(content->timer);
+	al_destroy_timer(content->timer_a);
+	al_destroy_timer(content->timer_a);
 	exit(1);
     }
  
     content->display = al_create_display(SCREEN_W, SCREEN_H);
     if(!content->display) {
 	fprintf(stderr, "failed to create display!\n");
-	al_destroy_timer(content->timer);
+	al_destroy_timer(content->timer_a);
+	al_destroy_timer(content->timer_b);
 	for(i = 0; i < MAX_LENGTH; i++){ // snake destroy
             al_destroy_bitmap(content->plot_game_graphic->snake[i]);
         }
@@ -93,13 +105,14 @@ void init_snake_pc(full_graphic_content *content){
     al_set_target_bitmap(al_get_backbuffer(content->display));
   
     al_register_event_source(content->event_queue, al_get_display_event_source(content->display));
-    al_register_event_source(content->event_queue, al_get_timer_event_source(content->timer));
+    al_register_event_source(content->event_queue, al_get_timer_event_source(content->timer_a));
+    al_register_event_source(content->event_queue, al_get_timer_event_source(content->timer_b));
     al_register_event_source(content->event_queue, al_get_keyboard_event_source()); 
  
     al_clear_to_color(al_map_rgb(0,0,0));
         
-    al_start_timer(content->timer);
-    
+    al_start_timer(content->timer_a);
+    al_start_timer(content->timer_b);
 }
 
 
@@ -108,20 +121,22 @@ void handle_events(logic_vars* vars , full_graphic_content * content){
     ALLEGRO_EVENT ev;
     if( al_get_next_event(content->event_queue, &ev) ){ 
 	if(ev.type == ALLEGRO_EVENT_TIMER){
-            if(content->key_pressed[KEY_UP]){
-                content->key_press = KEY_UP;
-            }else if(content->key_pressed[KEY_DOWN]){
-                content->key_press = KEY_DOWN;
-            }else if(content->key_pressed[KEY_LEFT]){
-                content->key_press = KEY_LEFT;
-            }else if(content->key_pressed[KEY_RIGHT]){
-                content->key_press = KEY_RIGHT;
-            }
-            content->refresh++;
-            
+            if (ev.timer.source == content->timer_a){
+                if(content->key_pressed[KEY_UP]){
+                    content->key_press = KEY_UP;
+                }else if(content->key_pressed[KEY_DOWN]){
+                    content->key_press = KEY_DOWN;
+                }else if(content->key_pressed[KEY_LEFT]){
+                    content->key_press = KEY_LEFT;
+                }else if(content->key_pressed[KEY_RIGHT]){
+                    content->key_press = KEY_RIGHT;
+                }
+                content->refresh++;
+            }else if(ev.timer.source == content->timer_b){
             //if((content->refresh % MOVE_FREQ) == 0){
                 update_graphic_game(vars,content);
             //}
+            }
         }else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE){
             content->do_exit = true;
         }else if(ev.type == ALLEGRO_EVENT_KEY_DOWN) {
@@ -168,7 +183,8 @@ void destroy_graphic_base(full_graphic_content * content){
     for(i = 0; i < MAX_LENGTH; i++){ // snake destroy
         al_destroy_bitmap(content->plot_game_graphic->snake[i]);
     }
-    al_destroy_timer(content->timer);
+    al_destroy_timer(content->timer_a);
+    al_destroy_timer(content->timer_b);
     al_destroy_bitmap(content->plot_game_graphic->food);
     al_destroy_display(content->display);
 }
