@@ -122,15 +122,6 @@ void handle_events(logic_vars* vars , full_graphic_content * content){
     if( al_get_next_event(content->event_queue, &ev) ){ 
 	if(ev.type == ALLEGRO_EVENT_TIMER){
             if (ev.timer.source == content->timer_a){
-                if(content->key_pressed[KEY_UP]){
-                    content->key_press = KEY_UP;
-                }else if(content->key_pressed[KEY_DOWN]){
-                    content->key_press = KEY_DOWN;
-                }else if(content->key_pressed[KEY_LEFT]){
-                    content->key_press = KEY_LEFT;
-                }else if(content->key_pressed[KEY_RIGHT]){
-                    content->key_press = KEY_RIGHT;
-                }
                 update_game( vars , content);
             }else if(ev.timer.source == content->timer_b){
                 update_pc_graphic_screen( vars , content->plot_game_graphic );

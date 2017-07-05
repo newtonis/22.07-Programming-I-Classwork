@@ -8,6 +8,7 @@
 #define Y_COORD 1
 
 #define INIT_LIVES 3
+#define POINT_RATE 10
 
 #define INIT_LENGTH 5
 #define MAX_LENGTH 10
@@ -91,8 +92,15 @@ void reset_lives(void);
 // read_points: return points from previus game
 int read_points(void);
 
-//
+// inc_points: adds 10 points to actual game
+void inc_points(void);
 
+// reset_points
+void reset_points(void);
+
+// write_points_file: in game finish, writes final points into file
+void write_points_file(void);
+//
 // ----------------- //
 
 #endif /* SNAKE_LOGIC_H */

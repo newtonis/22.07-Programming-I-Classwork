@@ -5,12 +5,22 @@
 
 
 void update_game( logic_vars* game_data , full_graphic_content* content ){
-            
+    if(content->key_pressed[KEY_UP]){
+        content->key_press = KEY_UP;
+    }else if(content->key_pressed[KEY_DOWN]){
+        content->key_press = KEY_DOWN;
+    }else if(content->key_pressed[KEY_LEFT]){
+        content->key_press = KEY_LEFT;
+    }else if(content->key_pressed[KEY_RIGHT]){
+        content->key_press = KEY_RIGHT;
+    }
+    
     content->dir_control = validate_dir(content->direction, content->key_press);
     
     if(content->dir_control == DIR_ERR){
         content->key_press = NO_KEY;
     }
+    
     calculate_newPos(game_data->pSnake, content->direction, content->key_press);
     if(content->key_press != NO_KEY){
         content->direction = content->key_press;
@@ -22,7 +32,7 @@ void update_pc_graphic_screen( logic_vars* game_data , graphic_vars* graphic_dat
     
     al_clear_to_color(BLACK);
     set_snakePos(game_data->pSnake ,  graphic_data->snake);
-    //set_foodPos(game_data->pFood    , graphic_data->food);
+    set_foodPos(game_data->pFood    , graphic_data->food);
     al_flip_display();
 }
 
