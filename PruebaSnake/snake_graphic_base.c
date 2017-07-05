@@ -131,11 +131,9 @@ void handle_events(logic_vars* vars , full_graphic_content * content){
                 }else if(content->key_pressed[KEY_RIGHT]){
                     content->key_press = KEY_RIGHT;
                 }
-                content->refresh++;
+                update_game( vars , content);
             }else if(ev.timer.source == content->timer_b){
-            //if((content->refresh % MOVE_FREQ) == 0){
-                update_graphic_game(vars,content);
-            //}
+                update_pc_graphic_screen( vars , content->plot_game_graphic );
             }
         }else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE){
             content->do_exit = true;
