@@ -22,7 +22,7 @@ void init_snake_struct(int start_length, snake_node_t *pSnake){
         }  
     }   
     (pSnake+start_length-1)->pNode = NULL; // the last is the tail
-    
+    init_lives();
     init_length(start_length);
 }
 
@@ -268,8 +268,7 @@ void lose_live(void){
 
 char *read_points(void){
     points_log = fopen("game_points.txt", "r");\
-    char msj_points[STRING_MAX];
-    fgets(msj_points, STRING_MAX, points_log);
+    char *msj_points = fgets(msj_points, STRING_MAX, points_log);
     return msj_points;
 }
 

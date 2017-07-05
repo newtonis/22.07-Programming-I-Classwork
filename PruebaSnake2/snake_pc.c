@@ -5,43 +5,70 @@
 
 
 void update_game( logic_vars* game_data , full_graphic_content* content ){
-    if(content->key_pressed[KEY_UP]){
-        content->key_press = KEY_UP;
-    }else if(content->key_pressed[KEY_DOWN]){
-        content->key_press = KEY_DOWN;
-    }else if(content->key_pressed[KEY_LEFT]){
-        content->key_press = KEY_LEFT;
-    }else if(content->key_pressed[KEY_RIGHT]){
-        content->key_press = KEY_RIGHT;
+    
+    ALLEGRO_MOUSE_STATE state;
+    int status;
+    
+    switch (content->front_end_status){
+        case INITIAL_MENU:
+            
+            //al_get_mouse_state(&state);
+            status = update_button(content->intial_menu->play_button);
+            if (status){
+                content->front_end_status = PLAY;
+            }
+        break;
+        
+        case PLAY:
+            if(content->key_pressed[KEY_UP]){
+                content->key_press = KEY_UP;
+            }else if(content->key_pressed[KEY_DOWN]){
+                content->key_press = KEY_DOWN;
+            }else if(content->key_pressed[KEY_LEFT]){
+                content->key_press = KEY_LEFT;
+            }else if(content->key_pressed[KEY_RIGHT]){
+                content->key_press = KEY_RIGHT;
+            }
+
+            content->dir_control = validate_dir(content->direction, content->key_press);
+
+            if(content->dir_control == DIR_ERR){
+                content->key_press = NO_KEY;
+            }
+            status = game_status_refresh(game_data->pSnake,game_data->pFood);
+            if (status == FOOD_EAT){
+                
+            }
+            calculate_newPos(game_data->pSnake, content->direction, content->key_press);
+            if(content->key_press != NO_KEY){
+                content->direction = content->key_press;
+                content->key_press = NO_KEY;
+            }    
+        break;
     }
-    
-    content->dir_control = validate_dir(content->direction, content->key_press);
-    
-    if(content->dir_control == DIR_ERR){
-        content->key_press = NO_KEY;
-    }
-    
-    calculate_newPos(game_data->pSnake, content->direction, content->key_press);
-    if(content->key_press != NO_KEY){
-        content->direction = content->key_press;
-        content->key_press = NO_KEY;
-    }         
 }
 
-void update_pc_graphic_screen( logic_vars* game_data , graphic_vars* graphic_data){
+void update_pc_graphic_screen( logic_vars* game_data , full_graphic_content* content){
     
-    al_clear_to_color(BLACK);
-    set_snakePos(game_data->pSnake ,  graphic_data->snake);
-    set_foodPos(game_data->pFood    , graphic_data->food);
-    al_flip_display();
+    switch (content->front_end_status){
+        case INITIAL_MENU:
+            al_clear_to_color(BLACK);
+            draw_button(content->intial_menu->play_button);
+            al_flip_display();
+        break;
+        case PLAY:
+            al_clear_to_color(BLACK);
+            set_snakePos(game_data->pSnake ,  content->images->snake);
+            set_foodPos( game_data->pFood   , content->images->food);
+            al_flip_display();
+        break;
+    }
 }
 
 void set_snakePos(snake_node_t *pSnake, ALLEGRO_BITMAP *snake[MAX_LENGTH]){
-    
     int j, length;
     
     length = get_length(); // get actual snake length
-    
     
     for(j = 0; j < length; j++){ // draws positions in buffer
         al_draw_bitmap(snake[j], ((pSnake+j)->polar_pos[X_COORD]), ((pSnake+j)->polar_pos[Y_COORD]), 0);

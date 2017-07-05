@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <allegro5/allegro.h>
-
+#include <allegro5/allegro_image.h>
 #include "snake_graphic_base.h"
 
 #include "snake_pc.h"
+#include "ui.h"
 
 void init_snake_pc(full_graphic_content *content){
 
@@ -45,27 +46,27 @@ void init_snake_pc(full_graphic_content *content){
     }
         
     for(i = 0; i < MAX_LENGTH; i++){ // snake create
-        content->plot_game_graphic->snake[i] = al_create_bitmap(CUADRADITO_SIZE, CUADRADITO_SIZE);
-        if(!content->plot_game_graphic->snake[i]) {
+        content->images->snake[i] = al_create_bitmap(CUADRADITO_SIZE, CUADRADITO_SIZE);
+        if(!content->images->snake[i]) {
             fprintf(stderr, "failed to create snake bitmap!\n");
             al_destroy_timer(content->timer_a);
             al_destroy_timer(content->timer_b);
 
             while(i >= 0){
-                al_destroy_bitmap(content->plot_game_graphic->snake[i]);
+                al_destroy_bitmap(content->images->snake[i]);
                 i--;
             }
             exit(1);
         }
     }
         
-    content->plot_game_graphic->food = al_create_bitmap(CUADRADITO_SIZE, CUADRADITO_SIZE); // food create
-    if(!content->plot_game_graphic->food){
+    content->images->food = al_create_bitmap(CUADRADITO_SIZE, CUADRADITO_SIZE); // food create
+    if(!content->images->food){
         fprintf(stderr, "failed to create food bitmap!\n");
         al_destroy_timer(content->timer_a);
 	al_destroy_timer(content->timer_b);
 
-        al_destroy_bitmap(content->plot_game_graphic->snake[i]);
+        al_destroy_bitmap(content->images->snake[i]);
         exit(1);
     }
     
@@ -73,9 +74,9 @@ void init_snake_pc(full_graphic_content *content){
     if(!content->event_queue) {
 	fprintf(stderr, "failed to create event_queue!\n");
         for(i = 0; i < MAX_LENGTH; i++){ // snake destroy
-            al_destroy_bitmap(content->plot_game_graphic->snake[i]);
+            al_destroy_bitmap(content->images->snake[i]);
         }
-        al_destroy_bitmap(content->plot_game_graphic->food);
+        al_destroy_bitmap(content->images->food);
 	al_destroy_timer(content->timer_a);
 	al_destroy_timer(content->timer_a);
 	exit(1);
@@ -87,19 +88,19 @@ void init_snake_pc(full_graphic_content *content){
 	al_destroy_timer(content->timer_a);
 	al_destroy_timer(content->timer_b);
 	for(i = 0; i < MAX_LENGTH; i++){ // snake destroy
-            al_destroy_bitmap(content->plot_game_graphic->snake[i]);
+            al_destroy_bitmap(content->images->snake[i]);
         }
-        al_destroy_bitmap(content->plot_game_graphic->food);
+        al_destroy_bitmap(content->images->food);
 	al_destroy_event_queue(content->event_queue);
         exit(1);
     }
 	
     for(i = 0; i < MAX_LENGTH; i++){ // pink snake
-        al_set_target_bitmap(content->plot_game_graphic->snake[i]);
+        al_set_target_bitmap(content->images->snake[i]);
         al_clear_to_color(al_map_rgb(255, 0, 255));
     }
 	
-    al_set_target_bitmap(content->plot_game_graphic->food); // Pink Food
+    al_set_target_bitmap(content->images->food); // Pink Food
     al_clear_to_color(al_map_rgb(255, 0, 255));
     
     al_set_target_bitmap(al_get_backbuffer(content->display));
@@ -113,18 +114,31 @@ void init_snake_pc(full_graphic_content *content){
         
     al_start_timer(content->timer_a);
     al_start_timer(content->timer_b);
+    
+    content->front_end_status = INITIAL_MENU;
+    
+    
+    //// load all game images
+    al_init_image_addon();
+    load_images(content->images);
+
+    /// init mouse driver
+    al_install_mouse();
+    
+    /// init menu
+    init_menu(content);
 }
 
-
+//**** Main allegro event handler ****/ 
 void handle_events(logic_vars* vars , full_graphic_content * content){
 
     ALLEGRO_EVENT ev;
     if( al_get_next_event(content->event_queue, &ev) ){ 
 	if(ev.type == ALLEGRO_EVENT_TIMER){
-            if (ev.timer.source == content->timer_a){
+            if (ev.timer.source == content->timer_a){  /// Logical timer
                 update_game( vars , content);
-            }else if(ev.timer.source == content->timer_b){
-                update_pc_graphic_screen( vars , content->plot_game_graphic );
+            }else if(ev.timer.source == content->timer_b){ /// graphic timer
+                update_pc_graphic_screen( vars , content );
             }
         }else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE){
             content->do_exit = true;
@@ -170,10 +184,58 @@ void handle_events(logic_vars* vars , full_graphic_content * content){
 void destroy_graphic_base(full_graphic_content * content){
     int i;
     for(i = 0; i < MAX_LENGTH; i++){ // snake destroy
-        al_destroy_bitmap(content->plot_game_graphic->snake[i]);
+        al_destroy_bitmap(content->images->snake[i]);
     }
     al_destroy_timer(content->timer_a);
     al_destroy_timer(content->timer_b);
-    al_destroy_bitmap(content->plot_game_graphic->food);
+    al_destroy_bitmap(content->images->food);
     al_destroy_display(content->display);
+    
+    destroy_menu(content);
+    destroy_images(content->images);
+}
+
+/*** Load all game bitmaps */
+void load_images(images_t* images){
+    images->arr_down = NULL;
+    images->arr_up = NULL;
+    images->game_over = NULL;
+    images->easy = NULL;
+    images->medium = NULL;
+    images->hard = NULL;
+    images->start_button_image = NULL;
+    images->start_button_image_b = NULL;
+    
+    images->arr_down  = al_load_bitmap("flecha_arriba.png");
+    images->arr_up    = al_load_bitmap("flecha_arriba.png");
+    images->game_over = al_load_bitmap("game_over.png");
+    images->easy      = al_load_bitmap("lento.png");
+    images->medium    = al_load_bitmap("medio.png");
+    images->hard      = al_load_bitmap("rapido.png");
+    images->start_button_image = al_load_bitmap("start.png");
+    images->start_button_image_b = al_load_bitmap("start_b.png");
+    
+    if (!images->arr_down || !images->arr_up || !images->game_over || !images->easy || !images->medium || !images->hard || !images->start_button_image || !images->start_button_image_b){
+        fprintf(stderr,"error loading images");
+        exit(1);
+    }
+}
+
+/*** Create all user interface elements ***/
+void init_menu(full_graphic_content *content){
+    //content->intial_menu->play_button = init_button( NULL , NULL );
+    content->intial_menu->play_button = init_button(content->images->start_button_image , content->images->start_button_image_b, SCREEN_W / 2 , SCREEN_H - START_BUTTON_CORR);
+}
+
+void destroy_menu(full_graphic_content *content){
+    free(content->intial_menu->play_button);
+}
+void destroy_images(images_t* images){
+    al_destroy_bitmap(images->arr_down);
+    al_destroy_bitmap(images->arr_up);
+    al_destroy_bitmap(images->game_over);
+    al_destroy_bitmap(images->easy);
+    al_destroy_bitmap(images->medium);
+    al_destroy_bitmap(images->hard);
+    al_destroy_bitmap(images->start_button_image);
 }

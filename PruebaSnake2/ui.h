@@ -14,30 +14,35 @@
 #ifndef UI_H
 #define UI_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-/*
-struct button{
+
+#include <allegro5/allegro_font.h>
+
+
+enum {HOLD , RELEASE};
+    
+typedef struct{
     double x , y , w , h;
-    ALLEGRO_BITMAP * surface;
-};
+    ALLEGRO_BITMAP * surface_a;
+    ALLEGRO_BITMAP * surface_b;
+    int status;
+}button_t;
 
-void init_button( const char * text ,int x ,int y){
-    
-}
+typedef struct{
+    button_t *up , *down;
+    int value;
+    ALLEGRO_FONT *font;
+    int text_size;
+    int x,y;
+}reg_box_t;
 
-void update_button(button* ref){
-    
-    
-    if (mx > x - w / 2 && mx < x + w / 2 && my > y - h / 2 && my < y + h / 2){
-        al_draw_text(vars->fonts.iso_text, al_map_rgb(0,0,0),x , y,ALLEGRO_ALIGN_CENTER, ref.);
-    }
-}*/
+/**** Create a dynamic button with two surfaces (one for each state) ****/
+button_t *init_button( ALLEGRO_BITMAP* surface_a , ALLEGRO_BITMAP* surface_b , int x ,int y );
 
-#ifdef __cplusplus
-}
-#endif
+void draw_button(button_t* button);
+int update_button(button_t* button);
+void destroy_button(button_t* button);
+
+
 
 #endif /* UI_H */
 

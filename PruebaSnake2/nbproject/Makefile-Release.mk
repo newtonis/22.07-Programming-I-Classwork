@@ -39,7 +39,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/snake_graphic_base.o \
 	${OBJECTDIR}/snake_logic.o \
 	${OBJECTDIR}/snake_pc.o \
-	${OBJECTDIR}/ui.o
+	${OBJECTDIR}/ui.o \
+	${OBJECTDIR}/utils.o
 
 
 # C Compiler Flags
@@ -90,6 +91,11 @@ ${OBJECTDIR}/ui.o: ui.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ui.o ui.c
+
+${OBJECTDIR}/utils.o: utils.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/utils.o utils.c
 
 # Subprojects
 .build-subprojects:

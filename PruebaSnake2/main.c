@@ -10,10 +10,11 @@ int main(void){
     
     logic_vars logic;
     full_graphic_content content;
-    graphic_vars plot_basic_vars;
+    images_t plot_basic_vars;
+    initial_menu_vars_t inital_menu;
     
-    
-    content.plot_game_graphic = &plot_basic_vars;
+    content.images = &plot_basic_vars;
+    content.intial_menu = &inital_menu;
     
     logic.pSnake = malloc(sizeof(snake_node_t)*MAX_LENGTH);
     if (logic.pSnake == NULL){

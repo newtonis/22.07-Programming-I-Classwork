@@ -18,7 +18,7 @@
 #define NUM_OK -1
 #define NUM_ERR -2
 
-#define FOOD_EAT 1
+#define FOOD_EAT 7
 #define NO_EAT 0
 
 #define GROW_UP -3
