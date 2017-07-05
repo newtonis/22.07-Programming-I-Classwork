@@ -11,11 +11,17 @@ int main(void){
     logic_vars logic;
     full_graphic_content content;
     graphic_vars plot_basic_vars;
+    
+    
     content.plot_game_graphic = &plot_basic_vars;
     
+    logic.pSnake = malloc(sizeof(snake_node_t)*MAX_LENGTH);
+    if (logic.pSnake == NULL){
+        fprintf(stderr,"Fatal error");
+        exit(1);
+    }
     init_snake_pc(&content);
     
-    logic.pSnake = malloc(sizeof(snake_node_t)*MAX_LENGTH);
     
     init_snake_struct(INIT_LENGTH, logic.pSnake); // set snake position coordenates
     
