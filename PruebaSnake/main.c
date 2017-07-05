@@ -29,18 +29,18 @@ int main(void)
         
 	if(!al_init()) {
 		fprintf(stderr, "failed to initialize allegro!\n");
-		return -1;
+		exit(1);
 	}
  
 	if(!al_install_keyboard()) {
 		fprintf(stderr, "failed to initialize the keyboard!\n");
-		return -1;
+		exit(1);
 	}
  
 	timer = al_create_timer(1.0 / FPS);
 	if(!timer) {
 		fprintf(stderr, "failed to create timer!\n");
-		return -1;
+		exit(1);
 	}
         
         for(i = 0; i < MAX_LENGTH; i++){ // snake create
@@ -50,8 +50,9 @@ int main(void)
                     al_destroy_timer(timer);
                     while(i >= 0){
                         al_destroy_bitmap(snake[i]);
+                        i--;
                     }
-                    return -1;
+                    exit(1);
             }
         }
         
@@ -62,7 +63,7 @@ int main(void)
             for(i = 0; i < MAX_LENGTH; i++){ // snake destroy
                 al_destroy_bitmap(snake[i]);
             }
-            return -1;
+            exit(1);
         }
         
 	event_queue = al_create_event_queue();
@@ -73,7 +74,7 @@ int main(void)
                 }
                 al_destroy_bitmap(food);
 		al_destroy_timer(timer);
-		return -1;
+		exit(1);
 	}
  
 	display = al_create_display(SCREEN_W, SCREEN_H);
@@ -85,7 +86,7 @@ int main(void)
                 }
                 al_destroy_bitmap(food);
 		al_destroy_event_queue(event_queue);
-		return -1;
+		exit(1);
 	}
 	
         for(i = 0; i < MAX_LENGTH; i++){ // pink snake
