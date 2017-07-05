@@ -93,6 +93,9 @@ int main(void)
             al_clear_to_color(al_map_rgb(255, 0, 255));
         }
 	
+        al_set_target_bitmap(food); // Pink Food
+        al_clear_to_color(al_map_rgb(255, 0, 255));
+        
 	al_set_target_bitmap(al_get_backbuffer(display));
   
 	al_register_event_source(event_queue, al_get_display_event_source(display));
@@ -109,12 +112,13 @@ int main(void)
         // test variables
         int key_press = NO_KEY;
         int direction = KEY_RIGHT, dir_control;
-        unsigned int refresh = 0;
+        
+        unsigned int refresh = 0;       
         
 	while(!do_exit)
 	{
 		ALLEGRO_EVENT ev;
-		if( al_get_next_event(event_queue, &ev) ) //Toma un evento de la cola, VER RETURN EN DOCUMENT.
+		if( al_get_next_event(event_queue, &ev) ) //Toma un evento de la cola
 		{ 
 			if(ev.type == ALLEGRO_EVENT_TIMER) 
 			{

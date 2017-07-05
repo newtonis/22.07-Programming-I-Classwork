@@ -18,5 +18,7 @@ void set_newPos(snake_node_t *pSnake, ALLEGRO_BITMAP *snake[MAX_LENGTH]){
 
 void set_foodPos(food_t *pFood, ALLEGRO_BITMAP *food){
     
-    
+    al_clear_to_color(BLACK);
+    al_draw_bitmap(food, pFood->pos[X_COORD], pFood->pos[Y_COORD], 0);
+    al_flip_display();
 }

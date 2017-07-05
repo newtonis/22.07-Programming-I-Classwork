@@ -115,7 +115,7 @@ void calculate_foodPos(snake_node_t *pSnake, food_t *pFood){
     
     while(control != NUM_OK){
         i = 0; // start
-        x_pos = rand()%SCREEN_W; // generate random x coordenate
+        x_pos = rand()%(SCREEN_W - CUADRADITO_SIZE); // generate random x coordenate
         while( (i < length) && (((pSnake+i)->polar_pos[X_COORD]) != x_pos)){
             i++;            
         }
@@ -130,7 +130,7 @@ void calculate_foodPos(snake_node_t *pSnake, food_t *pFood){
     
     while(control != NUM_OK){
         i = 0; // start
-        y_pos = rand()%SCREEN_W; // generate random x coordenate
+        y_pos = rand()%(SCREEN_H - CUADRADITO_SIZE); // generate random x coordenate
         while( (i < length) && (((pSnake+i)->polar_pos[Y_COORD]) != y_pos)){
             i++;            
         }
@@ -140,5 +140,8 @@ void calculate_foodPos(snake_node_t *pSnake, food_t *pFood){
         }
     }
    
+    pFood->pos[X_COORD] = x_pos;
+    pFood->pos[Y_COORD] = y_pos;
+    
 }
 
