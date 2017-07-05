@@ -40,5 +40,8 @@ void calculate_newPos(snake_node_t *pSnake, int prev_dir, int new_dir);
 // calculate_foodPos: sets a random position for the next food to apear
 void calculate_foodPos(snake_node_t *pSnake, food_t *pFood);
 
+// check_if_food_eaten: checks if snake eats food
+int check_if_food_eaten(snake_node_t *pSnake, food_t *pFood);
+
 #endif /* SNAKE_LOGIC_H */
 
