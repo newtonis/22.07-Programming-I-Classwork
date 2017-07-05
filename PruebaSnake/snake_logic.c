@@ -5,7 +5,8 @@
 
 static int length; // snake length
 static int lives; // snake lives
-static FILE *points = NULL;
+static int points; // actual game points
+static FILE *points_log = NULL;
 
 void init_snake_struct(int start_length, snake_node_t *pSnake){
     int j;
@@ -205,6 +206,8 @@ void add_snake_node(snake_node_t *pSnake){
     aux_l = get_length();
     (pSnake+aux_l-1)->pNode = (pSnake+aux_l);
     (pSnake+aux_l)->pNode = NULL;
+    
+    inc_length();
 }
 
 // Snake length management //
@@ -240,3 +243,24 @@ void lose_live(void){
 void reset_lives(void){
     lives = INIT_LIVES; 
 }
+
+// Points management //
+
+int read_points(void){
+    
+}
+
+void inc_points(void){
+    points += POINT_RATE;
+}
+
+void reset_points(void){
+    points = 0;
+}
+
+void write_points_file(void){
+    points_log = fopen("game_points.txt", "w");
+    fprintf(points_log, "%d", points);
+    fclose(points_log);
+}
+

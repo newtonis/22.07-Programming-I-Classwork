@@ -20,6 +20,12 @@ int main(void){
         fprintf(stderr,"Fatal error");
         exit(1);
     }
+    logic.pFood = malloc(sizeof(food_t));
+    if (logic.pFood == NULL){
+        fprintf(stderr,"Fatal error");
+        exit(1);
+    }
+    
     init_snake_pc(&content);
     
     

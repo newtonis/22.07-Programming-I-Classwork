@@ -5,6 +5,8 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>config.h</itemPath>
+      <itemPath>interface.h</itemPath>
+      <itemPath>snake_graphic_base.h</itemPath>
       <itemPath>snake_logic.h</itemPath>
       <itemPath>snake_pc.h</itemPath>
     </logicalFolder>
@@ -16,6 +18,7 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>main.c</itemPath>
+      <itemPath>snake_graphic_base.c</itemPath>
       <itemPath>snake_logic.c</itemPath>
       <itemPath>snake_pc.c</itemPath>
     </logicalFolder>
@@ -51,7 +54,13 @@
       </compileType>
       <item path="config.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="interface.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="snake_graphic_base.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="snake_graphic_base.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="snake_logic.c" ex="false" tool="0" flavor2="0">
       </item>
@@ -84,7 +93,13 @@
       </compileType>
       <item path="config.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="interface.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="snake_graphic_base.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="snake_graphic_base.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="snake_logic.c" ex="false" tool="0" flavor2="0">
       </item>
