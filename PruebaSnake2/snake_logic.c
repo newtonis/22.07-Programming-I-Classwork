@@ -223,7 +223,7 @@ int game_status_refresh(snake_node_t *pSnake, food_t *pFood){
     food_status = check_if_food_eaten(pSnake, pFood);
     if(food_status == GROW_UP){
         add_snake_node(pSnake);
-        calculate_foodPos();
+        calculate_foodPos(pSnake, pFood);
         return FOOD_EAT;
     }else if(food_status == NO_EAT){
         return ALIVE;
