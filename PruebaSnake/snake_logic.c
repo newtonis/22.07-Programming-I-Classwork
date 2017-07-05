@@ -3,6 +3,10 @@
 #include <time.h>
 #include "snake_logic.h"
 
+static int length; // snake length
+static int lives; // snake lives
+static FILE *points = NULL;
+
 void init_snake_struct(int start_length, snake_node_t *pSnake){
     int j;
     
@@ -13,8 +17,10 @@ void init_snake_struct(int start_length, snake_node_t *pSnake){
         if(j < start_length-1){
             (pSnake+j)->pNode = (pSnake+j+1); // point to next node
         }  
-    }
+    }   
     (pSnake+start_length-1)->pNode = NULL; // the last is the tail
+    
+    init_length(start_length);
 }
 
 void calculate_newPos(snake_node_t *pSnake, int prev_dir, int new_dir){
@@ -34,27 +40,27 @@ void calculate_newPos(snake_node_t *pSnake, int prev_dir, int new_dir){
     switch(move){ // gets new head pos
         case KEY_UP:
             y_head -= MOVE_RATE;
-            if(y_head <= WORLD_TOP)
+            if(y_head <= (WORLD_TOP -1))
                 y_head = WORLD_BOTTOM - CUADRADITO_SIZE;
             break;
         case KEY_DOWN:
             y_head += MOVE_RATE;
             if(y_head >= WORLD_BOTTOM)
-                y_head = WORLD_TOP + CUADRADITO_SIZE;
+                y_head = WORLD_TOP +1;
             break;
         case KEY_LEFT:
             x_head -= MOVE_RATE;
-            if(x_head <= WORLD_MIN_LEFT)
+            if(x_head <= (WORLD_MIN_LEFT -1))
                 x_head = WORLD_MAX_RIGHT - CUADRADITO_SIZE;
             break;
         case KEY_RIGHT:
             x_head += MOVE_RATE;
             if(x_head >= WORLD_MAX_RIGHT)
-                x_head = WORLD_MIN_LEFT + CUADRADITO_SIZE;
+                x_head = WORLD_MIN_LEFT +1;
             break;
     }
     
-    length = count_snake_length(pSnake);
+    length = get_length();
     
     for(k = length; k > 0; k--){ // shift all positions
         (pSnake+k)->polar_pos[X_COORD] = (pSnake+k-1)->polar_pos[X_COORD];
@@ -67,7 +73,7 @@ void calculate_newPos(snake_node_t *pSnake, int prev_dir, int new_dir){
     //snake_pos[X_COORD][HEAD] = x_head; // set new head pos after shifting
     //snake_pos[Y_COORD][HEAD] = y_head;
 }
-
+/*
 int count_snake_length(snake_node_t *pSnake){
     int length;
     snake_node_t *pCheck;
@@ -80,7 +86,7 @@ int count_snake_length(snake_node_t *pSnake){
     }
     return length+1; // we need total nodes
 }
-
+*/
 int validate_dir(int prev_dir, int new_dir){
     
     int aux;
@@ -109,7 +115,7 @@ void calculate_foodPos(snake_node_t *pSnake, food_t *pFood){
     float x_pos, y_pos;
     int control = NUM_ERR, i, length;
     
-    length = count_snake_length(pSnake); // we need snake length
+    length = get_length(); // we need snake length
     
     srand(time(NULL));
     
@@ -151,7 +157,7 @@ int check_if_food_eaten(snake_node_t *pSnake, food_t *pFood){
     x_match = NO_EAT;
     y_match = NO_EAT;
     
-    length = count_snake_length(pSnake);
+    length = get_length();
     
     for(i = 0; i < length; i++){
         if((pSnake+i)->polar_pos[X_COORD] == (pFood->pos[X_COORD])){
@@ -170,13 +176,13 @@ int check_if_food_eaten(snake_node_t *pSnake, food_t *pFood){
     }
 }
 
-int check_if_colision(snake_node_t *pSnake){
+void check_if_colision(snake_node_t *pSnake){
     
     int i, x_col, y_col, length;
     x_col = NO_COL;
     y_col = NO_COL;
     
-    length = count_snake_length(pSnake);
+    length = get_length();
     
     for(i = (HEAD+1); i < length; i++){
         if((pSnake->polar_pos[X_COORD]) == ((pSnake+i)->polar_pos[X_COORD])){
@@ -188,9 +194,49 @@ int check_if_colision(snake_node_t *pSnake){
     }
     
     if((x_col == COLISION)||(y_col == COLISION)){
-        return COLISION;
+        lose_live();
     }
-    else{
-        return NO_COL;
+}
+
+void add_snake_node(snake_node_t *pSnake){
+    
+    int aux_l;
+    
+    aux_l = get_length();
+    (pSnake+aux_l-1)->pNode = (pSnake+aux_l);
+    (pSnake+aux_l)->pNode = NULL;
+}
+
+// Snake length management //
+
+void init_length(int data){
+    length = data;
+}
+
+int get_length(void){
+    return length;
+}
+
+void inc_length(void){
+    length++;
+}
+
+// Live management functions //
+
+void init_lives(void){
+   lives = INIT_LIVES; 
+}
+
+int read_lives(void){
+    return lives;
+}
+
+void lose_live(void){
+    if(lives > 0){
+        lives--;
     }
+}
+
+void reset_lives(void){
+    lives = INIT_LIVES; 
 }
