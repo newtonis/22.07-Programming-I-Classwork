@@ -55,7 +55,7 @@ int main(void)
             }
         }
         
-        food = al_create_bitmap(CUADRADITO_SIZE, CUADRADITO_SIZE);
+        food = al_create_bitmap(CUADRADITO_SIZE, CUADRADITO_SIZE); // food create
         if(!food){
             fprintf(stderr, "failed to create food bitmap!\n");
             al_destroy_timer(timer);
@@ -102,7 +102,7 @@ int main(void)
 	al_clear_to_color(al_map_rgb(0,0,0));
 	al_flip_display();
         
-        init_snake_struct(MAX_LENGTH, pHead); // set snake position coordenates
+        init_snake_struct(INIT_LENGTH, pHead); // set snake position coordenates
         
 	al_start_timer(timer);
 
@@ -188,7 +188,7 @@ int main(void)
  
 		if(redraw && al_is_event_queue_empty(event_queue)) 
 		{  
-			redraw = false;
+			redraw = false;                       
                         dir_control = validate_dir(direction, key_press);
                         if(dir_control == DIR_ERR){
                             key_press = NO_KEY;
