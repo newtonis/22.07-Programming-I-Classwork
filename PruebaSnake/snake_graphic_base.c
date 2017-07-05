@@ -32,13 +32,13 @@ void init_snake_pc(full_graphic_content *content){
 	exit(1);
     }
  
-    content->timer_a = al_create_timer(1.0 / FPS);
+    content->timer_a = al_create_timer(1.0 / FPS_A);
     if(!content->timer_a) {
 	fprintf(stderr, "failed to create timer!\n");
 	exit(1);
     }
     
-    content->timer_b = al_create_timer(1.0 / FPS);
+    content->timer_b = al_create_timer(1.0 / FPS_B);
     if(!content->timer_b) {
 	fprintf(stderr, "failed to create timer!\n");
 	exit(1);
