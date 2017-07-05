@@ -13,6 +13,14 @@
 #define NUM_OK -1
 #define NUM_ERR -2
 
+#define FOOD_EAT 1
+#define NO_EAT 0
+
+#define GROW_UP -3
+
+#define COLISION -4
+#define NO_COL -5
+
 typedef struct snake_nodeT{ // snake single node
     float polar_pos[POLAR];
     struct snake_nodeT *pNode; 
@@ -40,8 +48,11 @@ void calculate_newPos(snake_node_t *pSnake, int prev_dir, int new_dir);
 // calculate_foodPos: sets a random position for the next food to apear
 void calculate_foodPos(snake_node_t *pSnake, food_t *pFood);
 
-// check_if_food_eaten: checks if snake eats food
+// check_if_food_eaten: checks if snake eats food, returns 0 if no eat, else 1
 int check_if_food_eaten(snake_node_t *pSnake, food_t *pFood);
+
+// check_if_colission: checks if snake colisions with tail
+int check_if_colision(snake_node_t *pSnake);
 
 #endif /* SNAKE_LOGIC_H */
 

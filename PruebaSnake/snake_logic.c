@@ -145,3 +145,52 @@ void calculate_foodPos(snake_node_t *pSnake, food_t *pFood){
     
 }
 
+int check_if_food_eaten(snake_node_t *pSnake, food_t *pFood){
+    
+    int i, length, x_match, y_match;
+    x_match = NO_EAT;
+    y_match = NO_EAT;
+    
+    length = count_snake_length(pSnake);
+    
+    for(i = 0; i < length; i++){
+        if((pSnake+i)->polar_pos[X_COORD] == (pFood->pos[X_COORD])){
+            x_match = FOOD_EAT;
+        }
+        if((pSnake+i)->polar_pos[Y_COORD] == (pFood->pos[Y_COORD])){
+            y_match = FOOD_EAT;
+        }
+    }
+    
+    if((x_match == FOOD_EAT)&&(y_match == FOOD_EAT)){
+        return GROW_UP;
+    }
+    else{
+        return NO_EAT;
+    }
+}
+
+int check_if_colision(snake_node_t *pSnake){
+    
+    int i, x_col, y_col, length;
+    x_col = NO_COL;
+    y_col = NO_COL;
+    
+    length = count_snake_length(pSnake);
+    
+    for(i = (HEAD+1); i < length; i++){
+        if((pSnake->polar_pos[X_COORD]) == ((pSnake+i)->polar_pos[X_COORD])){
+            x_col = COLISION;
+        }
+        if((pSnake->polar_pos[Y_COORD]) == ((pSnake+i)->polar_pos[Y_COORD])){
+            y_col = COLISION;
+        }
+    }
+    
+    if((x_col == COLISION)||(y_col == COLISION)){
+        return COLISION;
+    }
+    else{
+        return NO_COL;
+    }
+}
