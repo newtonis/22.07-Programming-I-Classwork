@@ -4,6 +4,11 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>../PruebaSnake/interface.h</itemPath>
+      <itemPath>../PruebaSnake/snake_graphic_base.h</itemPath>
+      <itemPath>../PruebaSnake/snake_logic.h</itemPath>
+      <itemPath>../PruebaSnake/snake_pc.h</itemPath>
+      <itemPath>../PruebaSnake/ui.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -12,16 +17,11 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>../PruebaSnake/interface.h</itemPath>
       <itemPath>../PruebaSnake/main.c</itemPath>
       <itemPath>../PruebaSnake/snake_graphic_base.c</itemPath>
-      <itemPath>../PruebaSnake/snake_graphic_base.h</itemPath>
       <itemPath>../PruebaSnake/snake_logic.c</itemPath>
-      <itemPath>../PruebaSnake/snake_logic.h</itemPath>
       <itemPath>../PruebaSnake/snake_pc.c</itemPath>
-      <itemPath>../PruebaSnake/snake_pc.h</itemPath>
       <itemPath>../PruebaSnake/ui.c</itemPath>
-      <itemPath>../PruebaSnake/ui.h</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -44,6 +44,22 @@
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerOptionItem>`pkg-config --libs allegro-5.0`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_acodec-5.0`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_audio-5.0`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_color-5.0`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_dialog-5.0`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_font-5.0`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_image-5.0`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_main-5.0`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_memfile-5.0`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_physfs-5.0`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_primitives-5.0`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_ttf-5.0`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
       </compileType>
       <item path="../PruebaSnake/interface.h" ex="false" tool="3" flavor2="0">
       </item>
