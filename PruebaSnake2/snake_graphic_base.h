@@ -59,8 +59,11 @@ void init_snake_pc(full_graphic_content *content);
 void handle_events(logic_vars* vars , full_graphic_content * content);
 void destroy_graphic_base(full_graphic_content * content);
 
+static void load_fonts(fonts_t* fonts);
 static void load_images(images_t* images);
 static void init_menu(full_graphic_content *content);
 static void destroy_menu(full_graphic_content *content);
 static void destroy_images(images_t* images);
+static void destroy_fonts(fonts_t* fonts);
+
 #endif

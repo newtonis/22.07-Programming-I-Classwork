@@ -42,7 +42,9 @@ void draw_button(button_t* button);
 int update_button(button_t* button);
 void destroy_button(button_t* button);
 
-
+reg_box_t *init_reg_box(ALLEGRO_BITMAP* surface_a , ALLEGRO_BITMAP* surface_b,ALLEGRO_FONT* font,int x,int y,int default_value,int size);
+void draw_reg_box(reg_box_t *reg_box);
+void destroy_reg_box(reg_box_t *reg_box);
 
 #endif /* UI_H */
 

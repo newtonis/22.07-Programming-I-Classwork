@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_ttf.h>
 #include "snake_graphic_base.h"
 
 #include "snake_pc.h"
@@ -117,6 +120,11 @@ void init_snake_pc(full_graphic_content *content){
     
     content->front_end_status = INITIAL_MENU;
     
+    /// init fonts
+    al_init_primitives_addon();
+    al_init_font_addon();
+    al_init_ttf_addon();
+    load_fonts(content->fonts);
     
     //// load all game images
     al_init_image_addon();
@@ -193,6 +201,7 @@ void destroy_graphic_base(full_graphic_content * content){
     
     destroy_menu(content);
     destroy_images(content->images);
+    destroy_fonts(content->fonts);
 }
 
 /*** Load all game bitmaps */
@@ -207,7 +216,7 @@ void load_images(images_t* images){
     images->start_button_image_b = NULL;
     
     images->arr_down  = al_load_bitmap("flecha_arriba.png");
-    images->arr_up    = al_load_bitmap("flecha_arriba.png");
+    images->arr_up    = al_load_bitmap("flecha_abajo.png");
     images->game_over = al_load_bitmap("game_over.png");
     images->easy      = al_load_bitmap("lento.png");
     images->medium    = al_load_bitmap("medio.png");
@@ -225,10 +234,12 @@ void load_images(images_t* images){
 void init_menu(full_graphic_content *content){
     //content->intial_menu->play_button = init_button( NULL , NULL );
     content->intial_menu->play_button = init_button(content->images->start_button_image , content->images->start_button_image_b, SCREEN_W / 2 , SCREEN_H - START_BUTTON_CORR);
+    content->intial_menu->width_config_ui = init_reg_box(content->images->arr_up,content->images->arr_down,content->fonts->iso_text,SCREEN_W/4,SCREEN_H/2,10,30);
 }
 
 void destroy_menu(full_graphic_content *content){
-    free(content->intial_menu->play_button);
+    destroy_button(content->intial_menu->play_button);
+    destroy_reg_box(content->intial_menu->width_config_ui);
 }
 void destroy_images(images_t* images){
     al_destroy_bitmap(images->arr_down);
@@ -238,4 +249,18 @@ void destroy_images(images_t* images){
     al_destroy_bitmap(images->medium);
     al_destroy_bitmap(images->hard);
     al_destroy_bitmap(images->start_button_image);
+}
+
+void load_fonts(fonts_t* fonts){
+    fonts->iso_text = NULL;
+    
+    fonts->iso_text = al_load_font("fonts/isocpeur.ttf",FONT_SIZE_A,0);
+    
+    if (!fonts->iso_text){
+        fprintf(stderr,"Could not load fonts");
+        exit(1);
+    }
+}
+void destroy_fonts(fonts_t* fonts){
+    al_destroy_font(fonts->iso_text);
 }

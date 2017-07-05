@@ -63,9 +63,16 @@ reg_box_t *init_reg_box(ALLEGRO_BITMAP* surface_a , ALLEGRO_BITMAP* surface_b,AL
     return new_box;
 }
 void draw_reg_box(reg_box_t *reg_box){
+    return;
     draw_button(reg_box->up);
     draw_button(reg_box->down);
-    char *str = "   ";
+    
+    char str[DEF_SZ];
     int_to_str(reg_box->value,str);
     al_draw_text(reg_box->font,BOX_COLOR,reg_box->x,reg_box->y,ALLEGRO_ALIGN_CENTER,str);
+}
+void destroy_reg_box(reg_box_t *reg_box){
+    destroy_button(reg_box->up);
+    destroy_button( reg_box->down );
+            
 }

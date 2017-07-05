@@ -36,5 +36,9 @@ enum {FALSE, TRUE};
 
 #define START_BUTTON_CORR 100
 
+#define FONT_SIZE_A 30
+
+#define DEF_SZ 20
+
 #endif /* CONFIG_H */
 
