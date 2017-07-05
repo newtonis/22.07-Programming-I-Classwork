@@ -35,11 +35,11 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/_ext/d4ba4a00/main.o \
-	${OBJECTDIR}/_ext/d4ba4a00/snake_graphic_base.o \
-	${OBJECTDIR}/_ext/d4ba4a00/snake_logic.o \
-	${OBJECTDIR}/_ext/d4ba4a00/snake_pc.o \
-	${OBJECTDIR}/_ext/d4ba4a00/ui.o
+	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/snake_graphic_base.o \
+	${OBJECTDIR}/snake_logic.o \
+	${OBJECTDIR}/snake_pc.o \
+	${OBJECTDIR}/ui.o
 
 
 # C Compiler Flags
@@ -66,30 +66,30 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/pruebasnake2: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/pruebasnake2 ${OBJECTFILES} ${LDLIBSOPTIONS}
 
-${OBJECTDIR}/_ext/d4ba4a00/main.o: ../PruebaSnake/main.c
-	${MKDIR} -p ${OBJECTDIR}/_ext/d4ba4a00
+${OBJECTDIR}/main.o: main.c
+	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/d4ba4a00/main.o ../PruebaSnake/main.c
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.c
 
-${OBJECTDIR}/_ext/d4ba4a00/snake_graphic_base.o: ../PruebaSnake/snake_graphic_base.c
-	${MKDIR} -p ${OBJECTDIR}/_ext/d4ba4a00
+${OBJECTDIR}/snake_graphic_base.o: snake_graphic_base.c
+	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/d4ba4a00/snake_graphic_base.o ../PruebaSnake/snake_graphic_base.c
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/snake_graphic_base.o snake_graphic_base.c
 
-${OBJECTDIR}/_ext/d4ba4a00/snake_logic.o: ../PruebaSnake/snake_logic.c
-	${MKDIR} -p ${OBJECTDIR}/_ext/d4ba4a00
+${OBJECTDIR}/snake_logic.o: snake_logic.c
+	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/d4ba4a00/snake_logic.o ../PruebaSnake/snake_logic.c
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/snake_logic.o snake_logic.c
 
-${OBJECTDIR}/_ext/d4ba4a00/snake_pc.o: ../PruebaSnake/snake_pc.c
-	${MKDIR} -p ${OBJECTDIR}/_ext/d4ba4a00
+${OBJECTDIR}/snake_pc.o: snake_pc.c
+	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/d4ba4a00/snake_pc.o ../PruebaSnake/snake_pc.c
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/snake_pc.o snake_pc.c
 
-${OBJECTDIR}/_ext/d4ba4a00/ui.o: ../PruebaSnake/ui.c
-	${MKDIR} -p ${OBJECTDIR}/_ext/d4ba4a00
+${OBJECTDIR}/ui.o: ui.c
+	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/d4ba4a00/ui.o ../PruebaSnake/ui.c
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ui.o ui.c
 
 # Subprojects
 .build-subprojects:

@@ -4,11 +4,6 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>../PruebaSnake/interface.h</itemPath>
-      <itemPath>../PruebaSnake/snake_graphic_base.h</itemPath>
-      <itemPath>../PruebaSnake/snake_logic.h</itemPath>
-      <itemPath>../PruebaSnake/snake_pc.h</itemPath>
-      <itemPath>../PruebaSnake/ui.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -17,11 +12,6 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>../PruebaSnake/main.c</itemPath>
-      <itemPath>../PruebaSnake/snake_graphic_base.c</itemPath>
-      <itemPath>../PruebaSnake/snake_logic.c</itemPath>
-      <itemPath>../PruebaSnake/snake_pc.c</itemPath>
-      <itemPath>../PruebaSnake/ui.c</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -34,6 +24,17 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
+    <itemPath>config.h</itemPath>
+    <itemPath>interface.h</itemPath>
+    <itemPath>main.c</itemPath>
+    <itemPath>snake_graphic_base.c</itemPath>
+    <itemPath>snake_graphic_base.h</itemPath>
+    <itemPath>snake_logic.c</itemPath>
+    <itemPath>snake_logic.h</itemPath>
+    <itemPath>snake_pc.c</itemPath>
+    <itemPath>snake_pc.h</itemPath>
+    <itemPath>ui.c</itemPath>
+    <itemPath>ui.h</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -61,31 +62,27 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
-      <item path="../PruebaSnake/interface.h" ex="false" tool="3" flavor2="0">
+      <item path="config.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="../PruebaSnake/main.c" ex="false" tool="0" flavor2="0">
+      <item path="interface.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="../PruebaSnake/snake_graphic_base.c"
-            ex="false"
-            tool="0"
-            flavor2="0">
+      <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="../PruebaSnake/snake_graphic_base.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
+      <item path="snake_graphic_base.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="../PruebaSnake/snake_logic.c" ex="false" tool="0" flavor2="0">
+      <item path="snake_graphic_base.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="../PruebaSnake/snake_logic.h" ex="false" tool="3" flavor2="0">
+      <item path="snake_logic.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="../PruebaSnake/snake_pc.c" ex="false" tool="0" flavor2="0">
+      <item path="snake_logic.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="../PruebaSnake/snake_pc.h" ex="false" tool="3" flavor2="0">
+      <item path="snake_pc.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="../PruebaSnake/ui.c" ex="false" tool="0" flavor2="0">
+      <item path="snake_pc.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="../PruebaSnake/ui.h" ex="false" tool="3" flavor2="0">
+      <item path="ui.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="ui.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -108,31 +105,27 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="../PruebaSnake/interface.h" ex="false" tool="3" flavor2="0">
+      <item path="config.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="../PruebaSnake/main.c" ex="false" tool="0" flavor2="0">
+      <item path="interface.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="../PruebaSnake/snake_graphic_base.c"
-            ex="false"
-            tool="0"
-            flavor2="0">
+      <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="../PruebaSnake/snake_graphic_base.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
+      <item path="snake_graphic_base.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="../PruebaSnake/snake_logic.c" ex="false" tool="0" flavor2="0">
+      <item path="snake_graphic_base.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="../PruebaSnake/snake_logic.h" ex="false" tool="3" flavor2="0">
+      <item path="snake_logic.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="../PruebaSnake/snake_pc.c" ex="false" tool="0" flavor2="0">
+      <item path="snake_logic.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="../PruebaSnake/snake_pc.h" ex="false" tool="3" flavor2="0">
+      <item path="snake_pc.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="../PruebaSnake/ui.c" ex="false" tool="0" flavor2="0">
+      <item path="snake_pc.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="../PruebaSnake/ui.h" ex="false" tool="3" flavor2="0">
+      <item path="ui.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="ui.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>
