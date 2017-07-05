@@ -36,6 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/snake_graphic_base.o \
 	${OBJECTDIR}/snake_logic.o \
 	${OBJECTDIR}/snake_pc.o
 
@@ -68,6 +69,11 @@ ${OBJECTDIR}/main.o: main.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -g `pkg-config --cflags allegro-5.0` `pkg-config --cflags allegro_color-5.0` `pkg-config --cflags allegro_image-5.0` `pkg-config --cflags allegro_main-5.0`   -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.c
+
+${OBJECTDIR}/snake_graphic_base.o: snake_graphic_base.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g `pkg-config --cflags allegro-5.0` `pkg-config --cflags allegro_color-5.0` `pkg-config --cflags allegro_image-5.0` `pkg-config --cflags allegro_main-5.0`   -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/snake_graphic_base.o snake_graphic_base.c
 
 ${OBJECTDIR}/snake_logic.o: snake_logic.c
 	${MKDIR} -p ${OBJECTDIR}
