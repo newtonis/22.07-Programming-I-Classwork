@@ -15,7 +15,7 @@ typedef struct{ //// Auxiliar graphic structures needed to plot game
 typedef struct{
     ALLEGRO_DISPLAY *display;
     ALLEGRO_EVENT_QUEUE *event_queue;
-    ALLEGRO_TIMER *timer;
+    ALLEGRO_TIMER *timer_a , *timer_b;
     ALLEGRO_BITMAP *snake[MAX_LENGTH];
     ALLEGRO_BITMAP *food;
 
