@@ -32,13 +32,13 @@ void init_snake_pc(full_graphic_content *content){
 	exit(1);
     }
  
-    content->timer_a = al_create_timer(1.0 / FPS);
+    content->timer_a = al_create_timer(1.0 / FPS_A);
     if(!content->timer_a) {
 	fprintf(stderr, "failed to create timer!\n");
 	exit(1);
     }
     
-    content->timer_b = al_create_timer(1.0 / FPS);
+    content->timer_b = al_create_timer(1.0 / FPS_B);
     if(!content->timer_b) {
 	fprintf(stderr, "failed to create timer!\n");
 	exit(1);
@@ -131,11 +131,9 @@ void handle_events(logic_vars* vars , full_graphic_content * content){
                 }else if(content->key_pressed[KEY_RIGHT]){
                     content->key_press = KEY_RIGHT;
                 }
-                content->refresh++;
+                update_game( vars , content);
             }else if(ev.timer.source == content->timer_b){
-            //if((content->refresh % MOVE_FREQ) == 0){
-                update_graphic_game(vars,content);
-            //}
+                update_pc_graphic_screen( vars , content->plot_game_graphic );
             }
         }else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE){
             content->do_exit = true;
