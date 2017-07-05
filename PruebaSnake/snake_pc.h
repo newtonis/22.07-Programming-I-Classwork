@@ -3,9 +3,14 @@
 
 #include "config.h"
 #include "snake_logic.h"
+#include "interface.h"
+#include "snake_graphic_base.h"
+
 #include <allegro5/allegro.h>
 
 #define BLACK al_map_rgb(0,0,0)
+
+void update_graphic_game( logic_vars* game_data , full_graphic_content* content );
 
 // set_newPos: sets the new position of the snake into allegro display
 void set_snakePos(snake_node_t *pSnake, ALLEGRO_BITMAP *snake[MAX_LENGTH]);

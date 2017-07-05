@@ -4,7 +4,7 @@
 #include "snake_logic.h"
 #include "snake_pc.h"
 #include "snake_graphic_base.h"
-
+#include "interface.h"
  
 int main(void){
     

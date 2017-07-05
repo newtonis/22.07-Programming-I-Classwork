@@ -26,7 +26,9 @@ enum {FALSE, TRUE};
 #define DIR_OK -1
 #define DIR_ERR -2
 
-
+#define FPS 60.0
+#define MOVE_KEYS 4
+#define MAX_LENGTH 10
 
 #endif /* CONFIG_H */
 

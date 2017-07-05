@@ -3,6 +3,7 @@
 
 #include "snake_graphic_base.h"
 
+#include "snake_pc.h"
 
 void init_snake_pc(full_graphic_content *content){
 
