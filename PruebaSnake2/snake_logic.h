@@ -93,7 +93,7 @@ void lose_live(void);
 // Points management //
 // ----------------- //
 // read_points: return points from previus game
-int read_points(void);
+char *read_points(void);
 
 // inc_points: adds 10 points to actual game
 void inc_points(void);

@@ -3,6 +3,8 @@
 #include <time.h>
 #include "snake_logic.h"
 
+#define STRING_MAX 10
+
 static int length; // snake length
 static int lives; // snake lives
 static int points; // actual game points
@@ -264,8 +266,11 @@ void lose_live(void){
 
 // Points management //
 
-int read_points(void){
-    
+char *read_points(void){
+    points_log = fopen("game_points.txt", "r");\
+    char msj_points[STRING_MAX];
+    fgets(msj_points, STRING_MAX, points_log);
+    return msj_points;
 }
 
 void inc_points(void){
