@@ -194,7 +194,7 @@ void check_if_colision(snake_node_t *pSnake){
         }
     }
     
-    if((x_col == COLISION)||(y_col == COLISION)){
+    if((x_col == COLISION)&&(y_col == COLISION)){
         lose_live();
     }
 }
@@ -208,6 +208,27 @@ void add_snake_node(snake_node_t *pSnake){
     (pSnake+aux_l)->pNode = NULL;
     
     inc_length();
+}
+
+int game_status_refresh(snake_node_t *pSnake, food_t *pFood){
+    
+    int live_status, food_status;
+    check_if_colision(pSnake);
+    
+    live_status = read_lives();
+    if(live_status == 0){
+        return DEAD;
+    }
+    
+    food_status = check_if_food_eaten(pSnake, pFood);
+    if(food_status == GROW_UP){
+        add_snake_node(pSnake);
+        calculate_foodPos();
+        return FOOD_EAT;
+    }else if(food_status == NO_EAT){
+        return ALIVE;
+    }
+    
 }
 
 // Snake length management //
@@ -238,10 +259,6 @@ void lose_live(void){
     if(lives > 0){
         lives--;
     }
-}
-
-void reset_lives(void){
-    lives = INIT_LIVES; 
 }
 
 // Points management //

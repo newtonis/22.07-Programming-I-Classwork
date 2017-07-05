@@ -9,6 +9,8 @@
 
 #define INIT_LIVES 3
 #define POINT_RATE 10
+#define DEAD 0
+#define ALIVE 1
 
 #define INIT_LENGTH 5
 #define MAX_LENGTH 10
@@ -50,7 +52,7 @@ void calculate_newPos(snake_node_t *pSnake, int prev_dir, int new_dir);
 // calculate_foodPos: sets a random position for the next food to apear
 void calculate_foodPos(snake_node_t *pSnake, food_t *pFood);
 
-// check_if_food_eaten: checks if snake eats food, returns 0 if no eat, else 1
+// check_if_food_eaten: checks if snake eats food, returns NO_EAT if no eat, else GROW_UP
 int check_if_food_eaten(snake_node_t *pSnake, food_t *pFood);
 
 // check_if_colission: checks if snake colisions with tail, if so, lives -1
@@ -59,6 +61,10 @@ void check_if_colision(snake_node_t *pSnake);
 // add_snake_node: adds a new node to the snake 
 void add_snake_node(snake_node_t *pSnake);
 // -------------------- //
+
+// game_status_refresh: refresh snake status, if lose returns DEAD, if lives ALIVE,
+// and for food eaten FOOD_EAT
+int game_status_refresh(snake_node_t *pSnake, food_t *pFood);
 
 // Snake length management //
 // ----------------------- //
@@ -82,9 +88,6 @@ int read_lives(void);
 
 // lose_lives: -1 live
 void lose_live(void);
-
-// reset_lives: reset lives to initial value
-void reset_lives(void);
 // -------------------------- //
 
 // Points management //
