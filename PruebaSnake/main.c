@@ -25,6 +25,7 @@ int main(void){
         fprintf(stderr,"Fatal error");
         exit(1);
     }
+    
     init_snake_pc(&content);
     
     
