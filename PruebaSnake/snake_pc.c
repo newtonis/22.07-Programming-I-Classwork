@@ -29,7 +29,7 @@ void set_snakePos(snake_node_t *pSnake, ALLEGRO_BITMAP *snake[MAX_LENGTH]){
     
     int j, length;
     
-    length = count_snake_length(pSnake); // get actual snake length
+    length = get_length(); // get actual snake length
     
     al_clear_to_color(BLACK);
     
