@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "snake_pc.h"
 
-void set_newPos(snake_node_t *pSnake, ALLEGRO_BITMAP *snake[MAX_LENGTH]){
+void set_snakePos(snake_node_t *pSnake, ALLEGRO_BITMAP *snake[MAX_LENGTH]){
     
     int j, length;
     

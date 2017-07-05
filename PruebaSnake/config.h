@@ -5,6 +5,8 @@ enum MYKEYS {
     KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT //arrow keys
 };
 
+enum {FALSE, TRUE};
+
 // Seccion que se modifica segun sea allegro o la rpi 
 // ---------------------------
 #define CUADRADITO_SIZE	32

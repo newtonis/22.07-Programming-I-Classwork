@@ -198,7 +198,7 @@ int main(void)
                             key_press = NO_KEY;
                         }
                         calculate_newPos(pHead, direction, key_press);
-                        set_newPos(pHead, snake);
+                        set_snakePos(pHead, snake);
                         if(key_press != NO_KEY){
                             direction = key_press;
                             key_press = NO_KEY;
