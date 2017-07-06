@@ -54,7 +54,7 @@ void update_pc_graphic_screen( logic_vars* game_data , full_graphic_content* con
         case INITIAL_MENU:
             al_clear_to_color(BLACK);
             draw_button(content->intial_menu->play_button);
-            //draw_reg_box(content->intial_menu->width_config_ui);
+            draw_reg_box(content->intial_menu->width_config_ui);
         break;
         case PLAY:
             al_clear_to_color(BLACK);

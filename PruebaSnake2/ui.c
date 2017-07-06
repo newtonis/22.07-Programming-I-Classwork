@@ -50,7 +50,7 @@ void destroy_button(button_t* button){
 }
 
 reg_box_t *init_reg_box(ALLEGRO_BITMAP* surface_a , ALLEGRO_BITMAP* surface_b,ALLEGRO_FONT* font,int x,int y,int default_value,int size){
-    reg_box_t *new_box = malloc(sizeof(new_box));
+    reg_box_t *new_box = malloc(sizeof(reg_box_t));
     new_box->up = init_button(surface_a,surface_a,x , y + SIZE_DISTANCE);
     new_box->down = init_button(surface_b,surface_b,x,y - SIZE_DISTANCE);
     
@@ -62,14 +62,18 @@ reg_box_t *init_reg_box(ALLEGRO_BITMAP* surface_a , ALLEGRO_BITMAP* surface_b,AL
     
     return new_box;
 }
+void update_reg_box(reg_box_t *reg_box){
+    int up_status   = update_button(reg_box->up);
+    int down_status = update_button(reg_box->down);
+}
 void draw_reg_box(reg_box_t *reg_box){
-    return;
     draw_button(reg_box->up);
     draw_button(reg_box->down);
     
     char str[DEF_SZ];
+    
     int_to_str(reg_box->value,str);
-    al_draw_text(reg_box->font,BOX_COLOR,reg_box->x,reg_box->y,ALLEGRO_ALIGN_CENTER,str);
+    al_draw_text(reg_box->font,BOX_COLOR,reg_box->x,reg_box->y-DEF_SZ/2,ALLEGRO_ALIGN_CENTER,str);
 }
 void destroy_reg_box(reg_box_t *reg_box){
     destroy_button(reg_box->up);

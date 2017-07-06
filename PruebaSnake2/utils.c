@@ -1,5 +1,6 @@
 #include "utils.h"
 
+#define DEF_SZ 10
 
 int str_to_int(char *str,int *target){
     int j = 0;
@@ -27,10 +28,17 @@ int str_to_int(char *str,int *target){
 }
 
 void *int_to_str(int value,char *ans){
+    char aux[DEF_SZ];
+    
     int i = 0;
     while (value > 0){
-        ans[i++] = value%10;
+        aux[i++] = (value%10)+'0';
         value /= 10;
     }
-    ans[i] = '\0';
+    i --;
+    int j = 0;
+    while (i >= 0){
+        ans[j++] = aux[i--];
+    }
+    ans[j] = '\0';
 }

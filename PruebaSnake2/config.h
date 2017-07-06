@@ -32,7 +32,7 @@ enum {FALSE, TRUE};
 #define MOVE_KEYS 4
 #define MAX_LENGTH 10
 
-#define BOX_COLOR al_map_rgb(0,0,0)
+#define BOX_COLOR al_map_rgb(255,255,255)
 
 #define START_BUTTON_CORR 100
 
