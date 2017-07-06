@@ -10,18 +10,20 @@ static int lives; // snake lives
 static int points; // actual game points
 static FILE *points_log = NULL;
 
-void init_snake_struct(int start_length, snake_node_t *pSnake){
+void init_snake_struct(int start_length, snake_node_t *pSnake, food_t *pFood){
     int j;
     
     for(j = 0; j < start_length; j++){ 
         
-        (pSnake+j)->polar_pos[X_COORD] = (SCREEN_W/2) - (j*CUADRADITO_SIZE);
-        (pSnake+j)->polar_pos[Y_COORD] = (SCREEN_H/2);
+        (pSnake+j)->polar_pos[X_COORD] = (((SCREEN_W/CUADRADITO_SIZE)/2)*CUADRADITO_SIZE) - (j*CUADRADITO_SIZE);
+        (pSnake+j)->polar_pos[Y_COORD] = (((SCREEN_H/CUADRADITO_SIZE)/2)*CUADRADITO_SIZE);
         if(j < start_length-1){
             (pSnake+j)->pNode = (pSnake+j+1); // point to next node
         }  
     }   
     (pSnake+start_length-1)->pNode = NULL; // the last is the tail
+    
+    calculate_foodPos(pSnake, pFood); // first food 
     init_lives();
     init_length(start_length);
 }
@@ -49,7 +51,7 @@ void calculate_newPos(snake_node_t *pSnake, int prev_dir, int new_dir){
         case KEY_DOWN:
             y_head += MOVE_RATE;
             if(y_head >= WORLD_BOTTOM)
-                y_head = WORLD_TOP +1;
+                y_head = WORLD_TOP;
             break;
         case KEY_LEFT:
             x_head -= MOVE_RATE;
@@ -59,7 +61,7 @@ void calculate_newPos(snake_node_t *pSnake, int prev_dir, int new_dir){
         case KEY_RIGHT:
             x_head += MOVE_RATE;
             if(x_head >= WORLD_MAX_RIGHT)
-                x_head = WORLD_MIN_LEFT +1;
+                x_head = WORLD_MIN_LEFT;
             break;
     }
     
@@ -116,7 +118,7 @@ int validate_dir(int prev_dir, int new_dir){
 void calculate_foodPos(snake_node_t *pSnake, food_t *pFood){
     
     float x_pos, y_pos;
-    int control = NUM_ERR, i, length;
+    int control = NUM_ERR, i, length, aux;
     
     length = get_length(); // we need snake length
     
@@ -124,8 +126,8 @@ void calculate_foodPos(snake_node_t *pSnake, food_t *pFood){
     
     while(control != NUM_OK){
         i = 0; // start
-        x_pos = rand()%(SCREEN_W - CUADRADITO_SIZE); // generate random x coordenate
-        while( (i < length) && (((pSnake+i)->polar_pos[X_COORD]) != x_pos)){
+        aux = rand()%(SCREEN_W - CUADRADITO_SIZE); // generate random x coordenate
+        while( (i < length) && (((pSnake+i)->polar_pos[X_COORD]) != aux)){
             i++;            
         }
         
@@ -134,13 +136,18 @@ void calculate_foodPos(snake_node_t *pSnake, food_t *pFood){
         }
     }
     
+    while((aux%CUADRADITO_SIZE) != 0){
+        aux++;
+    }
+    x_pos = aux;
+    
     control = NUM_ERR;
     i = 0;
     
     while(control != NUM_OK){
         i = 0; // start
-        y_pos = rand()%(SCREEN_H - CUADRADITO_SIZE); // generate random x coordenate
-        while( (i < length) && (((pSnake+i)->polar_pos[Y_COORD]) != y_pos)){
+        aux = rand()%(SCREEN_H - CUADRADITO_SIZE); // generate random x coordenate
+        while( (i < length) && (((pSnake+i)->polar_pos[Y_COORD]) != aux)){
             i++;            
         }
         
@@ -149,6 +156,11 @@ void calculate_foodPos(snake_node_t *pSnake, food_t *pFood){
         }
     }
    
+    while((aux%CUADRADITO_SIZE) != 0){
+        aux++;
+    }
+    y_pos = aux;
+    
     pFood->pos[X_COORD] = x_pos;
     pFood->pos[Y_COORD] = y_pos;
     
@@ -189,11 +201,12 @@ void check_if_colision(snake_node_t *pSnake){
     
     for(i = (HEAD+1); i < length; i++){
         if((pSnake->polar_pos[X_COORD]) == ((pSnake+i)->polar_pos[X_COORD])){
-            x_col = COLISION;
+            if((pSnake->polar_pos[Y_COORD]) == ((pSnake+i)->polar_pos[Y_COORD])){
+                x_col = COLISION;
+                y_col = COLISION;
+            }
         }
-        if((pSnake->polar_pos[Y_COORD]) == ((pSnake+i)->polar_pos[Y_COORD])){
-            y_col = COLISION;
-        }
+
     }
     
     if((x_col == COLISION)&&(y_col == COLISION)){

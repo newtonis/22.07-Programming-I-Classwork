@@ -32,7 +32,7 @@ int main(void){
     init_snake_pc(&content);
     
     
-    init_snake_struct(INIT_LENGTH, logic.pSnake); // set snake position coordenates
+    init_snake_struct(INIT_LENGTH, logic.pSnake, logic.pFood); // set snake position coordenates
     
     
     content.key_press = NO_KEY;

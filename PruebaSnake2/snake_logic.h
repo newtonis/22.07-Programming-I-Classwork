@@ -13,7 +13,6 @@
 #define ALIVE 1
 
 #define INIT_LENGTH 5
-#define MAX_LENGTH 10
 #define POLAR 2
 #define NUM_OK -1
 #define NUM_ERR -2
@@ -40,7 +39,7 @@ typedef struct foodT{ // food struct
 // Game logic functions //
 // -------------------- //
 // init_snake_struct: inits standard snake with initial length with center coordenates
-void init_snake_struct(int start_length, snake_node_t *pSnake);
+void init_snake_struct(int start_length, snake_node_t *pSnake, food_t *pFood);
 
 // validate_dir: cheks if the previus direction and the new direction are not oposite
 int validate_dir(int prev_dir, int new_dir);

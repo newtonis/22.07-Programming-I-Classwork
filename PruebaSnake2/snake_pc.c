@@ -37,7 +37,7 @@ void update_game( logic_vars* game_data , full_graphic_content* content ){
             }
             status = game_status_refresh(game_data->pSnake,game_data->pFood);
             if (status == FOOD_EAT){
-                
+
             }
             calculate_newPos(game_data->pSnake, content->direction, content->key_press);
             if(content->key_press != NO_KEY){
