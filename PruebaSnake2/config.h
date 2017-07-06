@@ -30,7 +30,7 @@ enum {FALSE, TRUE};
 #define FPS_B 60.0
 
 #define MOVE_KEYS 4
-#define MAX_LENGTH 10
+#define MAX_LENGTH 100
 
 #define BOX_COLOR al_map_rgb(255,255,255)
 
