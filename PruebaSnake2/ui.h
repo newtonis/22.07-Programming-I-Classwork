@@ -31,8 +31,9 @@ typedef struct{
     button_t *up , *down;
     int value;
     ALLEGRO_FONT *font;
-    int text_size;
     int x,y;
+    int flag_up , flag_down;
+    int min_value , max_value;
 }reg_box_t;
 
 /**** Create a dynamic button with two surfaces (one for each state) ****/
@@ -42,7 +43,8 @@ void draw_button(button_t* button);
 int update_button(button_t* button);
 void destroy_button(button_t* button);
 
-reg_box_t *init_reg_box(ALLEGRO_BITMAP* surface_a , ALLEGRO_BITMAP* surface_b,ALLEGRO_FONT* font,int x,int y,int default_value,int size);
+reg_box_t *init_reg_box(ALLEGRO_BITMAP* surface_a , ALLEGRO_BITMAP* surface_b,ALLEGRO_FONT* font,int x,int y,int default_value,int min_value,int max_value);
+void update_reg_box(reg_box_t *reg_box);
 void draw_reg_box(reg_box_t *reg_box);
 void destroy_reg_box(reg_box_t *reg_box);
 

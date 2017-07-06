@@ -215,8 +215,8 @@ void load_images(images_t* images){
     images->start_button_image = NULL;
     images->start_button_image_b = NULL;
     
-    images->arr_down  = al_load_bitmap("flecha_arriba.png");
-    images->arr_up    = al_load_bitmap("flecha_abajo.png");
+    images->arr_down  = al_load_bitmap("flecha_abajo.png");
+    images->arr_up    = al_load_bitmap("flecha_arriba.png");
     images->game_over = al_load_bitmap("game_over.png");
     images->easy      = al_load_bitmap("lento.png");
     images->medium    = al_load_bitmap("medio.png");
@@ -234,12 +234,14 @@ void load_images(images_t* images){
 void init_menu(full_graphic_content *content){
     //content->intial_menu->play_button = init_button( NULL , NULL );
     content->intial_menu->play_button = init_button(content->images->start_button_image , content->images->start_button_image_b, SCREEN_W / 2 , SCREEN_H - START_BUTTON_CORR);
-    content->intial_menu->width_config_ui = init_reg_box(content->images->arr_up,content->images->arr_down,content->fonts->iso_text,SCREEN_W/4,SCREEN_H/2,10,30);
+    content->intial_menu->width_config_ui = init_reg_box(content->images->arr_up,content->images->arr_down,content->fonts->iso_text,SCREEN_W/8*1,SCREEN_H/2,10,MIN_TABLE_WIDTH,MAX_TABLE_WIDTH);
+    content->intial_menu->height_config_ui = init_reg_box(content->images->arr_up,content->images->arr_down,content->fonts->iso_text,SCREEN_W/4,SCREEN_H/2,10,MIN_TABLE_HEIGHT,MAX_TABLE_HEIGHT);
 }
 
 void destroy_menu(full_graphic_content *content){
     destroy_button(content->intial_menu->play_button);
     destroy_reg_box(content->intial_menu->width_config_ui);
+    destroy_reg_box(content->intial_menu->height_config_ui);
 }
 void destroy_images(images_t* images){
     al_destroy_bitmap(images->arr_down);
