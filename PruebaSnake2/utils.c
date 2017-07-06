@@ -1,6 +1,10 @@
 #include "utils.h"
+#include <math.h>
 
 #define DEF_SZ 10
+
+#define min(a,b) ((a<b)?(a):(b))
+#define max(a,b) ((a>b)?(a):(b))
 
 int str_to_int(char *str,int *target){
     int j = 0;
@@ -41,4 +45,8 @@ void *int_to_str(int value,char *ans){
         ans[j++] = aux[i--];
     }
     ans[j] = '\0';
+}
+/// make A be between b and c
+int fix_value(int a,int b,int c){
+    return min( max(a , b) , c);
 }

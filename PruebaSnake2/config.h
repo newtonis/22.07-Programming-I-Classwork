@@ -39,6 +39,13 @@ enum {FALSE, TRUE};
 #define FONT_SIZE_A 30
 
 #define DEF_SZ 20
+#define DEF_ARR_SZ 10
+
+#define MIN_TABLE_WIDTH 3
+#define MAX_TABLE_WIDTH 20
+
+#define MIN_TABLE_HEIGHT 3
+#define MAX_TABLE_HEIGHT 20
 
 #endif /* CONFIG_H */
 

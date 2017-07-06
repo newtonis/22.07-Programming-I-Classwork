@@ -1,6 +1,7 @@
 #include "ui.h"
 #include "config.h"
 #include "utils.h"
+#include <math.h>
 
 #define SIZE_DISTANCE 40
 
@@ -49,28 +50,47 @@ void destroy_button(button_t* button){
     free(button);
 }
 
-reg_box_t *init_reg_box(ALLEGRO_BITMAP* surface_a , ALLEGRO_BITMAP* surface_b,ALLEGRO_FONT* font,int x,int y,int default_value,int size){
-    reg_box_t *new_box = malloc(sizeof(reg_box_t));
-    new_box->up = init_button(surface_a,surface_a,x , y + SIZE_DISTANCE);
-    new_box->down = init_button(surface_b,surface_b,x,y - SIZE_DISTANCE);
+reg_box_t *init_reg_box(ALLEGRO_BITMAP* surface_a , ALLEGRO_BITMAP* surface_b,ALLEGRO_FONT* font,int x,int y,int default_value,int min_value,int max_value){
     
-    new_box->value = default_value;
-    new_box->text_size = size;
+    reg_box_t *new_box = malloc(sizeof(reg_box_t));
+    new_box->up = init_button(surface_a,surface_a,x , y - SIZE_DISTANCE);
+    new_box->down = init_button(surface_b,surface_b,x,y + SIZE_DISTANCE);
+    
     new_box->font = font;
+    new_box->value = default_value;
+    new_box->min_value = min_value;
+    new_box->max_value = max_value;
+    
     new_box->x = x;
     new_box->y = y;
+    new_box->flag_down = 0;
+    new_box->flag_up = 0;
     
     return new_box;
 }
 void update_reg_box(reg_box_t *reg_box){
     int up_status   = update_button(reg_box->up);
     int down_status = update_button(reg_box->down);
+    if (!up_status) reg_box->flag_up = 0;
+    if (!down_status) reg_box->flag_down = 0;
+    
+    if (up_status && !reg_box->flag_up){
+        reg_box->flag_up = 1;
+        reg_box->value ++;
+    }
+    if (down_status && !reg_box->flag_down){
+        reg_box->flag_down = 1;
+        reg_box->value --;
+    }
+    /// make value respect min and max
+    reg_box->value = fix_value(reg_box->value , reg_box->min_value , reg_box->max_value);
 }
 void draw_reg_box(reg_box_t *reg_box){
+   
     draw_button(reg_box->up);
     draw_button(reg_box->down);
     
-    char str[DEF_SZ];
+    char str[DEF_ARR_SZ];
     
     int_to_str(reg_box->value,str);
     al_draw_text(reg_box->font,BOX_COLOR,reg_box->x,reg_box->y-DEF_SZ/2,ALLEGRO_ALIGN_CENTER,str);

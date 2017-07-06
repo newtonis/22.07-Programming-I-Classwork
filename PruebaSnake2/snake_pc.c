@@ -17,6 +17,8 @@ void update_game( logic_vars* game_data , full_graphic_content* content ){
             if (status){
                 content->front_end_status = PLAY;
             }
+            update_reg_box(content->intial_menu->width_config_ui);
+            update_reg_box(content->intial_menu->height_config_ui);
         break;
         
         case PLAY:
@@ -55,6 +57,7 @@ void update_pc_graphic_screen( logic_vars* game_data , full_graphic_content* con
             al_clear_to_color(BLACK);
             draw_button(content->intial_menu->play_button);
             draw_reg_box(content->intial_menu->width_config_ui);
+            draw_reg_box(content->intial_menu->height_config_ui);
         break;
         case PLAY:
             al_clear_to_color(BLACK);
