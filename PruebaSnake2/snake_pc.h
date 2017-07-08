@@ -21,5 +21,10 @@ void handle_start_game( logic_vars_t *game_data,full_graphic_content *content);
 
 /// convert difficulty number to the second-valued period of the snake
 static double get_speed_from_difficulty(int diff);
+
+/// Handle game key presses
+void handle_key_press( logic_vars_t * vars , full_graphic_content *content , ALLEGRO_EVENT *ev);
+
+
 #endif /* SNAKE_PC_H */
 

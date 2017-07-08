@@ -28,6 +28,7 @@ logic_vars_t* init_snake_struct(int start_length){
         pSnake[j].polar_pos[Y_COORD] = 0;//(((SCREEN_H/CUADRADITO_SIZE)/2)*CUADRADITO_SIZE);
     }  
     logic_vars->game_status = LOGIC_STOP; // game is paused before starting
+    logic_vars->snake_dir = LOGIC_KEY_RIGHT;
     //calculate_foodPos(logic_vars); // first food 
     init_lives();
     init_length(start_length);
@@ -43,8 +44,16 @@ void destroy_game(logic_vars_t* logic){
     free(logic->pSnake);
     free(logic);
 }
+void handle_game_key_press(logic_vars_t* logic , int key){
+    if (logic->game_status == LOGIC_PLAY){ // is the game playing?
+        if ( (key+2)%4 != logic->snake_dir ){ // check if key pressed represent the opposed direction
+            logic->snake_dir = key;
+        }
+    }
+}
 
-void update_snake_logic(logic_vars_t* vars,int prev_dir,int new_dir){ /// al game logic managment
+
+void update_snake_logic(logic_vars_t* vars){ /// al game logic managment
     if (vars->game_status == LOGIC_PLAY){
         time_t time_elapsed = clock() - vars->time_ref;
         double time = (double)time_elapsed / CLOCKS_PER_SEC;
@@ -53,13 +62,12 @@ void update_snake_logic(logic_vars_t* vars,int prev_dir,int new_dir){ /// al gam
             vars->time_ref = clock(); // reset counter
             
             /// Now advance snake
-            calculate_newPos(vars , prev_dir , new_dir);
+            calculate_newPos(vars );
         }
     }
 }
 
-void calculate_newPos(logic_vars_t* vars, int prev_dir, int new_dir){
-    
+void calculate_newPos(logic_vars_t* vars){
     snake_node_t *pSnake = vars->pSnake;
     int move, k, length;
     float x_head, y_head;
@@ -67,28 +75,25 @@ void calculate_newPos(logic_vars_t* vars, int prev_dir, int new_dir){
     x_head = pSnake[0].polar_pos[X_COORD];
     y_head = pSnake[0].polar_pos[Y_COORD];
     
-    if(new_dir == NO_KEY){
-        move = prev_dir;
-    }else{
-        move = new_dir;
-    }
+    move = vars->snake_dir;
+    
     switch(move){ // gets new head pos
-        case KEY_UP:
+        case LOGIC_KEY_UP:
             y_head --;
             if(y_head < 0)
-                y_head = vars->world_height - CUADRADITO_SIZE;
+                y_head = vars->world_height - 1;
         break;
-        case KEY_DOWN:
+        case LOGIC_KEY_DOWN:
             y_head ++;
             if(y_head >= vars->world_height) y_head = 0;
         break;
-        case KEY_LEFT:
+        case LOGIC_KEY_LEFT:
             x_head --;
             if(x_head < 0) {
-                x_head = vars->world_width - CUADRADITO_SIZE;
+                x_head = vars->world_width - 1;
             }
         break;
-        case KEY_RIGHT:
+        case LOGIC_KEY_RIGHT:
             x_head ++;
             if(x_head >= vars->world_width) x_head = 0;
         break;
@@ -111,7 +116,7 @@ void calculate_newPos(logic_vars_t* vars, int prev_dir, int new_dir){
 
 int validate_dir(int prev_dir, int new_dir){
     
-    int aux;
+    /*int aux;
     
     if((prev_dir == KEY_UP)&&(new_dir == KEY_DOWN)){
         aux = DIR_ERR;
@@ -124,7 +129,8 @@ int validate_dir(int prev_dir, int new_dir){
     }else{
         aux = DIR_OK;
     }
-    return aux;
+    return aux;*/
+    return 0;
 }
 
 void calculate_foodPos(logic_vars_t* game_vars){

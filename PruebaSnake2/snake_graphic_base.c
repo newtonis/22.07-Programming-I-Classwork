@@ -157,40 +157,8 @@ void handle_events(logic_vars_t* vars , full_graphic_content * content){
         }else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE){
             content->do_exit = true;
         }else if(ev.type == ALLEGRO_EVENT_KEY_DOWN) {
-       
-            switch(ev.keyboard.keycode){
-                case ALLEGRO_KEY_UP:
-                    content->key_pressed[KEY_UP] = true;
-                break;
-                case ALLEGRO_KEY_DOWN:
-                    content->key_pressed[KEY_DOWN] = true;
-                break;
-                case ALLEGRO_KEY_LEFT: 
-                    content->key_pressed[KEY_LEFT] = true;
-                break;
-
-                case ALLEGRO_KEY_RIGHT:
-                    content->key_pressed[KEY_RIGHT] = true;
-                break;
-            }
-        }else if(ev.type == ALLEGRO_EVENT_KEY_UP) {
-            switch(ev.keyboard.keycode) {
-                case ALLEGRO_KEY_UP:
-                    content->key_pressed[KEY_UP] = false;
-                break;
-                case ALLEGRO_KEY_DOWN:
-                    content->key_pressed[KEY_DOWN] = false;
-                break;
-                case ALLEGRO_KEY_LEFT: 
-                    content->key_pressed[KEY_LEFT] = false;
-                break;
-                case ALLEGRO_KEY_RIGHT:
-                    content->key_pressed[KEY_RIGHT] = false;
-                break;
-                case ALLEGRO_KEY_ESCAPE:
-                    content->do_exit = true;
-                break;
-            }
+            handle_key_press( vars , content, &ev ); 
+            
         }else if(ev.type == ALLEGRO_EVENT_DISPLAY_RESIZE){
             update_positions(content);
         }

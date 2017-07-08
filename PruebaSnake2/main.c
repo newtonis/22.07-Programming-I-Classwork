@@ -22,10 +22,6 @@ int main(void){
     logic_vars_t *logic = init_snake_struct(INIT_LENGTH); // set snake position coordenates
     
     
-    content.key_press = NO_KEY;
-    content.direction = KEY_RIGHT;
-    content.dir_control = 0;
-    content.refresh = 0;
 
     while(!content.do_exit){ 
         //clock_t t1;

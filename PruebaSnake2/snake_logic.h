@@ -28,6 +28,7 @@
 
 enum {LOGIC_STOP , LOGIC_PLAY };
 
+enum {LOGIC_KEY_UP , LOGIC_KEY_RIGHT , LOGIC_KEY_DOWN , LOGIC_KEY_LEFT};
 
 typedef struct snake_nodeT{ // snake single node
     int polar_pos[POLAR];
@@ -46,6 +47,7 @@ typedef struct { /// game logic variables
     int world_width;
     double speed; /// snake speed in seconds
     
+    int snake_dir;
     int game_status;
     clock_t time_ref; 
 }logic_vars_t;
@@ -57,7 +59,7 @@ typedef struct { /// game logic variables
 logic_vars_t* init_snake_struct(int start_length);
 
 /// Update snake logic iterations
-void update_snake_logic(logic_vars_t* vars,int prev_dir,int new_dir);
+void update_snake_logic(logic_vars_t* vars);
 
 /// Configure snake size
 void set_snake_game_size(logic_vars_t* game_vars,int width,int height);
@@ -70,7 +72,7 @@ int validate_dir(int prev_dir, int new_dir);
 
 // calculate_newPos: calculates the next position of the head, and the others are shifted
 // considering that prev_dir and key_in are not oposite, it also needs the actual length
-void calculate_newPos(logic_vars_t* vars, int prev_dir, int new_dir);
+void calculate_newPos(logic_vars_t* vars);
 
 // calculate_foodPos: sets a random position for the next food to apear
 void calculate_foodPos(logic_vars_t* vars);
@@ -88,6 +90,9 @@ void add_snake_node(snake_node_t *pSnake);
 // game_status_refresh: refresh snake status, if lose returns DEAD, if lives ALIVE,
 // and for food eaten FOOD_EAT
 int game_status_refresh(logic_vars_t * game_vars);
+
+/// Make game to handle new key pressed.
+void handle_game_key_press(logic_vars_t* logic , int key);
 
 // Snake length management //
 // ----------------------- //

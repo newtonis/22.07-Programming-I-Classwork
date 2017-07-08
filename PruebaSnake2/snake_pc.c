@@ -30,7 +30,7 @@ void update_game( logic_vars_t* game_data , full_graphic_content* content ){
         break;
         
         case PLAY:
-            if(content->key_pressed[KEY_UP]){
+            /*if(content->key_pressed[KEY_UP]){
                 content->key_press = KEY_UP;
             }else if(content->key_pressed[KEY_DOWN]){
                 content->key_press = KEY_DOWN;
@@ -38,28 +38,40 @@ void update_game( logic_vars_t* game_data , full_graphic_content* content ){
                 content->key_press = KEY_LEFT;
             }else if(content->key_pressed[KEY_RIGHT]){
                 content->key_press = KEY_RIGHT;
-            }
+            }*/
 
-            content->dir_control = validate_dir(content->direction, content->key_press);
+           //content->dir_control = validate_dir(content->direction, content->key_press);
 
-            if(content->dir_control == DIR_ERR){
-                content->key_press = NO_KEY;
-            }
             status = game_status_refresh(game_data);
             if (status == FOOD_EAT){
 
             }
-            calculate_newPos(game_data, content->direction, content->key_press);
-            if(content->key_press != NO_KEY){
-                content->direction = content->key_press;
-                content->key_press = NO_KEY;
-            }    
+            calculate_newPos(game_data);
+           
         break;
     }
 }
 void handle_start_game( logic_vars_t *game_data,full_graphic_content *content){
     set_snake_game_size( game_data , content->intial_menu->width_config_ui->value , content->intial_menu->height_config_ui->value);
     set_speed( game_data , get_speed_from_difficulty(content->intial_menu->diff_ui->value) );
+}
+void handle_key_press( logic_vars_t * vars , full_graphic_content *content , ALLEGRO_EVENT *ev){
+    if (content->front_end_status == PLAY){
+        switch(ev.keyboard.keycode){
+            case ALLEGRO_KEY_UP:
+                handle_game_key_press(vars,LOGIC_KEY_UP);
+            break;
+            case ALLEGRO_KEY_DOWN:
+                handle_game_key_press(vars,LOGIC_KEY_DOWN);
+            break;
+            case ALLEGRO_KEY_LEFT: 
+                handle_game_key_press(vars,LOGIC_KEY_LEFT);
+            break;
+            case ALLEGRO_KEY_RIGHT:
+                handle_game_key_press(vars,LOGIC_KEY_RIGHT);
+            break;
+        }
+    }
 }
 //// All drawing loop content
 void update_pc_graphic_screen( logic_vars_t* game_data , full_graphic_content* content){
@@ -129,3 +141,4 @@ void draw_game( logic_vars_t* game_vars, full_graphic_content* content){
             FOOD_COLOR);
    // al_draw_bitmap(food, pFood->pos[X_COORD], pFood->pos[Y_COORD], 0);
 }
+
