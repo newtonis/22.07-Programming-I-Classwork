@@ -19,6 +19,7 @@ void update_game( logic_vars* game_data , full_graphic_content* content ){
             }
             update_reg_box(content->intial_menu->width_config_ui);
             update_reg_box(content->intial_menu->height_config_ui);
+            update_reg_box(content->intial_menu->diff_ui);
         break;
         
         case PLAY:
@@ -50,25 +51,33 @@ void update_game( logic_vars* game_data , full_graphic_content* content ){
     }
 }
 
+//// All drawing loop content
 void update_pc_graphic_screen( logic_vars* game_data , full_graphic_content* content){
+    
+    al_clear_to_color(BACKGROUND_COLOR);
     
     switch (content->front_end_status){
         case INITIAL_MENU:
-            al_clear_to_color(BLACK);
             draw_button(content->intial_menu->play_button);
             draw_reg_box(content->intial_menu->width_config_ui);
             draw_reg_box(content->intial_menu->height_config_ui);
+            draw_reg_box(content->intial_menu->diff_ui);
+            
+            draw_show_text(content->intial_menu->text_config_size);
+            draw_show_text(content->intial_menu->extra_text_config);
+            draw_show_text(content->intial_menu->title_text);
+            draw_show_text(content->intial_menu->diff_text);
+            
         break;
         case PLAY:
-            al_clear_to_color(BLACK);
             set_snakePos(game_data->pSnake ,  content->images->snake);
             set_foodPos( game_data->pFood   , content->images->food);
             
         break;
     }
+    update_display_cursor(content->cursor_handler); /// Update current shown cursor
     al_flip_display();
 }
-
 void set_snakePos(snake_node_t *pSnake, ALLEGRO_BITMAP *snake[MAX_LENGTH]){
     int j, length;
     

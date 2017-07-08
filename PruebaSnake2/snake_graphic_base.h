@@ -9,16 +9,22 @@
 #include "interface.h"
 #include "ui.h"
 
+//// In this file all structures that handle game front end (graphics, events) are declared
+
+
  //// front end different status moments
 enum {INITIAL_MENU , PLAY };
 
+/// Al fonts are stored in this structure
 typedef struct{
     ALLEGRO_FONT *iso_title;
     ALLEGRO_FONT *iso_text;
 }fonts_t;
 
-typedef struct{
+/// All bitmaps are stored in this structure
+typedef struct{ 
     ALLEGRO_BITMAP *arr_up , *arr_down;
+    ALLEGRO_BITMAP *arr_up_2 , *arr_down_2;
     ALLEGRO_BITMAP *game_over;
     ALLEGRO_BITMAP *easy , *medium , *hard;
     ALLEGRO_BITMAP *snake[MAX_LENGTH];
@@ -30,6 +36,12 @@ typedef struct{
     button_t *play_button;
     reg_box_t *width_config_ui;
     reg_box_t *height_config_ui;
+    reg_box_t *diff_ui; // difficulty
+    
+    show_text_t *text_config_size;
+    show_text_t *extra_text_config;
+    show_text_t *title_text;
+    show_text_t *diff_text;
 }initial_menu_vars_t;
 
 typedef struct{
@@ -37,6 +49,8 @@ typedef struct{
     ALLEGRO_EVENT_QUEUE *event_queue;
     ALLEGRO_TIMER *timer_a , *timer_b;
 
+    cursor_handler_t* cursor_handler;
+    
     bool key_pressed[MOVE_KEYS]; //Estado de teclas, true cuando esta apretada
     bool redraw;
     bool do_exit; 
@@ -54,7 +68,6 @@ typedef struct{
     int front_end_status;
 }full_graphic_content;
 
-
 void init_snake_pc(full_graphic_content *content);
 void handle_events(logic_vars* vars , full_graphic_content * content);
 void destroy_graphic_base(full_graphic_content * content);
@@ -65,5 +78,7 @@ static void init_menu(full_graphic_content *content);
 static void destroy_menu(full_graphic_content *content);
 static void destroy_images(images_t* images);
 static void destroy_fonts(fonts_t* fonts);
+
+static ALLEGRO_BITMAP* load_or_crash(const char *filename); // load image, or , if it could not be loaded, crash program.
 
 #endif

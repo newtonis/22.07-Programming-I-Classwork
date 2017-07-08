@@ -120,6 +120,9 @@ void init_snake_pc(full_graphic_content *content){
     
     content->front_end_status = INITIAL_MENU;
     
+    /// start mouse cursor handler
+    content->cursor_handler = init_cursor_handler(content->display);
+    
     /// init fonts
     al_init_primitives_addon();
     al_init_font_addon();
@@ -135,6 +138,7 @@ void init_snake_pc(full_graphic_content *content){
     
     /// init menu
     init_menu(content);
+    
 }
 
 //**** Main allegro event handler ****/ 
@@ -199,43 +203,52 @@ void destroy_graphic_base(full_graphic_content * content){
     al_destroy_bitmap(content->images->food);
     al_destroy_display(content->display);
     
+    destroy_handler(content->cursor_handler);
     destroy_menu(content);
     destroy_images(content->images);
     destroy_fonts(content->fonts);
+    
 }
 
-/*** Load all game bitmaps */
+//// Load all game bitmaps
 void load_images(images_t* images){
-    images->arr_down = NULL;
-    images->arr_up = NULL;
-    images->game_over = NULL;
-    images->easy = NULL;
-    images->medium = NULL;
-    images->hard = NULL;
-    images->start_button_image = NULL;
-    images->start_button_image_b = NULL;
+   
+    images->arr_down  = load_or_crash("flecha_abajo.png");
+    images->arr_down_2= load_or_crash("flecha_abajo_2.png");
+    images->arr_up    = load_or_crash("flecha_arriba.png");
+    images->arr_up_2  = load_or_crash("flecha_arriba_2.png");
     
-    images->arr_down  = al_load_bitmap("flecha_abajo.png");
-    images->arr_up    = al_load_bitmap("flecha_arriba.png");
-    images->game_over = al_load_bitmap("game_over.png");
-    images->easy      = al_load_bitmap("lento.png");
-    images->medium    = al_load_bitmap("medio.png");
-    images->hard      = al_load_bitmap("rapido.png");
-    images->start_button_image = al_load_bitmap("start.png");
-    images->start_button_image_b = al_load_bitmap("start_b.png");
     
-    if (!images->arr_down || !images->arr_up || !images->game_over || !images->easy || !images->medium || !images->hard || !images->start_button_image || !images->start_button_image_b){
-        fprintf(stderr,"error loading images");
-        exit(1);
-    }
+    images->game_over = load_or_crash("game_over.png");
+    images->easy      = load_or_crash("lento.png");
+    images->medium    = load_or_crash("medio.png");
+    images->hard      = load_or_crash("rapido.png");
+    images->start_button_image = load_or_crash("start.png");
+    images->start_button_image_b = load_or_crash("start_b.png");
+    
 }
 
 /*** Create all user interface elements ***/
 void init_menu(full_graphic_content *content){
     //content->intial_menu->play_button = init_button( NULL , NULL );
-    content->intial_menu->play_button = init_button(content->images->start_button_image , content->images->start_button_image_b, SCREEN_W / 2 , SCREEN_H - START_BUTTON_CORR);
-    content->intial_menu->width_config_ui = init_reg_box(content->images->arr_up,content->images->arr_down,content->fonts->iso_text,SCREEN_W/8*1,SCREEN_H/2,10,MIN_TABLE_WIDTH,MAX_TABLE_WIDTH);
-    content->intial_menu->height_config_ui = init_reg_box(content->images->arr_up,content->images->arr_down,content->fonts->iso_text,SCREEN_W/4,SCREEN_H/2,10,MIN_TABLE_HEIGHT,MAX_TABLE_HEIGHT);
+    content->intial_menu->play_button = init_button(content->images->start_button_image , content->images->start_button_image_b, content->cursor_handler, SCREEN_W / 2 , SCREEN_H - START_BUTTON_CORR);
+    
+    ALLEGRO_BITMAP *arr_box_images[] = {
+        content->images->arr_up,
+        content->images->arr_up_2,
+        content->images->arr_down,
+        content->images->arr_down_2
+    };
+    
+    content->intial_menu->width_config_ui = init_reg_box(arr_box_images, content->cursor_handler,content->fonts->iso_text,SCREEN_W/8*1,SCREEN_H/2,10,MIN_TABLE_WIDTH,MAX_TABLE_WIDTH);
+    content->intial_menu->height_config_ui = init_reg_box(arr_box_images, content->cursor_handler, content->fonts->iso_text,SCREEN_W/4,SCREEN_H/2,10,MIN_TABLE_HEIGHT,MAX_TABLE_HEIGHT);
+    content->intial_menu->diff_ui = init_reg_box(arr_box_images, content->cursor_handler, content->fonts->iso_text,SCREEN_W/4*3,SCREEN_H/2,1,MIN_DIFF,MAX_DIFF);
+    
+    
+    content->intial_menu->text_config_size = init_show_text(MAP_SIZE_TEXT,BOX_COLOR,content->fonts->iso_text,SCREEN_W/16*3,SCREEN_H/2-TEXT_CONF_DISTANCE);
+    content->intial_menu->extra_text_config = init_show_text("X",BOX_COLOR,content->fonts->iso_text,SCREEN_W/16*3,SCREEN_H/2-DEF_SZ/2);
+    content->intial_menu->title_text = init_show_text(GAME_TITLE_TEXT,BOX_COLOR,content->fonts->iso_title,SCREEN_W/2,TITLE_DISTANCE_Y);
+    content->intial_menu->diff_text = init_show_text(DIFF_TEXT,BOX_COLOR,content->fonts->iso_text,SCREEN_W/4*3,SCREEN_H/2-TEXT_CONF_DISTANCE);
 }
 
 void destroy_menu(full_graphic_content *content){
@@ -255,14 +268,27 @@ void destroy_images(images_t* images){
 
 void load_fonts(fonts_t* fonts){
     fonts->iso_text = NULL;
-    
+    fonts->iso_title = NULL;
     fonts->iso_text = al_load_font("fonts/isocpeur.ttf",FONT_SIZE_A,0);
+    fonts->iso_title = al_load_font("fonts/isocpeur.ttf",FONT_SIZE_B,0);
     
-    if (!fonts->iso_text){
+    if (!fonts->iso_text || !fonts->iso_title){
         fprintf(stderr,"Could not load fonts");
         exit(1);
     }
 }
 void destroy_fonts(fonts_t* fonts){
     al_destroy_font(fonts->iso_text);
+    al_destroy_font(fonts->iso_title);
+}
+
+/// load a image. If loading fails then throws an errors
+ALLEGRO_BITMAP* load_or_crash(const char *filename){
+    ALLEGRO_BITMAP * image = NULL;
+    image = al_load_bitmap(filename);
+    if (!image){
+        fprintf(stderr,"Error loading %s\n",filename);
+        exit(1);
+    }
+    return image;
 }
