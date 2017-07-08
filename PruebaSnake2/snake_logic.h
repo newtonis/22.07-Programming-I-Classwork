@@ -25,9 +25,11 @@
 #define COLISION -4
 #define NO_COL -5
 
+    
+
+
 typedef struct snake_nodeT{ // snake single node
     float polar_pos[POLAR];
-    struct snake_nodeT *pNode; 
     
 } snake_node_t;
 
@@ -36,20 +38,33 @@ typedef struct foodT{ // food struct
     
 } food_t;
 
+typedef struct { /// game logic variables
+    snake_node_t *pSnake;
+    food_t *pFood;
+    int world_height;
+    int world_width;
+}logic_vars_t;
+
+
 // Game logic functions //
 // -------------------- //
 // init_snake_struct: inits standard snake with initial length with center coordenates
-void init_snake_struct(int start_length, snake_node_t *pSnake, food_t *pFood);
+logic_vars_t* init_snake_struct(int start_length);
+
+void set_snake_game_size(logic_vars_t* game_vars,int width,int height);
+
+/// destroy all logic game dynamic memory
+void destroy_game(logic_vars_t* logic);
 
 // validate_dir: cheks if the previus direction and the new direction are not oposite
 int validate_dir(int prev_dir, int new_dir);
 
 // calculate_newPos: calculates the next position of the head, and the others are shifted
 // considering that prev_dir and key_in are not oposite, it also needs the actual length
-void calculate_newPos(snake_node_t *pSnake, int prev_dir, int new_dir);
+void calculate_newPos(logic_vars_t* vars, int prev_dir, int new_dir);
 
 // calculate_foodPos: sets a random position for the next food to apear
-void calculate_foodPos(snake_node_t *pSnake, food_t *pFood);
+void calculate_foodPos(logic_vars_t* vars);
 
 // check_if_food_eaten: checks if snake eats food, returns NO_EAT if no eat, else GROW_UP
 int check_if_food_eaten(snake_node_t *pSnake, food_t *pFood);
@@ -63,7 +78,7 @@ void add_snake_node(snake_node_t *pSnake);
 
 // game_status_refresh: refresh snake status, if lose returns DEAD, if lives ALIVE,
 // and for food eaten FOOD_EAT
-int game_status_refresh(snake_node_t *pSnake, food_t *pFood);
+int game_status_refresh(logic_vars_t * game_vars);
 
 // Snake length management //
 // ----------------------- //

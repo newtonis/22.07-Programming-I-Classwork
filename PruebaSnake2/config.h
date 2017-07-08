@@ -9,14 +9,14 @@ enum {FALSE, TRUE};
 
 // Seccion que se modifica segun sea allegro o la rpi 
 // ---------------------------
-#define CUADRADITO_SIZE	32
+#define CUADRADITO_SIZE	10
 #define SCREEN_W 640
 #define SCREEN_H 480
 // ---------------------------
 
 #define WORLD_TOP 0
-#define WORLD_BOTTOM SCREEN_H
-#define WORLD_MAX_RIGHT SCREEN_W
+#define WORLD_BOTTOM 10
+#define WORLD_MAX_RIGHT 10
 
 #define MIN_DIFF 1
 #define MAX_DIFF 10

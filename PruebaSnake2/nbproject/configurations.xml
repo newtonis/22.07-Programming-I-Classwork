@@ -5,7 +5,6 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>config.h</itemPath>
-      <itemPath>interface.h</itemPath>
       <itemPath>snake_graphic_base.h</itemPath>
       <itemPath>snake_logic.h</itemPath>
       <itemPath>snake_pc.h</itemPath>
@@ -83,8 +82,6 @@
       </item>
       <item path="game_over.png" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="interface.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="lento.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
@@ -147,8 +144,6 @@
       <item path="fonts" ex="false" tool="3" flavor2="0">
       </item>
       <item path="game_over.png" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="interface.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="lento.png" ex="false" tool="3" flavor2="0">
       </item>

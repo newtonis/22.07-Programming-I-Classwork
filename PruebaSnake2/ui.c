@@ -21,7 +21,10 @@ button_t *init_button( ALLEGRO_BITMAP* surface_a , ALLEGRO_BITMAP* surface_b ,cu
     new_button->status = RELEASE;
     return new_button;
 }
-
+void update_button_position(button_t* button, int x,int y){
+    button->x = x;
+    button->y = y;
+}
 void draw_button(button_t* button){
     if (button->status == RELEASE){     
         al_draw_bitmap(button->surface_a , button->x - button->w / 2 , button->y - button->h / 2 , 0);
@@ -71,6 +74,12 @@ reg_box_t *init_reg_box(ALLEGRO_BITMAP* surfaces[] ,cursor_handler_t* cursor,ALL
     new_box->flag_up = 0;
     
     return new_box;
+}
+void update_reg_box_position(reg_box_t* reg_box,int x,int y){
+    reg_box->x = x;
+    reg_box->y = y;
+    update_button_position(reg_box->up  ,x,y-SIZE_DISTANCE);
+    update_button_position(reg_box->down,x,y+SIZE_DISTANCE);
 }
 void update_reg_box(reg_box_t *reg_box){
     int up_status   = update_button(reg_box->up);
@@ -135,4 +144,8 @@ void draw_show_text(show_text_t* show_text){
 }
 void destroy_text(show_text_t* text){
     free(text);
+}
+void update_show_text_position(show_text_t* show_text,int x,int y){
+    show_text->x = x;
+    show_text->y = y;
 }

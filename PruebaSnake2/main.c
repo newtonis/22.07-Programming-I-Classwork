@@ -7,8 +7,6 @@
 #include "interface.h"
  
 int main(void){
-    
-    logic_vars logic;
     full_graphic_content content;
     images_t plot_basic_vars;
     fonts_t fonts;
@@ -17,22 +15,10 @@ int main(void){
     content.images = &plot_basic_vars;
     content.intial_menu = &inital_menu;
     content.fonts = &fonts;
-    
-    logic.pSnake = malloc(sizeof(snake_node_t)*MAX_LENGTH);
-    if (logic.pSnake == NULL){
-        fprintf(stderr,"Fatal error");
-        exit(1);
-    }
-    logic.pFood = malloc(sizeof(food_t));
-    if (logic.pFood == NULL){
-        fprintf(stderr,"Fatal error");
-        exit(1);
-    }
-    
+
     init_snake_pc(&content);
     
-    
-    init_snake_struct(INIT_LENGTH, logic.pSnake, logic.pFood); // set snake position coordenates
+    logic_vars_t *logic = init_snake_struct(INIT_LENGTH); // set snake position coordenates
     
     
     content.key_press = NO_KEY;
@@ -41,11 +27,11 @@ int main(void){
     content.refresh = 0;
 
     while(!content.do_exit){ 
-        handle_events(&logic , &content );
+        handle_events(logic , &content );
         
     }
     
-    free(logic.pSnake);
+    destroy_game(logic);
     destroy_graphic_base(&content);
     return 0;
 }

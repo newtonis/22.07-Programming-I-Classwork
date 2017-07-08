@@ -54,12 +54,14 @@ typedef struct{
 button_t *init_button( ALLEGRO_BITMAP* surface_a , ALLEGRO_BITMAP* surface_b ,cursor_handler_t* cursor , int x ,int y );
 
 void draw_button(button_t* button);
+void update_button_position(button_t* button, int x,int y);
 int update_button(button_t* button);
 void destroy_button(button_t* button);
 
 //// Create a increment/decrement box
 reg_box_t *init_reg_box(ALLEGRO_BITMAP* surfaces[],cursor_handler_t* cursor,ALLEGRO_FONT* font,int x,int y,int default_value,int min_value,int max_value);
 void update_reg_box(reg_box_t *reg_box);
+void update_reg_box_position(reg_box_t* reg_box,int x,int y);
 void draw_reg_box(reg_box_t *reg_box);
 void destroy_reg_box(reg_box_t *reg_box);
 
@@ -74,6 +76,7 @@ void update_display_cursor(cursor_handler_t* handler);
 show_text_t * init_show_text(const char *text,ALLEGRO_COLOR color,ALLEGRO_FONT* font,int x,int y);
 void draw_show_text(show_text_t* show_text);
 void destroy_Text(show_text_t* text);
+void update_show_text_position(show_text_t* show_text,int x,int y);
 
 #endif /* UI_H */
 

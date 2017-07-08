@@ -10,112 +10,112 @@ static int lives; // snake lives
 static int points; // actual game points
 static FILE *points_log = NULL;
 
-void init_snake_struct(int start_length, snake_node_t *pSnake, food_t *pFood){
+
+logic_vars_t* init_snake_struct(int start_length){
+    logic_vars_t* logic_vars = malloc(sizeof(logic_vars_t));
+    snake_node_t* pSnake = malloc(sizeof(pSnake)*start_length);
+    logic_vars->pFood = malloc(sizeof(food_t));
+    logic_vars->pSnake = pSnake;
+    
+    
+    if (!logic_vars || !pSnake){
+        fprintf(stderr,"Error, can't allocate memory");
+        exit(1);
+    }
     int j;
-    
     for(j = 0; j < start_length; j++){ 
-        
-        (pSnake+j)->polar_pos[X_COORD] = (((SCREEN_W/CUADRADITO_SIZE)/2)*CUADRADITO_SIZE) - (j*CUADRADITO_SIZE);
-        (pSnake+j)->polar_pos[Y_COORD] = (((SCREEN_H/CUADRADITO_SIZE)/2)*CUADRADITO_SIZE);
-        if(j < start_length-1){
-            (pSnake+j)->pNode = (pSnake+j+1); // point to next node
-        }  
+        pSnake[j].polar_pos[X_COORD] = j;//(((SCREEN_W/CUADRADITO_SIZE)/2)*CUADRADITO_SIZE) - (j*CUADRADITO_SIZE);
+        pSnake[j].polar_pos[Y_COORD] = 0;//(((SCREEN_H/CUADRADITO_SIZE)/2)*CUADRADITO_SIZE);
     }   
-    (pSnake+start_length-1)->pNode = NULL; // the last is the tail
-    
-    calculate_foodPos(pSnake, pFood); // first food 
+    calculate_foodPos(logic_vars); // first food 
     init_lives();
     init_length(start_length);
+    
+    return logic_vars;
+}
+void set_snake_game_size(logic_vars_t* game_vars,int width,int height){
+    game_vars->world_width = width;
+    game_vars->world_height = height;
+}
+void destroy_game(logic_vars_t* logic){
+    free(logic->pFood);
+    free(logic->pSnake);
+    free(logic);
 }
 
-void calculate_newPos(snake_node_t *pSnake, int prev_dir, int new_dir){
+void calculate_newPos(logic_vars_t* vars, int prev_dir, int new_dir){
     
+    snake_node_t *pSnake = vars->pSnake;
     int move, k, length;
     float x_head, y_head;
     // the first coordenates are for the head of the snake
-    x_head = (pSnake)->polar_pos[X_COORD];
-    y_head = (pSnake)->polar_pos[Y_COORD];
+    x_head = pSnake[0].polar_pos[X_COORD];
+    y_head = pSnake[0].polar_pos[Y_COORD];
     
     if(new_dir == NO_KEY){
         move = prev_dir;
-    }
-    else{
+    }else{
         move = new_dir;
     }
     switch(move){ // gets new head pos
         case KEY_UP:
-            y_head -= MOVE_RATE;
-            if(y_head <= (WORLD_TOP -1))
-                y_head = WORLD_BOTTOM - CUADRADITO_SIZE;
-            break;
+            y_head --;
+            if(y_head == 0)
+                y_head = vars->world_height - CUADRADITO_SIZE;
+        break;
         case KEY_DOWN:
-            y_head += MOVE_RATE;
-            if(y_head >= WORLD_BOTTOM)
-                y_head = WORLD_TOP;
-            break;
+            y_head ++;
+            if(y_head >= vars->world_height)
+                y_head = 0;
+        break;
         case KEY_LEFT:
-            x_head -= MOVE_RATE;
-            if(x_head <= (WORLD_MIN_LEFT -1))
-                x_head = WORLD_MAX_RIGHT - CUADRADITO_SIZE;
-            break;
+            x_head --;
+            if(x_head <= 0)
+                x_head = vars->world_width - CUADRADITO_SIZE;
+        break;
         case KEY_RIGHT:
-            x_head += MOVE_RATE;
-            if(x_head >= WORLD_MAX_RIGHT)
-                x_head = WORLD_MIN_LEFT;
-            break;
+            x_head ++;
+            if(x_head >= vars->world_width)
+                x_head = 0;
+        break;
     }
     
     length = get_length();
     
+    
     for(k = length; k > 0; k--){ // shift all positions
-        (pSnake+k)->polar_pos[X_COORD] = (pSnake+k-1)->polar_pos[X_COORD];
-        (pSnake+k)->polar_pos[Y_COORD] = (pSnake+k-1)->polar_pos[Y_COORD];
+        pSnake[k].polar_pos[X_COORD] = pSnake[k-1].polar_pos[X_COORD];
+        pSnake[k].polar_pos[Y_COORD] = pSnake[k-1].polar_pos[Y_COORD];
         //snake_pos[X_COORD][k] = snake_pos[X_COORD][k-1];
         //snake_pos[Y_COORD][k] = snake_pos[Y_COORD][k-1];
     }
-    pSnake->polar_pos[X_COORD] = x_head;
-    pSnake->polar_pos[Y_COORD] = y_head;
+    pSnake[0].polar_pos[X_COORD] = x_head;
+    pSnake[0].polar_pos[Y_COORD] = y_head;
     //snake_pos[X_COORD][HEAD] = x_head; // set new head pos after shifting
     //snake_pos[Y_COORD][HEAD] = y_head;
 }
-/*
-int count_snake_length(snake_node_t *pSnake){
-    int length;
-    snake_node_t *pCheck;
-    
-    if((pCheck = pSnake->pNode) == NULL)
-        return 0;
-    
-    for(length = 0; (pCheck = (pSnake+length)->pNode) != NULL; length++){
-        // counts actual length
-    }
-    return length+1; // we need total nodes
-}
-*/
+
 int validate_dir(int prev_dir, int new_dir){
     
     int aux;
     
     if((prev_dir == KEY_UP)&&(new_dir == KEY_DOWN)){
         aux = DIR_ERR;
-    }
-    else if((prev_dir == KEY_DOWN)&&(new_dir == KEY_UP)){
+    }else if((prev_dir == KEY_DOWN)&&(new_dir == KEY_UP)){
         aux = DIR_ERR;
-    }
-    else if((prev_dir == KEY_LEFT)&&(new_dir == KEY_RIGHT)){
+    }else if((prev_dir == KEY_LEFT)&&(new_dir == KEY_RIGHT)){
         aux = DIR_ERR;
-    }    
-    else if((prev_dir == KEY_RIGHT)&&(new_dir == KEY_LEFT)){
+    }    else if((prev_dir == KEY_RIGHT)&&(new_dir == KEY_LEFT)){
         aux = DIR_ERR;
-    }
-    else{
+    }else{
         aux = DIR_OK;
     }
-    
     return aux;
 }
 
-void calculate_foodPos(snake_node_t *pSnake, food_t *pFood){
+void calculate_foodPos(logic_vars_t* game_vars){
+    
+    snake_node_t* pSnake = game_vars->pSnake;
     
     float x_pos, y_pos;
     int control = NUM_ERR, i, length, aux;
@@ -126,8 +126,8 @@ void calculate_foodPos(snake_node_t *pSnake, food_t *pFood){
     
     while(control != NUM_OK){
         i = 0; // start
-        aux = rand()%(SCREEN_W - CUADRADITO_SIZE); // generate random x coordenate
-        while( (i < length) && (((pSnake+i)->polar_pos[X_COORD]) != aux)){
+        aux = rand()%( - CUADRADITO_SIZE); // generate random x coordenate
+        while( (i < length) && ((pSnake[i].polar_pos[X_COORD]) != aux)){
             i++;            
         }
         
@@ -146,7 +146,7 @@ void calculate_foodPos(snake_node_t *pSnake, food_t *pFood){
     
     while(control != NUM_OK){
         i = 0; // start
-        aux = rand()%(SCREEN_H - CUADRADITO_SIZE); // generate random x coordenate
+        aux = rand()%(game_vars->world_width - CUADRADITO_SIZE); // generate random x coordenate
         while( (i < length) && (((pSnake+i)->polar_pos[Y_COORD]) != aux)){
             i++;            
         }
@@ -161,8 +161,8 @@ void calculate_foodPos(snake_node_t *pSnake, food_t *pFood){
     }
     y_pos = aux;
     
-    pFood->pos[X_COORD] = x_pos;
-    pFood->pos[Y_COORD] = y_pos;
+    game_vars->pFood->pos[X_COORD] = x_pos;
+    game_vars->pFood->pos[Y_COORD] = y_pos;
     
 }
 
@@ -219,27 +219,26 @@ void add_snake_node(snake_node_t *pSnake){
     int aux_l;
     
     aux_l = get_length();
-    (pSnake+aux_l-1)->pNode = (pSnake+aux_l);
-    (pSnake+aux_l)->pNode = NULL;
+   
     
     inc_length();
 }
 
-int game_status_refresh(snake_node_t *pSnake, food_t *pFood){
+int game_status_refresh(logic_vars_t * game_vars){
     
     int live_status, food_status;
-    check_if_colision(pSnake);
+    check_if_colision(game_vars->pSnake);
     
     live_status = read_lives();
     if(live_status == 0){
         return DEAD;
     }
     
-    food_status = check_if_food_eaten(pSnake, pFood);
+    food_status = check_if_food_eaten(game_vars->pSnake, game_vars->pFood);
     if(food_status == GROW_UP){
-        add_snake_node(pSnake);
+        add_snake_node(game_vars->pSnake);
         inc_points();
-        calculate_foodPos(pSnake, pFood);
+        calculate_foodPos(game_vars);
         return FOOD_EAT;
     }else if(food_status == NO_EAT){
         return ALIVE;
@@ -280,7 +279,7 @@ void lose_live(void){
 // Points management //
 
 char *read_points(void){
-    points_log = fopen("game_points.txt", "r");\
+    points_log = fopen("game_points.txt", "r");
     char *msj_points = fgets(msj_points, STRING_MAX, points_log);
     return msj_points;
 }

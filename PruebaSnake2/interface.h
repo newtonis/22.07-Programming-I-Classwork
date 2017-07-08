@@ -17,13 +17,6 @@
 
 #include "snake_logic.h"    
     
-    
-typedef struct { //// The game is defined by the pointers in this structure
-    snake_node_t *pSnake;
-    food_t *pFood;
-    
-}logic_vars;
-
 
 
 #ifdef __cplusplus

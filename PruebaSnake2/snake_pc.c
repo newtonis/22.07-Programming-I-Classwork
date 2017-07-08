@@ -4,7 +4,7 @@
 #include "snake_graphic_base.h"
 
 
-void update_game( logic_vars* game_data , full_graphic_content* content ){
+void update_game( logic_vars_t* game_data , full_graphic_content* content ){
     
     ALLEGRO_MOUSE_STATE state;
     int status;
@@ -16,6 +16,7 @@ void update_game( logic_vars* game_data , full_graphic_content* content ){
             status = update_button(content->intial_menu->play_button);
             if (status){
                 content->front_end_status = PLAY;
+                handle_start_game( game_data , content );
             }
             update_reg_box(content->intial_menu->width_config_ui);
             update_reg_box(content->intial_menu->height_config_ui);
@@ -38,11 +39,11 @@ void update_game( logic_vars* game_data , full_graphic_content* content ){
             if(content->dir_control == DIR_ERR){
                 content->key_press = NO_KEY;
             }
-            status = game_status_refresh(game_data->pSnake,game_data->pFood);
+            status = game_status_refresh(game_data);
             if (status == FOOD_EAT){
 
             }
-            calculate_newPos(game_data->pSnake, content->direction, content->key_press);
+            calculate_newPos(game_data, content->direction, content->key_press);
             if(content->key_press != NO_KEY){
                 content->direction = content->key_press;
                 content->key_press = NO_KEY;
@@ -50,9 +51,11 @@ void update_game( logic_vars* game_data , full_graphic_content* content ){
         break;
     }
 }
-
+void handle_start_game( logic_vars_t *game_data,full_graphic_content *content){
+    set_snake_game_size( game_data , content->intial_menu->width_config_ui->value , content->intial_menu->height_config_ui->value);
+}
 //// All drawing loop content
-void update_pc_graphic_screen( logic_vars* game_data , full_graphic_content* content){
+void update_pc_graphic_screen( logic_vars_t* game_data , full_graphic_content* content){
     
     al_clear_to_color(BACKGROUND_COLOR);
     
@@ -76,6 +79,7 @@ void update_pc_graphic_screen( logic_vars* game_data , full_graphic_content* con
         break;
     }
     update_display_cursor(content->cursor_handler); /// Update current shown cursor
+    al_acknowledge_resize(content->display);
     al_flip_display();
 }
 void set_snakePos(snake_node_t *pSnake, ALLEGRO_BITMAP *snake[MAX_LENGTH]){
@@ -87,7 +91,6 @@ void set_snakePos(snake_node_t *pSnake, ALLEGRO_BITMAP *snake[MAX_LENGTH]){
         al_draw_bitmap(snake[j], ((pSnake+j)->polar_pos[X_COORD]), ((pSnake+j)->polar_pos[Y_COORD]), 0);
     }
    
-    
 }
 
 void set_foodPos(food_t *pFood, ALLEGRO_BITMAP *food){
