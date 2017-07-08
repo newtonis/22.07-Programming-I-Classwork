@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 #include <allegro5/allegro.h>
 #include "config.h"
 #include "snake_logic.h"
@@ -27,6 +28,11 @@ int main(void){
     content.refresh = 0;
 
     while(!content.do_exit){ 
+        //clock_t t1;
+        //t1 = clock();
+        
+        //printf("%f ",(double)t1 / CLOCKS_PER_SEC * 1000.0);
+        
         handle_events(logic , &content );
         
     }

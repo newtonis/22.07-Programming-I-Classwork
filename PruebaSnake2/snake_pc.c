@@ -1,8 +1,14 @@
 #include <stdio.h>
+#include <allegro5/allegro_primitives.h>
 #include "snake_pc.h"
 #include "interface.h"
+#include "config.h"
 #include "snake_graphic_base.h"
+#include "utils.h"
 
+double get_speed_from_difficulty(int diff){
+    return diff_array[diff];
+}
 
 void update_game( logic_vars_t* game_data , full_graphic_content* content ){
     
@@ -53,6 +59,7 @@ void update_game( logic_vars_t* game_data , full_graphic_content* content ){
 }
 void handle_start_game( logic_vars_t *game_data,full_graphic_content *content){
     set_snake_game_size( game_data , content->intial_menu->width_config_ui->value , content->intial_menu->height_config_ui->value);
+    set_speed( game_data , get_speed_from_difficulty(content->intial_menu->diff_ui->value) );
 }
 //// All drawing loop content
 void update_pc_graphic_screen( logic_vars_t* game_data , full_graphic_content* content){
@@ -73,8 +80,7 @@ void update_pc_graphic_screen( logic_vars_t* game_data , full_graphic_content* c
             
         break;
         case PLAY:
-            set_snakePos(game_data->pSnake ,  content->images->snake);
-            set_foodPos( game_data->pFood   , content->images->food);
+            draw_game(game_data,content);
             
         break;
     }
@@ -82,19 +88,44 @@ void update_pc_graphic_screen( logic_vars_t* game_data , full_graphic_content* c
     al_acknowledge_resize(content->display);
     al_flip_display();
 }
-void set_snakePos(snake_node_t *pSnake, ALLEGRO_BITMAP *snake[MAX_LENGTH]){
-    int j, length;
+void draw_game( logic_vars_t* game_vars, full_graphic_content* content){
+    int screen_width = al_get_display_width(content->display);
+    int screen_height = al_get_display_height(content->display);
     
+    
+    double sz_x = (double)screen_width / (double)game_vars->world_width;
+    double sz_y = (double)screen_height / (double)game_vars->world_height;
+    
+    /// This calculation is to make all snake tiles to be squares.
+    double mult_x = min(sz_x , sz_y);
+    double mult_y = min(sz_x,  sz_y);
+    
+    /// Center game screen position
+    double start_x = (double)screen_width/2-mult_x*game_vars->world_width/2;
+    double start_y = (double)screen_height/2-mult_y*game_vars->world_height/2;
+    
+    int j, length;
     length = get_length(); // get actual snake length
+    snake_node_t *pSnake = game_vars->pSnake;
     
     for(j = 0; j < length; j++){ // draws positions in buffer
-        al_draw_bitmap(snake[j], ((pSnake+j)->polar_pos[X_COORD]), ((pSnake+j)->polar_pos[Y_COORD]), 0);
+        //al_draw_bitmap(content->images->snake[j], pSnake[j].polar_pos[X_COORD]*mult_x , pSnake[j].polar_pos[Y_COORD]*mult_y, 0);
+        al_draw_filled_rectangle(
+                start_x + pSnake[j].polar_pos[X_COORD]*mult_x, \
+                start_y + pSnake[j].polar_pos[Y_COORD]*mult_y, \
+                start_x + (pSnake[j].polar_pos[X_COORD]+1)*(mult_x),\
+                start_y +(pSnake[j].polar_pos[Y_COORD]+1)*(mult_y),\
+                SNAKE_COLOR);
+        
     }
-   
-}
-
-void set_foodPos(food_t *pFood, ALLEGRO_BITMAP *food){
-  
-    al_draw_bitmap(food, pFood->pos[X_COORD], pFood->pos[Y_COORD], 0);
+    /// draw food
+    food_t *pFood = game_vars->pFood;
     
+    al_draw_filled_rectangle(
+            start_x + pFood->pos[X_COORD]*mult_x,\
+            start_y + pFood->pos[Y_COORD]*mult_y,\
+            start_x + (pFood->pos[X_COORD]+1)*mult_x,\
+            start_y + (pFood->pos[Y_COORD]+1)*mult_y,\
+            FOOD_COLOR);
+   // al_draw_bitmap(food, pFood->pos[X_COORD], pFood->pos[Y_COORD], 0);
 }

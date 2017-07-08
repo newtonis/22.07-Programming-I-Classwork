@@ -1,6 +1,7 @@
 #ifndef SNAKE_LOGIC_H
 #define SNAKE_LOGIC_H
 
+#include <time.h>
 #include "config.h"    
 
 #define HEAD 0
@@ -25,16 +26,16 @@
 #define COLISION -4
 #define NO_COL -5
 
-    
+enum {LOGIC_STOP , LOGIC_PLAY };
 
 
 typedef struct snake_nodeT{ // snake single node
-    float polar_pos[POLAR];
+    int polar_pos[POLAR];
     
 } snake_node_t;
 
 typedef struct foodT{ // food struct
-    float pos[POLAR];
+    int pos[POLAR];
     
 } food_t;
 
@@ -43,6 +44,10 @@ typedef struct { /// game logic variables
     food_t *pFood;
     int world_height;
     int world_width;
+    double speed; /// snake speed in seconds
+    
+    int game_status;
+    clock_t time_ref; 
 }logic_vars_t;
 
 
@@ -51,6 +56,10 @@ typedef struct { /// game logic variables
 // init_snake_struct: inits standard snake with initial length with center coordenates
 logic_vars_t* init_snake_struct(int start_length);
 
+/// Update snake logic iterations
+void update_snake_logic(logic_vars_t* vars,int prev_dir,int new_dir);
+
+/// Configure snake size
 void set_snake_game_size(logic_vars_t* game_vars,int width,int height);
 
 /// destroy all logic game dynamic memory
@@ -119,6 +128,8 @@ void reset_points(void);
 void write_points_file(void);
 //
 // ----------------- //
+//// Configure game speed
+void set_speed(logic_vars_t * game_vars , int speed);
 
 #endif /* SNAKE_LOGIC_H */
 

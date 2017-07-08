@@ -124,8 +124,10 @@ void set_current_cursor(cursor_handler_t* handler, ALLEGRO_SYSTEM_MOUSE_CURSOR c
     handler->next_cursor = cursor;
 }
 void update_display_cursor(cursor_handler_t* handler){
-    al_set_system_mouse_cursor(handler->display_ref, handler->next_cursor);
-    handler->next_cursor = handler->default_cursor; // we need another call in next iteration to change cursor
+    if (handler->next_cursor != handler->default_cursor){
+        al_set_system_mouse_cursor(handler->display_ref, handler->next_cursor);
+        handler->next_cursor = handler->default_cursor; // we need another call in next iteration to change cursor
+    }
 }
 void destroy_handler(cursor_handler_t* cursor){
     free(cursor);

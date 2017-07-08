@@ -14,13 +14,12 @@ void update_game( logic_vars_t* game_data , full_graphic_content* content );
 
 void update_pc_graphic_screen( logic_vars_t* game_data , full_graphic_content* graphic_data);
 
-// set_newPos: sets the new position of the snake into allegro display
-void set_snakePos(snake_node_t *pSnake, ALLEGRO_BITMAP *snake[MAX_LENGTH]);
 
-// set_foodPos: sets the new food in allegro display
-void set_foodPos(food_t *pFood, ALLEGRO_BITMAP *food);
+void draw_game( logic_vars_t* game_vars, full_graphic_content* content);
 
 void handle_start_game( logic_vars_t *game_data,full_graphic_content *content);
 
+/// convert difficulty number to the second-valued period of the snake
+static double get_speed_from_difficulty(int diff);
 #endif /* SNAKE_PC_H */
 

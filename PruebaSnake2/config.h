@@ -9,7 +9,7 @@ enum {FALSE, TRUE};
 
 // Seccion que se modifica segun sea allegro o la rpi 
 // ---------------------------
-#define CUADRADITO_SIZE	10
+#define CUADRADITO_SIZE	1
 #define SCREEN_W 640
 #define SCREEN_H 480
 // ---------------------------
@@ -38,6 +38,8 @@ enum {FALSE, TRUE};
 
 #define BACKGROUND_COLOR al_map_rgb(0,0,50)
 #define BOX_COLOR al_map_rgb(255,255,255)
+#define SNAKE_COLOR al_map_rgb(255,100,100)
+#define FOOD_COLOR al_map_rgb(100,255,255)
 
 #define START_BUTTON_CORR 100
 
@@ -60,6 +62,11 @@ enum {FALSE, TRUE};
 #define MAP_SIZE_TEXT "map size"
 
 #define DIFF_TEXT "level"
+
+#define CNT_DIFF 10
+
+extern double diff_array[CNT_DIFF];
+
 
 #endif /* CONFIG_H */
 

@@ -3,8 +3,6 @@
 
 #define DEF_SZ 10
 
-#define min(a,b) ((a<b)?(a):(b))
-#define max(a,b) ((a>b)?(a):(b))
 
 int str_to_int(char *str,int *target){
     int j = 0;
