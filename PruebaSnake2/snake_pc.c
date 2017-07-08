@@ -30,23 +30,13 @@ void update_game( logic_vars_t* game_data , full_graphic_content* content ){
         break;
         
         case PLAY:
-            /*if(content->key_pressed[KEY_UP]){
-                content->key_press = KEY_UP;
-            }else if(content->key_pressed[KEY_DOWN]){
-                content->key_press = KEY_DOWN;
-            }else if(content->key_pressed[KEY_LEFT]){
-                content->key_press = KEY_LEFT;
-            }else if(content->key_pressed[KEY_RIGHT]){
-                content->key_press = KEY_RIGHT;
-            }*/
-
-           //content->dir_control = validate_dir(content->direction, content->key_press);
 
             status = game_status_refresh(game_data);
             if (status == FOOD_EAT){
 
             }
-            calculate_newPos(game_data);
+            
+            update_snake_logic(game_data);
            
         break;
     }
@@ -54,10 +44,13 @@ void update_game( logic_vars_t* game_data , full_graphic_content* content ){
 void handle_start_game( logic_vars_t *game_data,full_graphic_content *content){
     set_snake_game_size( game_data , content->intial_menu->width_config_ui->value , content->intial_menu->height_config_ui->value);
     set_speed( game_data , get_speed_from_difficulty(content->intial_menu->diff_ui->value) );
+    game_data->game_status = LOGIC_PLAY;
+   // printf("Game started %f %f\n",(double)game_data->speed,(double)game_data->game_status);
 }
 void handle_key_press( logic_vars_t * vars , full_graphic_content *content , ALLEGRO_EVENT *ev){
+    
     if (content->front_end_status == PLAY){
-        switch(ev.keyboard.keycode){
+        switch(ev->keyboard.keycode){
             case ALLEGRO_KEY_UP:
                 handle_game_key_press(vars,LOGIC_KEY_UP);
             break;

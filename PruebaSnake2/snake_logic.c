@@ -57,7 +57,7 @@ void update_snake_logic(logic_vars_t* vars){ /// al game logic managment
     if (vars->game_status == LOGIC_PLAY){
         time_t time_elapsed = clock() - vars->time_ref;
         double time = (double)time_elapsed / CLOCKS_PER_SEC;
-        
+        printf("%f \n",time);
         if (time > vars->speed){
             vars->time_ref = clock(); // reset counter
             
