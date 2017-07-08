@@ -134,6 +134,8 @@ void init_snake_pc(full_graphic_content *content){
     /// init menu
     init_menu(content);
     
+    /// init scoreboard
+    init_scoreboard(content);
 }
 
 //**** Main allegro event handler ****/ 
@@ -158,20 +160,6 @@ void handle_events(logic_vars_t* vars , full_graphic_content * content){
     }
     
 }
-
-/*
-
- content->intial_menu->width_config_ui = init_reg_box(arr_box_images, content->cursor_handler,content->fonts->iso_text,SCREEN_W/8*1,SCREEN_H/2,10,MIN_TABLE_WIDTH,MAX_TABLE_WIDTH);
-    content->intial_menu->height_config_ui = init_reg_box(arr_box_images, content->cursor_handler, content->fonts->iso_text,SCREEN_W/4,SCREEN_H/2,10,MIN_TABLE_HEIGHT,MAX_TABLE_HEIGHT);
-    content->intial_menu->diff_ui = init_reg_box(arr_box_images, content->cursor_handler, content->fonts->iso_text,SCREEN_W/4*3,SCREEN_H/2,1,MIN_DIFF,MAX_DIFF);
-    
-    
-    content->intial_menu->text_config_size = init_show_text(MAP_SIZE_TEXT,BOX_COLOR,content->fonts->iso_text,SCREEN_W/16*3,SCREEN_H/2-TEXT_CONF_DISTANCE);
-    content->intial_menu->extra_text_config = init_show_text("X",BOX_COLOR,content->fonts->iso_text,SCREEN_W/16*3,SCREEN_H/2-DEF_SZ/2);
-    content->intial_menu->title_text = init_show_text(GAME_TITLE_TEXT,BOX_COLOR,content->fonts->iso_title,SCREEN_W/2,TITLE_DISTANCE_Y);
-    content->intial_menu->diff_text = init_show_text(DIFF_TEXT,BOX_COLOR,content->fonts->iso_text,SCREEN_W/4*3,SCREEN_H/2-TEXT_CONF_DISTANCE); 
- 
- */
 
 
 void update_positions(full_graphic_content* content){ /// when screen resizes
@@ -229,6 +217,12 @@ void load_images(images_t* images){
 void init_menu(full_graphic_content *content){
     //content->intial_menu->play_button = init_button( NULL , NULL );
     
+    content->intial_menu = malloc(sizeof(initial_menu_vars_t));
+    if (!content->intial_menu){
+        fprintf(stderr,"Could not allocate memory");
+        exit(1);
+    }
+    
     ALLEGRO_BITMAP *arr_box_images[] = {
         content->images->arr_up,
         content->images->arr_up_2,
@@ -254,7 +248,41 @@ void destroy_menu(full_graphic_content *content){
     destroy_button(content->intial_menu->play_button);
     destroy_reg_box(content->intial_menu->width_config_ui);
     destroy_reg_box(content->intial_menu->height_config_ui);
+    
+    destroy_text(content->intial_menu->text_config_size);
+    destroy_text(content->intial_menu->extra_text_config);
+    destroy_text(content->intial_menu->title_text);
+    destroy_text(content->intial_menu->diff_text);
+    
+    free(content->intial_menu);
 }
+void init_scoreboard(full_graphic_content *content){
+    content->scoreboard = malloc(sizeof(scoreboard_vars_t));
+    if (!content->scoreboard){
+        fprintf(stderr,"Error allocating memory");
+        exit(1);
+    }
+    content->scoreboard->score_text = init_show_text("Score: ",LIGHT_BOX_COLOR,content->fonts->iso_big_text,SCREEN_W/2,SCREEN_H/2-DISTANCE_SCOREBOARD_Y);
+    content->scoreboard->high_score = init_show_text("Highscore: ",LIGHT_BOX_COLOR,content->fonts->iso_big_text,SCREEN_W/4,SCREEN_H/2+DISTANCE_SCOREBOARD_Y);
+
+    content->scoreboard->score_number_text = init_show_text("",LIGHT_BOX_COLOR,content->fonts->iso_big_text,SCREEN_W/2+DISTANCE_SCOREBOARD_X,SCREEN_H/2-DISTANCE_SCOREBOARD_Y);
+    content->scoreboard->score_number_text->text = malloc(sizeof(char)*5); // this text MUST BE dynamic, because it changes .
+     
+}
+void destroy_scoreboard(full_graphic_content *content){
+    free(content->scoreboard->score_text);
+    free(content->scoreboard->high_score);
+    free(content->scoreboard->high_score_number_text);
+    
+    free(content->scoreboard->score_number_text->text);
+    destroy_text(content->scoreboard->score_number_text);
+    destroy_text(content->scoreboard->high_score);
+    destroy_text(content->scoreboard->score_text);
+    
+    free(content->scoreboard);
+}
+
+
 void destroy_images(images_t* images){
     al_destroy_bitmap(images->arr_down);
     al_destroy_bitmap(images->arr_up);
@@ -270,8 +298,9 @@ void load_fonts(fonts_t* fonts){
     fonts->iso_title = NULL;
     fonts->iso_text = al_load_font("fonts/isocpeur.ttf",FONT_SIZE_A,0);
     fonts->iso_title = al_load_font("fonts/isocpeur.ttf",FONT_SIZE_B,0);
+    fonts->iso_big_text = al_load_font("fonts/isocpeur.ttf",FONT_SIZE_C,0);
     
-    if (!fonts->iso_text || !fonts->iso_title){
+    if (!fonts->iso_text || !fonts->iso_title || !fonts->iso_big_text){
         fprintf(stderr,"Could not load fonts");
         exit(1);
     }
@@ -279,6 +308,7 @@ void load_fonts(fonts_t* fonts){
 void destroy_fonts(fonts_t* fonts){
     al_destroy_font(fonts->iso_text);
     al_destroy_font(fonts->iso_title);
+    al_destroy_font(fonts->iso_big_text);
 }
 
 /// load a image. If loading fails then throws an errors

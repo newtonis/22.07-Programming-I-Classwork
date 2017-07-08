@@ -9,12 +9,15 @@
 #define Y_COORD 1
 
 #define INIT_LIVES 3
-#define POINT_RATE 10
+#define POINT_RATE 1
 #define DEAD 0
 #define ALIVE 1
 
 #define INIT_LENGTH 5
 #define MAX_LENGTH 300
+
+#define MAX_LOGIC_WIDTH 100
+#define MAX_LOGIC_HEIGHT 100
 
 #define POLAR 2
 #define NUM_OK -1
@@ -29,7 +32,7 @@
 #define NO_COL -5
 
 
-enum {LOGIC_STOP , LOGIC_PLAY };
+enum {LOGIC_STOP , LOGIC_PLAY , LOGIC_WIN_GAME};
 
 enum {LOGIC_KEY_UP , LOGIC_KEY_RIGHT , LOGIC_KEY_DOWN , LOGIC_KEY_LEFT};
 
@@ -54,7 +57,13 @@ typedef struct { /// game logic variables
     int effective_dir;
     int game_status;
     double time_ref; 
-    double call_time; 
+    double call_time;
+    
+    
+    int length; // snake length
+    int lives; // snake lives
+    int points; // actual game points
+    int highscore; //highscore
 }logic_vars_t;
 
 
@@ -72,9 +81,6 @@ void set_snake_game_size(logic_vars_t* game_vars,int width,int height);
 /// destroy all logic game dynamic memory
 void destroy_game(logic_vars_t* logic);
 
-// validate_dir: cheks if the previus direction and the new direction are not oposite
-int validate_dir(int prev_dir, int new_dir);
-
 // calculate_newPos: calculates the next position of the head, and the others are shifted
 // considering that prev_dir and key_in are not oposite, it also needs the actual length
 void calculate_newPos(logic_vars_t* vars);
@@ -83,13 +89,13 @@ void calculate_newPos(logic_vars_t* vars);
 void calculate_foodPos(logic_vars_t* vars);
 
 // check_if_food_eaten: checks if snake eats food, returns NO_EAT if no eat, else GROW_UP
-int check_if_food_eaten(snake_node_t *pSnake, food_t *pFood);
+int check_if_food_eaten(logic_vars_t* vars);
 
 // check_if_colission: checks if snake colisions with tail, if so, lives -1
-void check_if_colision(snake_node_t *pSnake);
+void check_if_colision(logic_vars_t *vars);
 
 // add_snake_node: adds a new node to the snake 
-void add_snake_node(snake_node_t *pSnake);
+void add_snake_node(logic_vars_t* vars);
 // -------------------- //
 
 // game_status_refresh: refresh snake status, if lose returns DEAD, if lives ALIVE,
@@ -102,25 +108,25 @@ void handle_game_key_press(logic_vars_t* logic , int key);
 // Snake length management //
 // ----------------------- //
 // init_length: sets initial length value
-void init_length(int data);
+void init_length(logic_vars_t* vars,int data);
 
 // get_length: returns actual length
-int get_length(void);
+int get_length(logic_vars_t* vars);
 
 // inc_length: increments actual length value
-void inc_length(void);
+int inc_length(logic_vars_t* vars);
 // ----------------------- //
 
 // Lives management functions // 
 // -------------------------- // 
 // init_lives: sets lives to start value, it must be called before starting game
-void init_lives(void);
+void init_lives(logic_vars_t* vars);
 
 // read_lives: returns actual number of lives, 0 is game over
-int read_lives(void);
+int read_lives(logic_vars_t* vars);
 
 // lose_lives: -1 live
-void lose_live(void);
+void lose_live(logic_vars_t* vars);
 // -------------------------- //
 
 // Points management //
@@ -129,13 +135,13 @@ void lose_live(void);
 char *read_points(void);
 
 // inc_points: adds 10 points to actual game
-void inc_points(void);
+void inc_points(logic_vars_t* vars);
 
 // reset_points
-void reset_points(void);
+void reset_points(logic_vars_t* vars);
 
 // write_points_file: in game finish, writes final points into file
-void write_points_file(void);
+void write_points_file(logic_vars_t* vars);
 //
 // ----------------- //
 //// Configure game speed

@@ -2,12 +2,11 @@
 #include <stdlib.h>
 #include <time.h>
 #include "snake_logic.h"
+#include "utils.h"
 
 #define STRING_MAX 10
 
-static int length; // snake length
-static int lives; // snake lives
-static int points; // actual game points
+
 static FILE *points_log = NULL;
 
 
@@ -31,8 +30,8 @@ logic_vars_t* init_snake_struct(int start_length){
     logic_vars->time_ref = 0;
     
     //calculate_foodPos(logic_vars); // first food 
-    init_lives();
-    init_length(start_length);
+    init_lives(logic_vars);
+    init_length(logic_vars,start_length);
     
     return logic_vars;
 }
@@ -54,6 +53,8 @@ void handle_game_key_press(logic_vars_t* logic , int key){
 }
 void start_snake_logic(logic_vars_t* vars){
     vars->game_status = LOGIC_PLAY;
+    vars->points = 0;
+    
     calculate_foodPos(vars);
 }
 void stop_snake_logic(logic_vars_t* vars){
@@ -114,7 +115,7 @@ void calculate_newPos(logic_vars_t* vars){
         break;
     }
     
-    length = get_length();
+    length = get_length(vars);
     
     
     for(k = length; k > 0; k--){ // shift all positions
@@ -136,50 +137,78 @@ void calculate_foodPos(logic_vars_t* game_vars){
     
     float x_pos, y_pos;
     
-    length = get_length(); // we need snake length
+    int length = get_length(game_vars); // we need snake length
     
     srand(time(NULL));
     
-    game_vars->pFood->pos[X_COORD] = rand() % game_vars->world_width;
-    game_vars->pFood->pos[Y_COORD] = rand() % game_vars->world_height;
+    int x_candidates[MAX_LOGIC_WIDTH];
+    int y_candidates[MAX_LOGIC_HEIGHT]; 
+    
+    init_empty_array(x_candidates,game_vars->world_width);
+    init_empty_array(y_candidates,game_vars->world_height);
+    
+    /// Mark all invalid places
+    int i;
+    for (i = 0;i < length;i++){
+        x_candidates[ game_vars->pSnake[i].polar_pos[0] ] = 1;
+        y_candidates[ game_vars->pSnake[i].polar_pos[1] ] = 1;
+    }
+    
+    int x_cand = rand() % game_vars->world_width;
+    int y_cand = rand() % game_vars->world_height;
+    
+    int loop = 0;
+    int total_tiles = game_vars->world_height * game_vars->world_width;
+    while (x_candidates[x_cand] && y_candidates[y_cand] && loop < total_tiles){
+        x_cand ++;
+        if (x_cand >= game_vars->world_width){
+            x_cand = 0;
+            y_cand ++;
+            if (y_cand >= game_vars->world_height){
+                y_cand = 0;
+            }
+        }
+        loop = 0;
+    }
+    if (loop == total_tiles){
+        game_vars->game_status = LOGIC_WIN_GAME;
+    }else{
+        game_vars->pFood->pos[X_COORD] = x_cand;
+        game_vars->pFood->pos[Y_COORD] = y_cand;
+    }
+   
     
 }
 
-int check_if_food_eaten(snake_node_t *pSnake, food_t *pFood){
+int check_if_food_eaten(logic_vars_t* vars){
+    
+    food_t *pFood = vars->pFood;
+    snake_node_t *pSnake = vars->pSnake;
     
     int i, length, x_match, y_match;
-    x_match = NO_EAT;
-    y_match = NO_EAT;
+
     
-    length = get_length();
+    length = get_length(vars);
     
-    for(i = 0; i < length; i++){
-        if(pSnake[i].polar_pos[X_COORD] == pFood->pos[X_COORD]){
-            x_match = FOOD_EAT;
-        }
-        if(pSnake[i].polar_pos[Y_COORD] == pFood->pos[Y_COORD]){
-            y_match = FOOD_EAT;
-        }
-    }
     
-    if((x_match == FOOD_EAT)&&(y_match == FOOD_EAT)){
-        return GROW_UP;
-    }
-    else{
+    if(pSnake[0].polar_pos[X_COORD] == pFood->pos[X_COORD] && pSnake[0].polar_pos[Y_COORD] == pFood->pos[Y_COORD]){
+           return GROW_UP;
+    }else{
         return NO_EAT;
     }
 }
 
-void check_if_colision(snake_node_t *pSnake){
+void check_if_colision(logic_vars_t *vars){
+    snake_node_t* pSnake = vars->pSnake;
     
     int i, x_col, y_col, length;
     x_col = NO_COL;
     y_col = NO_COL;
     
-    length = get_length();
+    length = get_length(vars);
     
     for(i = (HEAD+1); i < length; i++){
-        if((pSnake->polar_pos[X_COORD]) == ((pSnake+i)->polar_pos[X_COORD])){
+        if((pSnake[0].polar_pos[X_COORD]) == (pSnake[i].polar_pos[X_COORD])){
             if((pSnake->polar_pos[Y_COORD]) == ((pSnake+i)->polar_pos[Y_COORD])){
                 x_col = COLISION;
                 y_col = COLISION;
@@ -189,34 +218,34 @@ void check_if_colision(snake_node_t *pSnake){
     }
     
     if((x_col == COLISION)&&(y_col == COLISION)){
-        lose_live();
+        lose_live(vars);
     }
 }
 
-void add_snake_node(snake_node_t *pSnake){
+void add_snake_node(logic_vars_t* vars){
     
     int aux_l;
     
-    aux_l = get_length();
+    aux_l = get_length(vars);
    
     
-    inc_length();
+    inc_length(vars);
 }
 
 int game_status_refresh(logic_vars_t * game_vars){
     
     int live_status, food_status;
-    check_if_colision(game_vars->pSnake);
+    check_if_colision(game_vars);
     
-    live_status = read_lives();
+    live_status = read_lives(game_vars);
     if(live_status == 0){
         return DEAD;
     }
     
-    food_status = check_if_food_eaten(game_vars->pSnake, game_vars->pFood);
+    food_status = check_if_food_eaten(game_vars);
     if(food_status == GROW_UP){
-        add_snake_node(game_vars->pSnake);
-        inc_points();
+        add_snake_node(game_vars);
+        inc_points(game_vars);
         calculate_foodPos(game_vars);
         return FOOD_EAT;
     }else if(food_status == NO_EAT){
@@ -227,31 +256,31 @@ int game_status_refresh(logic_vars_t * game_vars){
 
 // Snake length management //
 
-void init_length(int data){
-    length = data;
+void init_length(logic_vars_t* vars,int data){
+    vars->length = data;
 }
 
-int get_length(void){
-    return length;
+int get_length(logic_vars_t* vars){
+    return vars->length;
 }
 
-void inc_length(void){
-    length++;
+int inc_length(logic_vars_t* vars){
+    vars->length++;
 }
 
 // Live management functions //
 
-void init_lives(void){
-   lives = INIT_LIVES; 
+void init_lives(logic_vars_t* vars){
+   vars->lives = INIT_LIVES; 
 }
 
-int read_lives(void){
-    return lives;
+int read_lives(logic_vars_t* vars){
+    return vars->lives;
 }
 
-void lose_live(void){
-    if(lives > 0){
-        lives--;
+void lose_live(logic_vars_t* vars){
+    if(vars->lives > 0){
+        vars->lives--;
     }
 }
 
@@ -270,17 +299,17 @@ char *read_points(void){
     return msj_points;
 }
 
-void inc_points(void){
-    points += POINT_RATE;
+void inc_points(logic_vars_t* vars){
+    vars->points += POINT_RATE;
 }
 
-void reset_points(void){
-    points = 0;
+void reset_points(logic_vars_t* vars){
+    vars->points = 0;
 }
 
-void write_points_file(void){
+void write_points_file(logic_vars_t* vars){
     points_log = fopen("game_points.txt", "w");
-    fprintf(points_log, "%d", points);
+    fprintf(points_log, "%d", vars->points);
     fclose(points_log);
 }
 

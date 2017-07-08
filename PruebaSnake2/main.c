@@ -11,10 +11,8 @@ int main(void){
     full_graphic_content content;
     images_t plot_basic_vars;
     fonts_t fonts;
-    initial_menu_vars_t inital_menu;
     
     content.images = &plot_basic_vars;
-    content.intial_menu = &inital_menu;
     content.fonts = &fonts;
 
     init_snake_pc(&content);

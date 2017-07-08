@@ -28,12 +28,18 @@ int str_to_int(char *str,int *target){
         return 1;
     }
 }
-
-void *int_to_str(int value,char *ans){
+void init_empty_array(int *arr,int sz){
+    int i;
+    for (i = 0;i < sz;i++){
+        arr[i] = 0;
+    }
+}
+void int_to_str(int value,char *ans,int min_size){
     char aux[DEF_SZ];
     
     int i = 0;
-    while (value > 0){
+    while (value > 0 || min_size > 0){
+        min_size --;
         aux[i++] = (value%10)+'0';
         value /= 10;
     }
@@ -47,4 +53,11 @@ void *int_to_str(int value,char *ans){
 /// make A be between b and c
 int fix_value(int a,int b,int c){
     return min( max(a , b) , c);
+}
+void copy_str(char *a,char *b){
+    int i = 0;
+    while (a[i] != '\0'){
+        b[i] = a[i];
+        i++;
+    }
 }

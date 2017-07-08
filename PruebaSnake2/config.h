@@ -36,10 +36,12 @@ enum {FALSE, TRUE};
 #define BOX_COLOR al_map_rgb(255,255,255)
 #define SNAKE_COLOR al_map_rgb(255,100,100)
 #define FOOD_COLOR al_map_rgb(100,255,255)
+#define LIGHT_BOX_COLOR al_map_rgb(100,100,100)
 
 #define START_BUTTON_CORR 100
 
 #define FONT_SIZE_A 30
+#define FONT_SIZE_C 60
 #define FONT_SIZE_B 100
 
 #define DEF_SZ 20
@@ -54,6 +56,8 @@ enum {FALSE, TRUE};
 #define TEXT_CONF_DISTANCE 100
 #define GAME_TITLE_TEXT "SNAKE"
 #define TITLE_DISTANCE_Y 20 
+#define DISTANCE_SCOREBOARD_Y 50
+#define DISTANCE_SCOREBOARD_X 150
 
 #define MAP_SIZE_TEXT "map size"
 
@@ -64,6 +68,8 @@ enum {FALSE, TRUE};
 #define DEFAULT_DIFFICULTY 2
 #define DEFAULT_WIDTH 20
 #define DEFAULT_HEIGHT 15
+
+#define SCORE_NUMBERS 3
 
 extern double diff_array[CNT_DIFF];
 

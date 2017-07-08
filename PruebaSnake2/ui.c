@@ -105,7 +105,7 @@ void draw_reg_box(reg_box_t *reg_box){
     
     char str[DEF_ARR_SZ];
     
-    int_to_str(reg_box->value,str);
+    int_to_str(reg_box->value,str,COUNT_BOX_NUMBERS);
     al_draw_text(reg_box->font,BOX_COLOR,reg_box->x,reg_box->y-DEF_SZ/2,ALLEGRO_ALIGN_CENTER,str);
 }
 void destroy_reg_box(reg_box_t *reg_box){
@@ -135,7 +135,7 @@ void destroy_handler(cursor_handler_t* cursor){
     free(cursor);
 }
 
-show_text_t * init_show_text(const char *text,ALLEGRO_COLOR color,ALLEGRO_FONT* font,int x,int y){
+show_text_t * init_show_text(char *text,ALLEGRO_COLOR color,ALLEGRO_FONT* font,int x,int y){
     show_text_t *new_text = malloc(sizeof(show_text_t));
     new_text->x = x;
     new_text->y = y;
@@ -152,4 +152,8 @@ void destroy_text(show_text_t* text){
 void update_show_text_position(show_text_t* show_text,int x,int y){
     show_text->x = x;
     show_text->y = y;
+}
+
+void update_show_text_content(show_text_t* show_text,char *content){
+    show_text->text = content;
 }

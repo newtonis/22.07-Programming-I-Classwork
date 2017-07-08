@@ -19,6 +19,7 @@ enum {INITIAL_MENU , PLAY };
 typedef struct{
     ALLEGRO_FONT *iso_title;
     ALLEGRO_FONT *iso_text;
+    ALLEGRO_FONT *iso_big_text;
 }fonts_t;
 
 /// All bitmaps are stored in this structure
@@ -45,6 +46,14 @@ typedef struct{
 }initial_menu_vars_t;
 
 typedef struct{
+    show_text_t *score_text;
+    show_text_t *high_score;
+    show_text_t *score_number_text;
+    show_text_t *high_score_number_text;
+    
+}scoreboard_vars_t;
+
+typedef struct{
     ALLEGRO_DISPLAY *display;
     ALLEGRO_EVENT_QUEUE *event_queue;
     ALLEGRO_TIMER *timer_a , *timer_b;
@@ -57,7 +66,8 @@ typedef struct{
 
     images_t *images;
     initial_menu_vars_t *intial_menu; /// variables for initial menu
-            
+    scoreboard_vars_t *scoreboard;
+    
     fonts_t* fonts;
     
     int key_press;
@@ -76,9 +86,12 @@ void update_positions(full_graphic_content* content); // update graphic elements
 static void load_fonts(fonts_t* fonts);
 static void load_images(images_t* images);
 static void init_menu(full_graphic_content *content);
+static void init_scoreboard(full_graphic_content *content);
+
 static void destroy_menu(full_graphic_content *content);
 static void destroy_images(images_t* images);
 static void destroy_fonts(fonts_t* fonts);
+static void destroy_scoreboard(full_graphic_content *content);
 
 static ALLEGRO_BITMAP* load_or_crash(const char *filename); // load image, or , if it could not be loaded, crash program.
 

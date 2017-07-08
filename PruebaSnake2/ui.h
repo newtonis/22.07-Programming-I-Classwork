@@ -1,15 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   ui.h
- * Author: sissi
- *
- * Created on July 5, 2017, 3:03 PM
- */
 
 #ifndef UI_H
 #define UI_H
@@ -17,6 +5,7 @@
 
 #include <allegro5/allegro_font.h>
 
+#define COUNT_BOX_NUMBERS 2
 
 enum {HOLD , RELEASE};
 
@@ -45,7 +34,7 @@ typedef struct{
 
 typedef struct{
     int x,y;
-    const char* text;
+    char* text;
     ALLEGRO_FONT * font;
     ALLEGRO_COLOR color;
 }show_text_t;
@@ -73,10 +62,11 @@ void set_current_cursor(cursor_handler_t* handler, ALLEGRO_SYSTEM_MOUSE_CURSOR c
 //// Update cursor for the current iteration, set then default cursor again, because we don't want the same cursor to stay forever
 void update_display_cursor(cursor_handler_t* handler);
 
-show_text_t * init_show_text(const char *text,ALLEGRO_COLOR color,ALLEGRO_FONT* font,int x,int y);
+show_text_t * init_show_text(char *text,ALLEGRO_COLOR color,ALLEGRO_FONT* font,int x,int y);
 void draw_show_text(show_text_t* show_text);
-void destroy_Text(show_text_t* text);
+void destroy_text(show_text_t* text);
 void update_show_text_position(show_text_t* show_text,int x,int y);
+void update_show_text_content(show_text_t* show_text,char *content);
 
 #endif /* UI_H */
 

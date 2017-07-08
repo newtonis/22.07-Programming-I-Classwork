@@ -6,6 +6,13 @@
 #include "snake_graphic_base.h"
 #include "utils.h"
 
+/*
+ * snake_pc.c
+ * In this file everything related to screen-drawing and front-end actions is written
+ * Most things used in this file are declared/initialized in snake_graphic_base.h/snake_graphic_base.c
+ */
+
+
 double get_speed_from_difficulty(int diff){
     diff--;
     return diff_array[diff];
@@ -31,22 +38,28 @@ void update_game( logic_vars_t* game_data , full_graphic_content* content ){
         break;
         
         case PLAY:
-
-            //status = game_status_refresh(game_data);
-            /*if (status == FOOD_EAT){
-
-            }*/
             
-            update_snake_logic(game_data);
+            status = update_snake_logic(game_data);
            
+            if (status == FOOD_EAT){
+                update_scoreboard(game_data,content);
+            }
+            
         break;
     }
 }
+
+void update_scoreboard(logic_vars_t * vars , full_graphic_content *content){
+    int_to_str(vars->points,content->scoreboard->score_number_text->text,SCORE_NUMBERS);
+}
+
 void handle_start_game( logic_vars_t *game_data,full_graphic_content *content){
     set_snake_game_size( game_data , content->intial_menu->width_config_ui->value , content->intial_menu->height_config_ui->value);
     set_speed( game_data , get_speed_from_difficulty(content->intial_menu->diff_ui->value) );
     start_snake_logic(game_data); // start game
-   // printf("Game started %f %f\n",(double)game_data->speed,(double)game_data->game_status);
+    update_scoreboard(game_data,content); // start scoreboard
+    
+    // printf("Game started %f %f\n",(double)game_data->speed,(double)game_data->game_status);
 }
 void handle_key_press( logic_vars_t * vars , full_graphic_content *content , ALLEGRO_EVENT *ev){
     
@@ -86,8 +99,12 @@ void update_pc_graphic_screen( logic_vars_t* game_data , full_graphic_content* c
             
         break;
         case PLAY:
-            draw_game(game_data,content);
+            draw_show_text(content->scoreboard->score_text);
+            draw_show_text(content->scoreboard->score_number_text);
             
+            draw_show_text(content->scoreboard->high_score);
+            
+            draw_game(game_data,content);
         break;
     }
     update_display_cursor(content->cursor_handler); /// Update current shown cursor
@@ -111,7 +128,7 @@ void draw_game( logic_vars_t* game_vars, full_graphic_content* content){
     double start_y = (double)screen_height/2-mult_y*game_vars->world_height/2;
     
     int j, length;
-    length = get_length(); // get actual snake length
+    length = get_length(game_vars); // get actual snake length
     snake_node_t *pSnake = game_vars->pSnake;
     
     for(j = 0; j < length; j++){ // draws positions in buffer

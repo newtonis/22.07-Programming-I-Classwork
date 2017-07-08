@@ -25,6 +25,8 @@ static double get_speed_from_difficulty(int diff);
 /// Handle game key presses
 void handle_key_press( logic_vars_t * vars , full_graphic_content *content , ALLEGRO_EVENT *ev);
 
+/// Handle when scoreboard is updated
+void update_scoreboard(logic_vars_t * vars , full_graphic_content *content);
 
 #endif /* SNAKE_PC_H */
 
