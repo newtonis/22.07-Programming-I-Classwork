@@ -13,10 +13,9 @@ static FILE *points_log = NULL;
 
 logic_vars_t* init_snake_struct(int start_length){
     logic_vars_t* logic_vars = malloc(sizeof(logic_vars_t));
-    snake_node_t* pSnake = malloc(sizeof(pSnake)*start_length);
+    snake_node_t* pSnake = malloc(sizeof(pSnake)*MAX_LENGTH);
     logic_vars->pFood = malloc(sizeof(food_t));
     logic_vars->pSnake = pSnake;
-    
     
     if (!logic_vars || !pSnake){
         fprintf(stderr,"Error, can't allocate memory");
@@ -24,11 +23,13 @@ logic_vars_t* init_snake_struct(int start_length){
     }
     int j;
     for(j = 0; j < start_length; j++){ 
-        pSnake[j].polar_pos[X_COORD] = j;//(((SCREEN_W/CUADRADITO_SIZE)/2)*CUADRADITO_SIZE) - (j*CUADRADITO_SIZE);
+        pSnake[j].polar_pos[X_COORD] = start_length-j-1;//(((SCREEN_W/CUADRADITO_SIZE)/2)*CUADRADITO_SIZE) - (j*CUADRADITO_SIZE);
         pSnake[j].polar_pos[Y_COORD] = 0;//(((SCREEN_H/CUADRADITO_SIZE)/2)*CUADRADITO_SIZE);
     }  
     logic_vars->game_status = LOGIC_STOP; // game is paused before starting
     logic_vars->snake_dir = LOGIC_KEY_RIGHT;
+    logic_vars->time_ref = 0;
+    
     //calculate_foodPos(logic_vars); // first food 
     init_lives();
     init_length(start_length);
@@ -46,25 +47,38 @@ void destroy_game(logic_vars_t* logic){
 }
 void handle_game_key_press(logic_vars_t* logic , int key){
     if (logic->game_status == LOGIC_PLAY){ // is the game playing?
-        if ( (key+2)%4 != logic->snake_dir ){ // check if key pressed represent the opposed direction
+        if ( (key+2)%4 != logic->effective_dir ){ // check if key pressed represent the opposed direction
             logic->snake_dir = key;
         }
     }
 }
-
-
-void update_snake_logic(logic_vars_t* vars){ /// al game logic managment
+void start_snake_logic(logic_vars_t* vars){
+    vars->game_status = LOGIC_PLAY;
+    calculate_foodPos(vars);
+}
+void stop_snake_logic(logic_vars_t* vars){
+    vars->game_status = LOGIC_STOP;
+}
+int update_snake_logic(logic_vars_t* vars){
+    int ans;
     if (vars->game_status == LOGIC_PLAY){
-        time_t time_elapsed = clock() - vars->time_ref;
-        double time = (double)time_elapsed / CLOCKS_PER_SEC;
-        printf("%f \n",time);
-        if (time > vars->speed){
-            vars->time_ref = clock(); // reset counter
+        vars->time_ref += vars->call_time; 
+        if (vars->time_ref >= vars->speed){
+            vars->time_ref = 0; // reset counter
             
             /// Now advance snake
             calculate_newPos(vars );
+            
+            ans = game_status_refresh(vars);
+            if (ans == DEAD){
+                stop_snake_logic(vars);
+            }
         }
+    }else{
+        ans = -1;
     }
+    
+    return ans;
 }
 
 void calculate_newPos(logic_vars_t* vars){
@@ -76,6 +90,7 @@ void calculate_newPos(logic_vars_t* vars){
     y_head = pSnake[0].polar_pos[Y_COORD];
     
     move = vars->snake_dir;
+    vars->effective_dir = vars->snake_dir;
     
     switch(move){ // gets new head pos
         case LOGIC_KEY_UP:
@@ -114,24 +129,6 @@ void calculate_newPos(logic_vars_t* vars){
     //snake_pos[Y_COORD][HEAD] = y_head;
 }
 
-int validate_dir(int prev_dir, int new_dir){
-    
-    /*int aux;
-    
-    if((prev_dir == KEY_UP)&&(new_dir == KEY_DOWN)){
-        aux = DIR_ERR;
-    }else if((prev_dir == KEY_DOWN)&&(new_dir == KEY_UP)){
-        aux = DIR_ERR;
-    }else if((prev_dir == KEY_LEFT)&&(new_dir == KEY_RIGHT)){
-        aux = DIR_ERR;
-    }    else if((prev_dir == KEY_RIGHT)&&(new_dir == KEY_LEFT)){
-        aux = DIR_ERR;
-    }else{
-        aux = DIR_OK;
-    }
-    return aux;*/
-    return 0;
-}
 
 void calculate_foodPos(logic_vars_t* game_vars){
     
@@ -259,7 +256,7 @@ void lose_live(void){
 }
 
 /// configure game speed
-void set_speed(logic_vars_t * game_vars , int speed){
+void set_speed(logic_vars_t * game_vars , double speed){
     game_vars->speed = speed;
 }
 
@@ -287,3 +284,6 @@ void write_points_file(void){
     fclose(points_log);
 }
 
+void set_logic_call_time(logic_vars_t* game_vars,double time){
+    game_vars->call_time = time;
+}

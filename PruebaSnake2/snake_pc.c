@@ -7,6 +7,7 @@
 #include "utils.h"
 
 double get_speed_from_difficulty(int diff){
+    diff--;
     return diff_array[diff];
 }
 
@@ -31,10 +32,10 @@ void update_game( logic_vars_t* game_data , full_graphic_content* content ){
         
         case PLAY:
 
-            status = game_status_refresh(game_data);
-            if (status == FOOD_EAT){
+            //status = game_status_refresh(game_data);
+            /*if (status == FOOD_EAT){
 
-            }
+            }*/
             
             update_snake_logic(game_data);
            
@@ -44,7 +45,7 @@ void update_game( logic_vars_t* game_data , full_graphic_content* content ){
 void handle_start_game( logic_vars_t *game_data,full_graphic_content *content){
     set_snake_game_size( game_data , content->intial_menu->width_config_ui->value , content->intial_menu->height_config_ui->value);
     set_speed( game_data , get_speed_from_difficulty(content->intial_menu->diff_ui->value) );
-    game_data->game_status = LOGIC_PLAY;
+    start_snake_logic(game_data); // start game
    // printf("Game started %f %f\n",(double)game_data->speed,(double)game_data->game_status);
 }
 void handle_key_press( logic_vars_t * vars , full_graphic_content *content , ALLEGRO_EVENT *ev){

@@ -100,13 +100,7 @@ void init_snake_pc(full_graphic_content *content){
         exit(1);
     }
 	
-    for(i = 0; i < MAX_LENGTH; i++){ // pink snake
-        al_set_target_bitmap(content->images->snake[i]);
-        al_clear_to_color(al_map_rgb(255, 0, 255));
-    }
-	
-    al_set_target_bitmap(content->images->food); // Pink Food
-    al_clear_to_color(al_map_rgb(255, 0, 255));
+  
     
     al_set_target_bitmap(al_get_backbuffer(content->display));
   
@@ -115,7 +109,6 @@ void init_snake_pc(full_graphic_content *content){
     al_register_event_source(content->event_queue, al_get_timer_event_source(content->timer_b));
     al_register_event_source(content->event_queue, al_get_keyboard_event_source()); 
  
-    al_clear_to_color(al_map_rgb(0,0,0));
         
     al_start_timer(content->timer_a);
     al_start_timer(content->timer_b);
@@ -149,8 +142,8 @@ void handle_events(logic_vars_t* vars , full_graphic_content * content){
     ALLEGRO_EVENT ev;
     if( al_get_next_event(content->event_queue, &ev) ){ 
 	if(ev.type == ALLEGRO_EVENT_TIMER){
-            if (ev.timer.source == content->timer_a){  /// Logical timer
-                update_game( vars , content);
+            if (ev.timer.source == content->timer_a){  /// Logical timer, updated one time per 10 ms
+                update_game( vars , content); 
             }else if(ev.timer.source == content->timer_b){ /// graphic timer
                 update_pc_graphic_screen( vars , content );
             }
@@ -163,6 +156,7 @@ void handle_events(logic_vars_t* vars , full_graphic_content * content){
             update_positions(content);
         }
     }
+    
 }
 
 /*
@@ -245,9 +239,9 @@ void init_menu(full_graphic_content *content){
     content->intial_menu->play_button = init_button(content->images->start_button_image , content->images->start_button_image_b, content->cursor_handler, SCREEN_W / 2 , SCREEN_H - START_BUTTON_CORR);
     
    
-    content->intial_menu->width_config_ui = init_reg_box(arr_box_images, content->cursor_handler,content->fonts->iso_text,SCREEN_W/8*1,SCREEN_H/2,10,MIN_TABLE_WIDTH,MAX_TABLE_WIDTH);
-    content->intial_menu->height_config_ui = init_reg_box(arr_box_images, content->cursor_handler, content->fonts->iso_text,SCREEN_W/4,SCREEN_H/2,10,MIN_TABLE_HEIGHT,MAX_TABLE_HEIGHT);
-    content->intial_menu->diff_ui = init_reg_box(arr_box_images, content->cursor_handler, content->fonts->iso_text,SCREEN_W/4*3,SCREEN_H/2,1,MIN_DIFF,MAX_DIFF);
+    content->intial_menu->width_config_ui = init_reg_box(arr_box_images, content->cursor_handler,content->fonts->iso_text,SCREEN_W/8*1,SCREEN_H/2,DEFAULT_WIDTH,MIN_TABLE_WIDTH,MAX_TABLE_WIDTH);
+    content->intial_menu->height_config_ui = init_reg_box(arr_box_images, content->cursor_handler, content->fonts->iso_text,SCREEN_W/4,SCREEN_H/2,DEFAULT_HEIGHT,MIN_TABLE_HEIGHT,MAX_TABLE_HEIGHT);
+    content->intial_menu->diff_ui = init_reg_box(arr_box_images, content->cursor_handler, content->fonts->iso_text,SCREEN_W/4*3,SCREEN_H/2,DEFAULT_DIFFICULTY,MIN_DIFF,MAX_DIFF);
     
     
     content->intial_menu->text_config_size = init_show_text(MAP_SIZE_TEXT,BOX_COLOR,content->fonts->iso_text,SCREEN_W/16*3,SCREEN_H/2-TEXT_CONF_DISTANCE);

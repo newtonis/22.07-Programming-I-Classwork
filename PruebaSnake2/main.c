@@ -20,7 +20,7 @@ int main(void){
     init_snake_pc(&content);
     
     logic_vars_t *logic = init_snake_struct(INIT_LENGTH); // set snake position coordenates
-    
+    set_logic_call_time(logic, 1.0f/FPS_A);
     
 
     while(!content.do_exit){ 

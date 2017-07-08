@@ -116,7 +116,7 @@ void destroy_reg_box(reg_box_t *reg_box){
 cursor_handler_t* init_cursor_handler(ALLEGRO_DISPLAY *display){
     cursor_handler_t * cursor_handler = malloc(sizeof(cursor_handler_t));
     cursor_handler->display_ref = display;
-    cursor_handler->default_cursor = ALLEGRO_SYSTEM_MOUSE_CURSOR_DEFAULT;
+    cursor_handler->default_cursor = ALLEGRO_SYSTEM_MOUSE_CURSOR_ARROW;
     cursor_handler->next_cursor = cursor_handler->default_cursor;
     return cursor_handler;
 }
@@ -127,6 +127,8 @@ void update_display_cursor(cursor_handler_t* handler){
     if (handler->next_cursor != handler->default_cursor){
         al_set_system_mouse_cursor(handler->display_ref, handler->next_cursor);
         handler->next_cursor = handler->default_cursor; // we need another call in next iteration to change cursor
+    }else{
+        al_set_system_mouse_cursor(handler->display_ref, handler->default_cursor);
     }
 }
 void destroy_handler(cursor_handler_t* cursor){

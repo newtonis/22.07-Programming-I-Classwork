@@ -14,6 +14,8 @@
 #define ALIVE 1
 
 #define INIT_LENGTH 5
+#define MAX_LENGTH 300
+
 #define POLAR 2
 #define NUM_OK -1
 #define NUM_ERR -2
@@ -25,6 +27,7 @@
 
 #define COLISION -4
 #define NO_COL -5
+
 
 enum {LOGIC_STOP , LOGIC_PLAY };
 
@@ -48,8 +51,10 @@ typedef struct { /// game logic variables
     double speed; /// snake speed in seconds
     
     int snake_dir;
+    int effective_dir;
     int game_status;
-    clock_t time_ref; 
+    double time_ref; 
+    double call_time; 
 }logic_vars_t;
 
 
@@ -58,8 +63,8 @@ typedef struct { /// game logic variables
 // init_snake_struct: inits standard snake with initial length with center coordenates
 logic_vars_t* init_snake_struct(int start_length);
 
-/// Update snake logic iterations
-void update_snake_logic(logic_vars_t* vars);
+ /// al game logic managment. Must be called in periods of the configured period time.
+int update_snake_logic(logic_vars_t* vars);
 
 /// Configure snake size
 void set_snake_game_size(logic_vars_t* game_vars,int width,int height);
@@ -134,7 +139,16 @@ void write_points_file(void);
 //
 // ----------------- //
 //// Configure game speed
-void set_speed(logic_vars_t * game_vars , int speed);
+void set_speed(logic_vars_t * game_vars , double speed);
+
+/// Configure how fast will the logic update function be called
+void set_logic_call_time(logic_vars_t* game_vars,double time);
+
+/// Make game play!
+void start_snake_logic(logic_vars_t* vars);
+
+/// Stop game!
+void stop_snake_logic(logic_vars_t* vars);
 
 #endif /* SNAKE_LOGIC_H */
 

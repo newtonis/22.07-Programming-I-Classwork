@@ -16,7 +16,7 @@ enum {FALSE, TRUE};
 #define WORLD_MAX_RIGHT 10
 
 #define MIN_DIFF 1
-#define MAX_DIFF 10
+#define MAX_DIFF 5
 
 #define WORLD_MIN_LEFT 0
 
@@ -27,11 +27,10 @@ enum {FALSE, TRUE};
 #define DIR_OK -1
 #define DIR_ERR -2
 
-#define FPS_A 20.0
+#define FPS_A 100.0
 #define FPS_B 60.0
 
 #define MOVE_KEYS 4
-#define MAX_LENGTH 100
 
 #define BACKGROUND_COLOR al_map_rgb(0,0,50)
 #define BOX_COLOR al_map_rgb(255,255,255)
@@ -61,6 +60,10 @@ enum {FALSE, TRUE};
 #define DIFF_TEXT "level"
 
 #define CNT_DIFF 10
+
+#define DEFAULT_DIFFICULTY 2
+#define DEFAULT_WIDTH 20
+#define DEFAULT_HEIGHT 15
 
 extern double diff_array[CNT_DIFF];
 
