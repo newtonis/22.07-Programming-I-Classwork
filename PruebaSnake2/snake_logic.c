@@ -24,6 +24,7 @@ logic_vars_t* init_snake_struct(){
     logic_vars->world_width  = -1;
     logic_vars->diff_level = -1;
     logic_vars->speed = -1;
+    logic_vars->snake_grow = -1;
     
     if (!logic_vars || !pSnake){
         fprintf(stderr,"Error, can't allocate memory");
@@ -49,7 +50,14 @@ void handle_game_key_press(logic_vars_t* logic , int key){
     }
 }
 void start_snake_logic(logic_vars_t* vars){
-    printf("Start! ");
+    if (vars->world_height == -1 || vars->world_width == -1){
+        fprintf(stderr,"World dimensions are not configured,game can't start\n");
+        exit(1);
+    }
+    if (vars->speed == -1 || vars->diff_level == -1 || vars->snake_grow == -1){
+        fprintf(stderr,"Game difficulty is not configured, game can't start\n");
+        exit(1);
+    }
     snake_node_t *pSnake = vars->pSnake;
     
     int j;
