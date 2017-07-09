@@ -4,6 +4,17 @@
 #include <time.h>
 #include "config.h"    
 
+/*
+ * Snake game back-end is in this file
+ * Usage:
+ * 
+ * First initialize Snake struct with init_snake_struct that will give a logic_vars pointer that will contain 
+ * all the logic game data
+ * 
+ */
+
+
+
 #define HEAD 0
 #define X_COORD 0
 #define Y_COORD 1

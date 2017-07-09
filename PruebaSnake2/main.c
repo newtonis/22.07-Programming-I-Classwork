@@ -7,7 +7,15 @@
 #include "snake_graphic_base.h"
 #include "interface.h"
  
-/*****
+/*
+ * Snake, PC version: 
+ * Ariel Nowik
+ * Marcelo Regeira
+ * Joaquin Mestanza
+ */
+
+/*
+ * 
  Important note:
  * In this program we used exit(1) several times in case of errors.
  * There is no risk of memory leak as OS takes all allocated memory back when exit(1) is called
