@@ -37,13 +37,16 @@
  * pSnake[i].polar_pos has the current position of a snake tile
  * You need to call int get_length(logic_vars_t* vars) to get the total snake length (the array length)
  * 
- * 8- You may call the function get_highscore(logic_vars_t* vars) to get the highscore for the difficulty configured
+ * 8- To update the game key pressed, you need to call void handle_game_key_press(logic_vars_t* logic , int key)
+ * with the key pressed by the user that can be LOGIC_KEY_UP , LOGIC_KEY_RIGHT , LOGIC_KEY_DOWN , LOGIC_KEY_LEFT
+ * 
+ * 9- You may call the function get_highscore(logic_vars_t* vars) to get the highscore for the difficulty configured
  * And read vars->points to get current match variables (Don't cheat this variable)
  * 
- * 9- When game ends call to stop_snake_logic(logic_vars_t* vars) and the game will be inmediatly stoped (Calls 
+ * 10- When game ends call to stop_snake_logic(logic_vars_t* vars) and the game will be inmediatly stoped (Calls 
  * of update_snake_logic(logic_vars_t* vars) will be void
  * 
- * 10- When the game is closed you need to call void destroy_game(logic_vars_t* logic) to delete the game variables
+ * 11- When the game is closed you need to call void destroy_game(logic_vars_t* logic) to delete the game variables
  * dynamic variables
  * 
  * */
@@ -128,6 +131,64 @@ typedef struct { /// game logic variables
 
 
 // Game logic functions //
+
+// calculate_newPos: calculates the next position of the head, and the others are shifted
+// considering that prev_dir and key_in are not oposite, it also needs the actual length
+static void calculate_newPos(logic_vars_t* vars);
+
+// calculate_foodPos: sets a random position for the next food to apear
+static void calculate_foodPos(logic_vars_t* vars);
+
+// check_if_food_eaten: checks if snake eats food, returns NO_EAT if no eat, else GROW_UP
+static int check_if_food_eaten(logic_vars_t* vars);
+
+// check_if_colission: checks if snake colisions with tail, if so, lives -1
+static int check_if_colision(logic_vars_t *vars);
+
+// add_snake_node: adds a new node to the snake 
+static void add_snake_node(logic_vars_t* vars);
+// -------------------- //
+
+// Snake length management //
+// ----------------------- //
+// init_length: sets initial length value
+static void init_length(logic_vars_t* vars,int data);
+
+
+// inc_length: increments actual length value
+static int inc_length(logic_vars_t* vars);
+// ----------------------- //
+
+// Lives management functions // 
+// -------------------------- // 
+// init_lives: sets lives to start value, it must be called before starting game
+static void init_lives(logic_vars_t* vars);
+
+// read_lives: returns actual number of lives, 0 is game over
+static int read_lives(logic_vars_t* vars);
+
+// lose_lives: -1 live
+static void lose_live(logic_vars_t* vars);
+// -------------------------- //
+
+// Points management //
+// ----------------- //
+// read_points: return points from previus game
+static void read_points(logic_vars_t* vars);
+// inc_points: adds 10 points to actual game
+static void inc_points(logic_vars_t* vars);
+//// Configure game speed and how much snake grow
+static void set_game_level(logic_vars_t * game_vars , double speed,int snake_grow);
+// reset_points
+static void reset_points(logic_vars_t* vars);
+
+// write_points_file: in game finish, writes final points into file
+static void write_points_file(logic_vars_t* vars);
+
+
+
+// Functions made to be used outside //
+
 // -------------------- //
 // init_snake_struct: inits standard snake with initial length with center coordenates
 logic_vars_t* init_snake_struct();
@@ -141,22 +202,8 @@ void set_snake_game_size(logic_vars_t* game_vars,int width,int height);
 /// destroy all logic game dynamic memory
 void destroy_game(logic_vars_t* logic);
 
-// calculate_newPos: calculates the next position of the head, and the others are shifted
-// considering that prev_dir and key_in are not oposite, it also needs the actual length
-void calculate_newPos(logic_vars_t* vars);
-
-// calculate_foodPos: sets a random position for the next food to apear
-void calculate_foodPos(logic_vars_t* vars);
-
-// check_if_food_eaten: checks if snake eats food, returns NO_EAT if no eat, else GROW_UP
-int check_if_food_eaten(logic_vars_t* vars);
-
-// check_if_colission: checks if snake colisions with tail, if so, lives -1
-int check_if_colision(logic_vars_t *vars);
-
-// add_snake_node: adds a new node to the snake 
-void add_snake_node(logic_vars_t* vars);
-// -------------------- //
+// get_length: returns actual length
+int get_length(logic_vars_t* vars);
 
 // game_status_refresh: refresh snake status, if lose returns DEAD, if lives ALIVE,
 // and for food eaten FOOD_EAT
@@ -165,50 +212,10 @@ int game_status_refresh(logic_vars_t * game_vars);
 /// Make game to handle new key pressed.
 void handle_game_key_press(logic_vars_t* logic , int key);
 
-// Snake length management //
-// ----------------------- //
-// init_length: sets initial length value
-void init_length(logic_vars_t* vars,int data);
-
-// get_length: returns actual length
-int get_length(logic_vars_t* vars);
-
-// inc_length: increments actual length value
-int inc_length(logic_vars_t* vars);
-// ----------------------- //
-
-// Lives management functions // 
-// -------------------------- // 
-// init_lives: sets lives to start value, it must be called before starting game
-void init_lives(logic_vars_t* vars);
-
-// read_lives: returns actual number of lives, 0 is game over
-int read_lives(logic_vars_t* vars);
-
-// lose_lives: -1 live
-void lose_live(logic_vars_t* vars);
-// -------------------------- //
-
-// Points management //
-// ----------------- //
-// read_points: return points from previus game
-void read_points(logic_vars_t* vars);
-
-// inc_points: adds 10 points to actual game
-void inc_points(logic_vars_t* vars);
-
 // get current highscore
 int get_highscore(logic_vars_t* vars);
-
-// reset_points
-void reset_points(logic_vars_t* vars);
-
-// write_points_file: in game finish, writes final points into file
-void write_points_file(logic_vars_t* vars);
-
 // ----------------- //
-//// Configure game speed and how much snake grow
-static void set_game_level(logic_vars_t * game_vars , double speed,int snake_grow);
+
 /// Configure game hardness, but selecting directly the difficulty
 void set_game_difficulty(logic_vars_t* game_vars,int dif_level);
 
