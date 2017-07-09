@@ -7,6 +7,14 @@
 #include "snake_graphic_base.h"
 #include "interface.h"
  
+/*****
+ Important note:
+ * In this program we used exit(1) several times in case of errors.
+ * There is no risk of memory leak as OS takes all allocated memory back when exit(1) is called
+ * https://stackoverflow.com/questions/10588014/what-happens-to-the-malloced-memory-when-exit1-is-encountered
+ */
+
+
 int main(void){
     full_graphic_content content;
     images_t plot_basic_vars;
@@ -17,15 +25,10 @@ int main(void){
 
     init_snake_pc(&content);
     
-    logic_vars_t *logic = init_snake_struct(INIT_LENGTH); // set snake position coordenates
-    set_logic_call_time(logic, 1.0f/FPS_A);
+    logic_vars_t *logic = init_snake_struct(); // set snake position coordinates
+    set_logic_call_time(logic, 1.0f/FPS_A); /// give to the logic module the period of game updates
     
-
     while(!content.do_exit){ 
-        //clock_t t1;
-        //t1 = clock();
-        
-        //printf("%f ",(double)t1 / CLOCKS_PER_SEC * 1000.0);
         
         handle_events(logic , &content );
         

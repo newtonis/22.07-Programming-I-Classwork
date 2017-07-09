@@ -13,19 +13,14 @@
  */
 
 
-double get_speed_from_difficulty(int diff){
-    diff--;
-    return diff_array[diff];
-}
-
 void update_game( logic_vars_t* game_data , full_graphic_content* content ){
     
     ALLEGRO_MOUSE_STATE state;
     int status;
     
-    switch (content->front_end_status){
+    /// Main front end Machine
+    switch (content->front_end_status){ 
         case INITIAL_MENU:
-            
             //al_get_mouse_state(&state);
             status = update_button(content->intial_menu->play_button);
             if (status){
@@ -38,24 +33,45 @@ void update_game( logic_vars_t* game_data , full_graphic_content* content ){
         break;
         
         case PLAY:
-            
             status = update_snake_logic(game_data);
-           
             if (status == FOOD_EAT){
                 update_scoreboard(game_data,content);
+            }else if(status == DEAD){
+                set_scoreboard_to_white(content);
+                content->front_end_status = GAME_OVER;
             }
-            
+        break;
+        case GAME_OVER:
+            status = update_button(content->scoreboard->restart_button);
+            if (status){
+                set_scoreboard_to_grey(content);
+                content->front_end_status = INITIAL_MENU;
+            }
         break;
     }
 }
 
 void update_scoreboard(logic_vars_t * vars , full_graphic_content *content){
     int_to_str(vars->points,content->scoreboard->score_number_text->text,SCORE_NUMBERS);
+    int_to_str(get_highscore(vars),content->scoreboard->high_score_number_text->text,SCORE_NUMBERS);
 }
-
+void set_scoreboard_to_white(full_graphic_content *content){
+    set_show_text_color(content->scoreboard->high_score,BOX_COLOR);
+    set_show_text_color(content->scoreboard->high_score_number_text,BOX_COLOR);
+    set_show_text_color(content->scoreboard->score_number_text,BOX_COLOR);
+    set_show_text_color(content->scoreboard->score_text,BOX_COLOR);
+}
+void set_scoreboard_to_grey(full_graphic_content *content){
+    set_show_text_color(content->scoreboard->high_score,LIGHT_BOX_COLOR);
+    set_show_text_color(content->scoreboard->high_score_number_text,LIGHT_BOX_COLOR);
+    set_show_text_color(content->scoreboard->score_number_text,LIGHT_BOX_COLOR);
+    set_show_text_color(content->scoreboard->score_text,LIGHT_BOX_COLOR);
+}
 void handle_start_game( logic_vars_t *game_data,full_graphic_content *content){
     set_snake_game_size( game_data , content->intial_menu->width_config_ui->value , content->intial_menu->height_config_ui->value);
-    set_speed( game_data , get_speed_from_difficulty(content->intial_menu->diff_ui->value) );
+    //set_speed( game_data , get_speed_from_difficulty(content->intial_menu->diff_ui->value)  );
+    set_game_difficulty(game_data , content->intial_menu->diff_ui->value);
+    
     start_snake_logic(game_data); // start game
     update_scoreboard(game_data,content); // start scoreboard
     
@@ -85,6 +101,7 @@ void update_pc_graphic_screen( logic_vars_t* game_data , full_graphic_content* c
     
     al_clear_to_color(BACKGROUND_COLOR);
     
+    /// Graphical front-end machine (here we draw everything!)
     switch (content->front_end_status){
         case INITIAL_MENU:
             draw_button(content->intial_menu->play_button);
@@ -103,8 +120,28 @@ void update_pc_graphic_screen( logic_vars_t* game_data , full_graphic_content* c
             draw_show_text(content->scoreboard->score_number_text);
             
             draw_show_text(content->scoreboard->high_score);
+            draw_show_text(content->scoreboard->high_score_number_text);
             
             draw_game(game_data,content);
+        break;
+        case GAME_OVER:
+            
+           
+            
+            draw_game(game_data,content);
+            
+            if (content->time_counter < BLINK_TIME){
+                draw_show_text(content->scoreboard->score_text);
+                draw_show_text(content->scoreboard->score_number_text);
+
+                draw_show_text(content->scoreboard->high_score);
+                draw_show_text(content->scoreboard->high_score_number_text);
+            }else if(content->time_counter > TOTAL_PERIOD_TIME){
+                content->time_counter = 0; 
+            }
+            draw_show_text(content->scoreboard->game_over_text);
+            draw_button(content->scoreboard->restart_button);
+            
         break;
     }
     update_display_cursor(content->cursor_handler); /// Update current shown cursor

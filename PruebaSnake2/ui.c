@@ -19,6 +19,8 @@ button_t *init_button( ALLEGRO_BITMAP* surface_a , ALLEGRO_BITMAP* surface_b ,cu
     new_button->surface_b = surface_b;
     
     new_button->status = RELEASE;
+    new_button->wait_to_release = 0;
+    
     return new_button;
 }
 void update_button_position(button_t* button, int x,int y){
@@ -45,10 +47,15 @@ int update_button(button_t* button){
         
         button->status = HOLD;
         if (status){
-            ans = 1;
+            button->wait_to_release = 1;
         }
     }else{
         button->status = RELEASE;
+        
+    }
+    if (!status && button->wait_to_release){
+        ans = 1;
+        button->wait_to_release = 0;
     }
     
     return ans;
@@ -142,6 +149,9 @@ show_text_t * init_show_text(char *text,ALLEGRO_COLOR color,ALLEGRO_FONT* font,i
     new_text->color = color;
     new_text->font = font;
     new_text->text = text;
+}
+void set_show_text_color(show_text_t* show_text,ALLEGRO_COLOR color){
+    show_text->color = color;
 }
 void draw_show_text(show_text_t* show_text){
     al_draw_text(show_text->font,show_text->color,show_text->x,show_text->y,ALLEGRO_ALIGN_CENTER,show_text->text);

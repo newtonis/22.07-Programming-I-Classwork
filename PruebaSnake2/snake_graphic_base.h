@@ -13,13 +13,14 @@
 
 
  //// front end different status moments
-enum {INITIAL_MENU , PLAY };
+enum {INITIAL_MENU , PLAY , GAME_OVER};
 
 /// Al fonts are stored in this structure
 typedef struct{
     ALLEGRO_FONT *iso_title;
     ALLEGRO_FONT *iso_text;
     ALLEGRO_FONT *iso_big_text;
+    ALLEGRO_FONT *iso_ultra_big_text;
 }fonts_t;
 
 /// All bitmaps are stored in this structure
@@ -31,6 +32,7 @@ typedef struct{
     ALLEGRO_BITMAP *snake[MAX_LENGTH];
     ALLEGRO_BITMAP *food;
     ALLEGRO_BITMAP *start_button_image , *start_button_image_b;
+    ALLEGRO_BITMAP *restart_image , *restart_image_b;
 }images_t;
 
 typedef struct{
@@ -51,6 +53,8 @@ typedef struct{
     show_text_t *score_number_text;
     show_text_t *high_score_number_text;
     
+    show_text_t *game_over_text;
+    button_t* restart_button;
 }scoreboard_vars_t;
 
 typedef struct{
@@ -76,6 +80,8 @@ typedef struct{
     int refresh;
     
     int front_end_status;
+
+    double time_counter; // count seconds
 }full_graphic_content;
 
 void init_snake_pc(full_graphic_content *content);

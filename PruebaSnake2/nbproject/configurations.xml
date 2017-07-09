@@ -18,7 +18,6 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>config.c</itemPath>
       <itemPath>main.c</itemPath>
       <itemPath>snake_graphic_base.c</itemPath>
       <itemPath>snake_logic.c</itemPath>
@@ -41,6 +40,7 @@
     <itemPath>flecha_arriba.png</itemPath>
     <itemPath>fonts</itemPath>
     <itemPath>game_over.png</itemPath>
+    <itemPath>game_points.txt</itemPath>
     <itemPath>lento.png</itemPath>
     <itemPath>medio.png</itemPath>
     <itemPath>rapido.png</itemPath>
@@ -73,8 +73,6 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
-      <item path="config.c" ex="false" tool="0" flavor2="0">
-      </item>
       <item path="config.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="flecha_abajo.png" ex="false" tool="3" flavor2="0">
@@ -84,6 +82,8 @@
       <item path="fonts" ex="false" tool="3" flavor2="0">
       </item>
       <item path="game_over.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="game_points.txt" ex="false" tool="3" flavor2="0">
       </item>
       <item path="lento.png" ex="false" tool="3" flavor2="0">
       </item>
@@ -138,8 +138,6 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="config.c" ex="false" tool="0" flavor2="0">
-      </item>
       <item path="config.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="flecha_abajo.png" ex="false" tool="3" flavor2="0">
@@ -149,6 +147,8 @@
       <item path="fonts" ex="false" tool="3" flavor2="0">
       </item>
       <item path="game_over.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="game_points.txt" ex="false" tool="3" flavor2="0">
       </item>
       <item path="lento.png" ex="false" tool="3" flavor2="0">
       </item>

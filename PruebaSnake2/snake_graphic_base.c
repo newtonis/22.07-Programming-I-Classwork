@@ -16,6 +16,7 @@ void init_snake_pc(full_graphic_content *content){
     for (i = 0;i < 4;i++){
         content->key_pressed[i] = 0;
     }
+    content->time_counter = 0;
     
     content->redraw = false;
     content->do_exit = false; 
@@ -144,7 +145,8 @@ void handle_events(logic_vars_t* vars , full_graphic_content * content){
     ALLEGRO_EVENT ev;
     if( al_get_next_event(content->event_queue, &ev) ){ 
 	if(ev.type == ALLEGRO_EVENT_TIMER){
-            if (ev.timer.source == content->timer_a){  /// Logical timer, updated one time per 10 ms
+            if (ev.timer.source == content->timer_a){  /// Logical timer, updated one time per 1/FPS_A
+                content->time_counter += 1.0f/FPS_A; // we add the period, so we incrase the right amount
                 update_game( vars , content); 
             }else if(ev.timer.source == content->timer_b){ /// graphic timer
                 update_pc_graphic_screen( vars , content );
@@ -161,22 +163,6 @@ void handle_events(logic_vars_t* vars , full_graphic_content * content){
     
 }
 
-
-void update_positions(full_graphic_content* content){ /// when screen resizes
-    int screen_width  = al_get_display_width(content->display);
-    int screen_height = al_get_display_height(content->display);
-    
-    update_show_text_position(content->intial_menu->title_text,screen_width/2,TITLE_DISTANCE_Y);
-    update_show_text_position(content->intial_menu->text_config_size,screen_width/16*3,screen_height/2-TEXT_CONF_DISTANCE);
-    update_show_text_position(content->intial_menu->diff_text,screen_width/4*3,screen_height/2-TEXT_CONF_DISTANCE);
-    update_show_text_position(content->intial_menu->extra_text_config,screen_width/16*3,screen_height/2-DEF_SZ/2);
-    
-    update_button_position(content->intial_menu->play_button,screen_width/2,screen_height-START_BUTTON_CORR);
-    
-    update_reg_box_position(content->intial_menu->width_config_ui,screen_width/8,screen_height/2);
-    update_reg_box_position(content->intial_menu->height_config_ui,screen_width/4,screen_height/2);
-    update_reg_box_position(content->intial_menu->diff_ui,screen_width/4*3,screen_height/2);
-}
 
 void destroy_graphic_base(full_graphic_content * content){
     int i;
@@ -211,8 +197,19 @@ void load_images(images_t* images){
     images->start_button_image = load_or_crash("start.png");
     images->start_button_image_b = load_or_crash("start_b.png");
     
+    images->restart_image   = load_or_crash("restart.png");
+    images->restart_image_b = load_or_crash("restart_b.png");
+    
 }
-
+void destroy_images(images_t* images){
+    al_destroy_bitmap(images->arr_down);
+    al_destroy_bitmap(images->arr_up);
+    al_destroy_bitmap(images->game_over);
+    al_destroy_bitmap(images->easy);
+    al_destroy_bitmap(images->medium);
+    al_destroy_bitmap(images->hard);
+    al_destroy_bitmap(images->start_button_image);
+}
 /*** Create all user interface elements ***/
 void init_menu(full_graphic_content *content){
     //content->intial_menu->play_button = init_button( NULL , NULL );
@@ -242,6 +239,8 @@ void init_menu(full_graphic_content *content){
     content->intial_menu->extra_text_config = init_show_text("X",BOX_COLOR,content->fonts->iso_text,SCREEN_W/16*3,SCREEN_H/2-DEF_SZ/2);
     content->intial_menu->title_text = init_show_text(GAME_TITLE_TEXT,BOX_COLOR,content->fonts->iso_title,SCREEN_W/2,TITLE_DISTANCE_Y);
     content->intial_menu->diff_text = init_show_text(DIFF_TEXT,BOX_COLOR,content->fonts->iso_text,SCREEN_W/4*3,SCREEN_H/2-TEXT_CONF_DISTANCE);
+    
+    
 }
 
 void destroy_menu(full_graphic_content *content){
@@ -266,8 +265,14 @@ void init_scoreboard(full_graphic_content *content){
     content->scoreboard->high_score = init_show_text("Highscore: ",LIGHT_BOX_COLOR,content->fonts->iso_big_text,SCREEN_W/4,SCREEN_H/2+DISTANCE_SCOREBOARD_Y);
 
     content->scoreboard->score_number_text = init_show_text("",LIGHT_BOX_COLOR,content->fonts->iso_big_text,SCREEN_W/2+DISTANCE_SCOREBOARD_X,SCREEN_H/2-DISTANCE_SCOREBOARD_Y);
+    content->scoreboard->high_score_number_text = init_show_text("",LIGHT_BOX_COLOR,content->fonts->iso_big_text,SCREEN_W/4+DISTANCE_HIGHSCORE_X,SCREEN_H/2+DISTANCE_SCOREBOARD_Y);
+    
     content->scoreboard->score_number_text->text = malloc(sizeof(char)*5); // this text MUST BE dynamic, because it changes .
-     
+    content->scoreboard->high_score_number_text->text = malloc(sizeof(char)*5);
+    
+    content->scoreboard->game_over_text = init_show_text("GAME OVER",GAME_OVER_COLOR,content->fonts->iso_ultra_big_text,SCREEN_W/2,SCREEN_H/8);
+    
+    content->scoreboard->restart_button = init_button(content->images->restart_image,content->images->restart_image_b,content->cursor_handler,SCREEN_W/2,SCREEN_H/6*5);
 }
 void destroy_scoreboard(full_graphic_content *content){
     free(content->scoreboard->score_text);
@@ -275,23 +280,48 @@ void destroy_scoreboard(full_graphic_content *content){
     free(content->scoreboard->high_score_number_text);
     
     free(content->scoreboard->score_number_text->text);
+    free(content->scoreboard->high_score_number_text->text);
+    
+    destroy_text(content->scoreboard->high_score_number_text);
     destroy_text(content->scoreboard->score_number_text);
     destroy_text(content->scoreboard->high_score);
     destroy_text(content->scoreboard->score_text);
+    destroy_text(content->scoreboard->game_over_text);
     
     free(content->scoreboard);
 }
 
 
-void destroy_images(images_t* images){
-    al_destroy_bitmap(images->arr_down);
-    al_destroy_bitmap(images->arr_up);
-    al_destroy_bitmap(images->game_over);
-    al_destroy_bitmap(images->easy);
-    al_destroy_bitmap(images->medium);
-    al_destroy_bitmap(images->hard);
-    al_destroy_bitmap(images->start_button_image);
+
+void update_positions(full_graphic_content* content){ /// when screen resizes
+    double screen_width  = (double)al_get_display_width(content->display);
+    double screen_height = (double)al_get_display_height(content->display);
+    
+    
+    //// Initial Menu
+    update_show_text_position(content->intial_menu->title_text,screen_width/2,TITLE_DISTANCE_Y);
+    update_show_text_position(content->intial_menu->text_config_size,screen_width/16*3,screen_height/2-TEXT_CONF_DISTANCE);
+    update_show_text_position(content->intial_menu->diff_text,screen_width/4*3,screen_height/2-TEXT_CONF_DISTANCE);
+    update_show_text_position(content->intial_menu->extra_text_config,screen_width/16*3,screen_height/2-DEF_SZ/2);
+    
+    update_button_position(content->intial_menu->play_button,screen_width/2,screen_height-START_BUTTON_CORR);
+    
+    update_reg_box_position(content->intial_menu->width_config_ui,screen_width/8,screen_height/2);
+    update_reg_box_position(content->intial_menu->height_config_ui,screen_width/4,screen_height/2);
+    update_reg_box_position(content->intial_menu->diff_ui,screen_width/4*3,screen_height/2);
+    
+
+    //// Scoreboard
+    update_show_text_position(content->scoreboard->score_text,screen_width/2,screen_height/2-DISTANCE_SCOREBOARD_Y);
+    update_show_text_position(content->scoreboard->high_score,screen_width/4,screen_height/2+DISTANCE_SCOREBOARD_Y);
+    update_show_text_position(content->scoreboard->score_number_text,screen_width/2+DISTANCE_SCOREBOARD_X,screen_height/2-DISTANCE_SCOREBOARD_Y);
+    update_show_text_position(content->scoreboard->high_score_number_text,screen_width/4+DISTANCE_HIGHSCORE_X,screen_height/2+DISTANCE_SCOREBOARD_Y);
+    update_show_text_position(content->scoreboard->game_over_text,screen_width/2,screen_height/8);
+    
+    update_button_position(content->scoreboard->restart_button,screen_width/2,screen_height/6*5);
 }
+
+
 
 void load_fonts(fonts_t* fonts){
     fonts->iso_text = NULL;
@@ -299,8 +329,10 @@ void load_fonts(fonts_t* fonts){
     fonts->iso_text = al_load_font("fonts/isocpeur.ttf",FONT_SIZE_A,0);
     fonts->iso_title = al_load_font("fonts/isocpeur.ttf",FONT_SIZE_B,0);
     fonts->iso_big_text = al_load_font("fonts/isocpeur.ttf",FONT_SIZE_C,0);
+    fonts->iso_ultra_big_text = al_load_font("fonts/isocpeur.ttf",FONT_SIZE_D,0);
     
-    if (!fonts->iso_text || !fonts->iso_title || !fonts->iso_big_text){
+    
+    if (!fonts->iso_text || !fonts->iso_title || !fonts->iso_big_text || !fonts->iso_ultra_big_text){
         fprintf(stderr,"Could not load fonts");
         exit(1);
     }

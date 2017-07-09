@@ -21,6 +21,7 @@ typedef struct{
     ALLEGRO_BITMAP * surface_b;
     cursor_handler_t *cursor;
     int status;
+    int wait_to_release;
 }button_t;
 
 typedef struct{
@@ -67,6 +68,7 @@ void draw_show_text(show_text_t* show_text);
 void destroy_text(show_text_t* text);
 void update_show_text_position(show_text_t* show_text,int x,int y);
 void update_show_text_content(show_text_t* show_text,char *content);
+void set_show_text_color(show_text_t* show_text,ALLEGRO_COLOR color);
 
 #endif /* UI_H */
 

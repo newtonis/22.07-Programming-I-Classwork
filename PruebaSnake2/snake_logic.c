@@ -7,31 +7,24 @@
 #define STRING_MAX 10
 
 
-static FILE *points_log = NULL;
 
+double diff_array[CNT_DIFF][2] = { // difficulty levels speeds (in seconds) and grow rates
+    { 0.100, 1 },
+    { 0.070, 2 },
+    { 0.050, 3 }
+};
 
-logic_vars_t* init_snake_struct(int start_length){
+logic_vars_t* init_snake_struct(){
     logic_vars_t* logic_vars = malloc(sizeof(logic_vars_t));
     snake_node_t* pSnake = malloc(sizeof(pSnake)*MAX_LENGTH);
     logic_vars->pFood = malloc(sizeof(food_t));
     logic_vars->pSnake = pSnake;
+    logic_vars->start_length = INIT_LENGTH;
     
     if (!logic_vars || !pSnake){
         fprintf(stderr,"Error, can't allocate memory");
         exit(1);
     }
-    int j;
-    for(j = 0; j < start_length; j++){ 
-        pSnake[j].polar_pos[X_COORD] = start_length-j-1;//(((SCREEN_W/CUADRADITO_SIZE)/2)*CUADRADITO_SIZE) - (j*CUADRADITO_SIZE);
-        pSnake[j].polar_pos[Y_COORD] = 0;//(((SCREEN_H/CUADRADITO_SIZE)/2)*CUADRADITO_SIZE);
-    }  
-    logic_vars->game_status = LOGIC_STOP; // game is paused before starting
-    logic_vars->snake_dir = LOGIC_KEY_RIGHT;
-    logic_vars->time_ref = 0;
-    
-    //calculate_foodPos(logic_vars); // first food 
-    init_lives(logic_vars);
-    init_length(logic_vars,start_length);
     
     return logic_vars;
 }
@@ -52,6 +45,23 @@ void handle_game_key_press(logic_vars_t* logic , int key){
     }
 }
 void start_snake_logic(logic_vars_t* vars){
+    printf("Start! ");
+    snake_node_t *pSnake = vars->pSnake;
+    
+    int j;
+    for(j = 0; j < vars->start_length; j++){ 
+        pSnake[j].polar_pos[X_COORD] = vars->start_length-j-1;//(((SCREEN_W/CUADRADITO_SIZE)/2)*CUADRADITO_SIZE) - (j*CUADRADITO_SIZE);
+        pSnake[j].polar_pos[Y_COORD] = 0;//(((SCREEN_H/CUADRADITO_SIZE)/2)*CUADRADITO_SIZE);
+    }  
+    vars->game_status = LOGIC_STOP; // game is paused before starting
+    vars->snake_dir = LOGIC_KEY_RIGHT;
+    vars->time_ref  = 0;
+    
+    //calculate_foodPos(logic_vars); // first food 
+    
+    init_length(vars,vars->start_length);
+    read_points(vars); // read scores
+    
     vars->game_status = LOGIC_PLAY;
     vars->points = 0;
     
@@ -61,7 +71,7 @@ void stop_snake_logic(logic_vars_t* vars){
     vars->game_status = LOGIC_STOP;
 }
 int update_snake_logic(logic_vars_t* vars){
-    int ans;
+    int ans = -1;
     if (vars->game_status == LOGIC_PLAY){
         vars->time_ref += vars->call_time; 
         if (vars->time_ref >= vars->speed){
@@ -72,11 +82,11 @@ int update_snake_logic(logic_vars_t* vars){
             
             ans = game_status_refresh(vars);
             if (ans == DEAD){
+                write_points_file(vars);
                 stop_snake_logic(vars);
             }
         }
-    }else{
-        ans = -1;
+        
     }
     
     return ans;
@@ -168,16 +178,15 @@ void calculate_foodPos(logic_vars_t* game_vars){
                 y_cand = 0;
             }
         }
-        loop = 0;
+        loop ++;
     }
     if (loop == total_tiles){
-        game_vars->game_status = LOGIC_WIN_GAME;
+        game_vars->game_status = LOGIC_WIN_GAME; /// very strange situation, the player wins!. Stop game in such case
+        stop_snake_logic(game_vars);
     }else{
         game_vars->pFood->pos[X_COORD] = x_cand;
         game_vars->pFood->pos[Y_COORD] = y_cand;
     }
-   
-    
 }
 
 int check_if_food_eaten(logic_vars_t* vars){
@@ -192,13 +201,13 @@ int check_if_food_eaten(logic_vars_t* vars){
     
     
     if(pSnake[0].polar_pos[X_COORD] == pFood->pos[X_COORD] && pSnake[0].polar_pos[Y_COORD] == pFood->pos[Y_COORD]){
-           return GROW_UP;
+        return GROW_UP;
     }else{
         return NO_EAT;
     }
 }
 
-void check_if_colision(logic_vars_t *vars){
+int check_if_colision(logic_vars_t *vars){
     snake_node_t* pSnake = vars->pSnake;
     
     int i, x_col, y_col, length;
@@ -208,49 +217,55 @@ void check_if_colision(logic_vars_t *vars){
     length = get_length(vars);
     
     for(i = (HEAD+1); i < length; i++){
-        if((pSnake[0].polar_pos[X_COORD]) == (pSnake[i].polar_pos[X_COORD])){
-            if((pSnake->polar_pos[Y_COORD]) == ((pSnake+i)->polar_pos[Y_COORD])){
+        if(pSnake[0].polar_pos[X_COORD] == pSnake[i].polar_pos[X_COORD]){
+            if(pSnake[0].polar_pos[Y_COORD] == (pSnake[i].polar_pos[Y_COORD])){
                 x_col = COLISION;
                 y_col = COLISION;
+              
             }
         }
 
     }
-    
-    if((x_col == COLISION)&&(y_col == COLISION)){
-        lose_live(vars);
+    if((x_col == COLISION) && (y_col == COLISION)){
+        return 1;
+    }else{
+        return 0;
     }
 }
 
 void add_snake_node(logic_vars_t* vars){
-    
     int aux_l;
-    
     aux_l = get_length(vars);
-   
-    
+    vars->pSnake[aux_l].polar_pos[0] = vars->pSnake[aux_l-1].polar_pos[0];
+    vars->pSnake[aux_l].polar_pos[1] = vars->pSnake[aux_l-1].polar_pos[1];
     inc_length(vars);
 }
 
 int game_status_refresh(logic_vars_t * game_vars){
     
     int live_status, food_status;
-    check_if_colision(game_vars);
+    int col = check_if_colision(game_vars);
     
-    live_status = read_lives(game_vars);
-    if(live_status == 0){
-        return DEAD;
+    int ans;
+    if(col){
+        ans = DEAD;
+    }else{
+        food_status = check_if_food_eaten(game_vars);
+        if(food_status == GROW_UP){
+            int i;
+            for (i = 0;i < game_vars->snake_grow;i++){
+                add_snake_node(game_vars);
+            }
+            inc_points(game_vars);
+            calculate_foodPos(game_vars);
+            ans =  FOOD_EAT;
+        }else if(food_status == NO_EAT){
+            ans = ALIVE;
+        }else{
+            ans = -1;
+        }
     }
-    
-    food_status = check_if_food_eaten(game_vars);
-    if(food_status == GROW_UP){
-        add_snake_node(game_vars);
-        inc_points(game_vars);
-        calculate_foodPos(game_vars);
-        return FOOD_EAT;
-    }else if(food_status == NO_EAT){
-        return ALIVE;
-    }
+    return ans;
     
 }
 
@@ -285,22 +300,37 @@ void lose_live(logic_vars_t* vars){
 }
 
 /// configure game speed
-void set_speed(logic_vars_t * game_vars , double speed){
+void set_game_level(logic_vars_t * game_vars , double speed,int snake_grow){
     game_vars->speed = speed;
+    game_vars->snake_grow = snake_grow;
 }
 
 
 // Points management //
 
 
-char *read_points(void){
-    points_log = fopen("game_points.txt", "r");
-    char *msj_points = fgets(msj_points, STRING_MAX, points_log);
-    return msj_points;
+void read_points(logic_vars_t* vars){
+    FILE* points_log = fopen(HIGHSCORES_FILE, "r");
+    
+    if (!points_log){
+        fprintf(stderr, "Fail to open points data file");
+        exit(1);
+    }
+    
+    int i;
+    for (i = 0;i < CNT_DIFF;i++){
+        fscanf(points_log , "%d" , &vars->highscore[i]);
+    }
+    
+    fclose(points_log);
 }
 
+int get_highscore(logic_vars_t* vars){
+   return vars->highscore[vars->diff_level];
+}
 void inc_points(logic_vars_t* vars){
     vars->points += POINT_RATE;
+    vars->highscore[vars->diff_level] = max( vars->highscore[vars->diff_level]  , vars->points ); // update highscore
 }
 
 void reset_points(logic_vars_t* vars){
@@ -308,11 +338,30 @@ void reset_points(logic_vars_t* vars){
 }
 
 void write_points_file(logic_vars_t* vars){
-    points_log = fopen("game_points.txt", "w");
-    fprintf(points_log, "%d", vars->points);
+
+    //fprintf(points_log, "%d", vars->points);
+    FILE* points_log = fopen(HIGHSCORES_FILE,"w+");
+    
+    int i;
+    for (i = 0;i < CNT_DIFF;i++){
+        fprintf(points_log,"%d\n",vars->highscore[i]);
+    }
+    
     fclose(points_log);
 }
 
 void set_logic_call_time(logic_vars_t* game_vars,double time){
     game_vars->call_time = time;
+}
+
+void set_game_difficulty(logic_vars_t* game_vars,int dif_level){
+    
+    if (dif_level <= CNT_DIFF && dif_level >= 1){
+        dif_level--;
+        game_vars->diff_level = dif_level;
+        set_game_level(game_vars,diff_array[dif_level][0],diff_array[dif_level][1]);
+    }else{
+        fprintf(stderr,"Wrong usage of game logic\n");
+        exit(1);
+    }
 }

@@ -8,13 +8,15 @@
 #define X_COORD 0
 #define Y_COORD 1
 
+#define HIGHSCORES_FILE "game_points.txt"
+
 #define INIT_LIVES 3
 #define POINT_RATE 1
 #define DEAD 0
 #define ALIVE 1
 
-#define INIT_LENGTH 5
-#define MAX_LENGTH 300
+#define INIT_LENGTH 4
+#define MAX_LENGTH 1000
 
 #define MAX_LOGIC_WIDTH 100
 #define MAX_LOGIC_HEIGHT 100
@@ -32,6 +34,10 @@
 #define NO_COL -5
 
 
+#define CNT_DIFF 3
+
+extern double diff_array[CNT_DIFF][2];
+
 enum {LOGIC_STOP , LOGIC_PLAY , LOGIC_WIN_GAME};
 
 enum {LOGIC_KEY_UP , LOGIC_KEY_RIGHT , LOGIC_KEY_DOWN , LOGIC_KEY_LEFT};
@@ -47,30 +53,38 @@ typedef struct foodT{ // food struct
 } food_t;
 
 typedef struct { /// game logic variables
+    
+    /// Basic game objects
     snake_node_t *pSnake;
     food_t *pFood;
+    
+    /// Variables that don't change while game goes on
     int world_height;
     int world_width;
     double speed; /// snake speed in seconds
+    int snake_grow; // how much the snake sizes increases per point earned
+    int diff_level; // level current difficulty (used for accurate scoreboard)
+    int start_length;
     
+    /// variables that change while game plays
     int snake_dir;
     int effective_dir;
     int game_status;
     double time_ref; 
     double call_time;
     
-    
     int length; // snake length
-    int lives; // snake lives
     int points; // actual game points
-    int highscore; //highscore
+    int highscore[CNT_DIFF]; //highscores
+    
+    int lives; // snake lives
 }logic_vars_t;
 
 
 // Game logic functions //
 // -------------------- //
 // init_snake_struct: inits standard snake with initial length with center coordenates
-logic_vars_t* init_snake_struct(int start_length);
+logic_vars_t* init_snake_struct();
 
  /// al game logic managment. Must be called in periods of the configured period time.
 int update_snake_logic(logic_vars_t* vars);
@@ -92,7 +106,7 @@ void calculate_foodPos(logic_vars_t* vars);
 int check_if_food_eaten(logic_vars_t* vars);
 
 // check_if_colission: checks if snake colisions with tail, if so, lives -1
-void check_if_colision(logic_vars_t *vars);
+int check_if_colision(logic_vars_t *vars);
 
 // add_snake_node: adds a new node to the snake 
 void add_snake_node(logic_vars_t* vars);
@@ -132,20 +146,25 @@ void lose_live(logic_vars_t* vars);
 // Points management //
 // ----------------- //
 // read_points: return points from previus game
-char *read_points(void);
+void read_points(logic_vars_t* vars);
 
 // inc_points: adds 10 points to actual game
 void inc_points(logic_vars_t* vars);
+
+// get current highscore
+int get_highscore(logic_vars_t* vars);
 
 // reset_points
 void reset_points(logic_vars_t* vars);
 
 // write_points_file: in game finish, writes final points into file
 void write_points_file(logic_vars_t* vars);
-//
+
 // ----------------- //
-//// Configure game speed
-void set_speed(logic_vars_t * game_vars , double speed);
+//// Configure game speed and how much snake grow
+static void set_game_level(logic_vars_t * game_vars , double speed,int snake_grow);
+/// Configure game hardness, but selecting directly the difficulty
+void set_game_difficulty(logic_vars_t* game_vars,int dif_level);
 
 /// Configure how fast will the logic update function be called
 void set_logic_call_time(logic_vars_t* game_vars,double time);
