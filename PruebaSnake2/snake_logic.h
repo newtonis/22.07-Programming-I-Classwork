@@ -8,10 +8,45 @@
  * Snake game back-end is in this file
  * Usage:
  * 
- * First initialize Snake struct with init_snake_struct that will give a logic_vars pointer that will contain 
+ * 1- First initialize Snake struct with init_snake_struct that will give a logic_vars pointer that will contain 
  * all the logic game data
  * 
- */
+ * 2- Call to set_snake_game_size(logic_vars_t* game_vars,int width,int height)
+ * to set game dimensions
+ * 
+ * 3- Call to void set_game_difficulty(logic_vars_t* game_vars,int dif_level)
+ * and set dif_level between 1 and 3
+ * 
+ * 4- Call to set_logic_call_time(logic_vars_t* game_vars,double time)
+ * And set the period of the game update function (  update_snake_logic(logic_vars_t* vars) ) calls
+ * 
+ * 
+ * 5- When the game starts call to
+ *     start_snake_logic(logic_vars_t* vars)
+ *     and the game will be allowed to advance
+ *    
+ * 6- And per game tick call to (in the period configured with set_logic_call_time)
+ * int update_snake_logic(logic_vars_t* vars)
+ * 
+ * The function can return
+ *  DEAD: The game has finished
+ *  FOOD_EAT: The snake has won points (this informs that the scoreboard needs to be updated) 
+ *  ALIVE: nothing new
+ * 
+ * 7- To plot snake you need to access vars->pSnake that contains an array with all snake points 
+ * pSnake[i].polar_pos has the current position of a snake tile
+ * You need to call int get_length(logic_vars_t* vars) to get the total snake length (the array length)
+ * 
+ * 8- You may call the function get_highscore(logic_vars_t* vars) to get the highscore for the difficulty configured
+ * And read vars->points to get current match variables (Don't cheat this variable)
+ * 
+ * 9- When game ends call to stop_snake_logic(logic_vars_t* vars) and the game will be inmediatly stoped (Calls 
+ * of update_snake_logic(logic_vars_t* vars) will be void
+ * 
+ * 10- When the game is closed you need to call void destroy_game(logic_vars_t* logic) to delete the game variables
+ * dynamic variables
+ * 
+ * */
 
 
 

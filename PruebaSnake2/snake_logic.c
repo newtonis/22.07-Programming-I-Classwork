@@ -20,6 +20,10 @@ logic_vars_t* init_snake_struct(){
     logic_vars->pFood = malloc(sizeof(food_t));
     logic_vars->pSnake = pSnake;
     logic_vars->start_length = INIT_LENGTH;
+    logic_vars->world_height = -1;
+    logic_vars->world_width  = -1;
+    logic_vars->diff_level = -1;
+    logic_vars->speed = -1;
     
     if (!logic_vars || !pSnake){
         fprintf(stderr,"Error, can't allocate memory");
