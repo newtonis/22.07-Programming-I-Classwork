@@ -164,10 +164,24 @@ void draw_game( logic_vars_t* game_vars, full_graphic_content* content){
     double start_x = (double)screen_width/2-mult_x*game_vars->world_width/2;
     double start_y = (double)screen_height/2-mult_y*game_vars->world_height/2;
     
-    int j, length;
+    int i,j, length;
     length = get_length(game_vars); // get actual snake length
     snake_node_t *pSnake = game_vars->pSnake;
     
+    
+    ///// Only A test
+    /*for (i = 0;i < game_vars->world_height;i++){
+        for (j = 0;j < game_vars->world_width;j++){
+            if ( game_vars->used_tiles[ i ][ j ] ){
+                al_draw_filled_rectangle(
+                start_x + j*mult_x, \
+                start_y + i*mult_y, \
+                start_x + (j+1)*(mult_x),\
+                start_y +(i+1)*(mult_y),\
+                SNAKE_COLOR);
+            }
+        }
+    }*/
     for(j = 0; j < length; j++){ // draws positions in buffer
         //al_draw_bitmap(content->images->snake[j], pSnake[j].polar_pos[X_COORD]*mult_x , pSnake[j].polar_pos[Y_COORD]*mult_y, 0);
         al_draw_filled_rectangle(
