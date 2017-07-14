@@ -106,6 +106,7 @@ typedef struct { /// game logic variables
     /// Basic game objects
     snake_node_t *pSnake;
     food_t *pFood;
+    int used_tiles[MAX_LOGIC_HEIGHT][MAX_LOGIC_WIDTH]; /// we store what game tiles are currently occupied
     
     /// Variables that don't change while game goes on
     int world_height;

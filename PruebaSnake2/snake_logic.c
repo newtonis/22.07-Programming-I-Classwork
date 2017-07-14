@@ -60,10 +60,18 @@ void start_snake_logic(logic_vars_t* vars){
     }
     snake_node_t *pSnake = vars->pSnake;
     
-    int j;
+    // init used tiles in 0
+    int i,j;
+    for (i = 0;i < MAX_LOGIC_HEIGHT;i++){
+        for (j = 0;j < MAX_LOGIC_WIDTH;j++){
+            vars->used_tiles[i][j] = 0; //init all tiles as unused
+        }
+    }
+    
     for(j = 0; j < vars->start_length; j++){ 
         pSnake[j].polar_pos[X_COORD] = vars->start_length-j-1;//(((SCREEN_W/CUADRADITO_SIZE)/2)*CUADRADITO_SIZE) - (j*CUADRADITO_SIZE);
         pSnake[j].polar_pos[Y_COORD] = 0;//(((SCREEN_H/CUADRADITO_SIZE)/2)*CUADRADITO_SIZE);
+        vars->used_tiles[ pSnake[j].polar_pos[Y_COORD] ][  pSnake[j].polar_pos[X_COORD] ] = 1; // this tile is being used.
     }  
     vars->game_status = LOGIC_STOP; // game is paused before starting
     vars->snake_dir = LOGIC_KEY_RIGHT;
@@ -107,7 +115,7 @@ int update_snake_logic(logic_vars_t* vars){
 void calculate_newPos(logic_vars_t* vars){
     snake_node_t *pSnake = vars->pSnake;
     int move, k, length;
-    float x_head, y_head;
+    int x_head, y_head;
     // the first coordenates are for the head of the snake
     x_head = pSnake[0].polar_pos[X_COORD];
     y_head = pSnake[0].polar_pos[Y_COORD];
@@ -139,17 +147,21 @@ void calculate_newPos(logic_vars_t* vars){
     
     length = get_length(vars);
     
+    int bottom_x = pSnake[length-1].polar_pos[X_COORD];
+    int bottom_y = pSnake[length-1].polar_pos[Y_COORD];
     
-    for(k = length; k > 0; k--){ // shift all positions
+    for(k = length-1; k > 0; k--){ // shift all positions
+        if (k == length-1){
+            if (pSnake[k].polar_pos[X_COORD] != pSnake[k-1].polar_pos[X_COORD] || pSnake[k].polar_pos[Y_COORD] != pSnake[k-1].polar_pos[Y_COORD]){
+                vars->used_tiles[ bottom_y ][ bottom_x ] = 0;
+            }
+        }
         pSnake[k].polar_pos[X_COORD] = pSnake[k-1].polar_pos[X_COORD];
         pSnake[k].polar_pos[Y_COORD] = pSnake[k-1].polar_pos[Y_COORD];
-        //snake_pos[X_COORD][k] = snake_pos[X_COORD][k-1];
-        //snake_pos[Y_COORD][k] = snake_pos[Y_COORD][k-1];
     }
     pSnake[0].polar_pos[X_COORD] = x_head;
     pSnake[0].polar_pos[Y_COORD] = y_head;
-    //snake_pos[X_COORD][HEAD] = x_head; // set new head pos after shifting
-    //snake_pos[Y_COORD][HEAD] = y_head;
+    vars->used_tiles[ y_head ][ x_head ] = 1;
 }
 
 
@@ -161,43 +173,33 @@ void calculate_foodPos(logic_vars_t* game_vars){
     
     int length = get_length(game_vars); // we need snake length
     
-    srand(time(NULL));
-    
-    int x_candidates[MAX_LOGIC_WIDTH];
-    int y_candidates[MAX_LOGIC_HEIGHT]; 
-    
-    init_empty_array(x_candidates,game_vars->world_width);
-    init_empty_array(y_candidates,game_vars->world_height);
-    
-    /// Mark all invalid places
-    int i;
-    for (i = 0;i < length;i++){
-        x_candidates[ game_vars->pSnake[i].polar_pos[0] ] = 1;
-        y_candidates[ game_vars->pSnake[i].polar_pos[1] ] = 1;
-    }
-    
     int x_cand = rand() % game_vars->world_width;
     int y_cand = rand() % game_vars->world_height;
     
-    int loop = 0;
-    int total_tiles = game_vars->world_height * game_vars->world_width;
-    while (x_candidates[x_cand] && y_candidates[y_cand] && loop < total_tiles){
-        x_cand ++;
-        if (x_cand >= game_vars->world_width){
-            x_cand = 0;
-            y_cand ++;
-            if (y_cand >= game_vars->world_height){
-                y_cand = 0;
+    
+    int aux_map_x[MAX_LOGIC_WIDTH*MAX_LOGIC_HEIGHT] , aux_map_y[MAX_LOGIC_WIDTH*MAX_LOGIC_HEIGHT]; // candidates coordinates
+    
+    int i,j;
+    int cnt = 0;
+    for (i = 0;i < game_vars->world_height;i++){
+        for (j = 0;j < game_vars->world_width;j++){
+            if (game_vars->used_tiles[i][j] == 0){ // mark as candidates unused tiles
+                aux_map_y[cnt] = i;
+                aux_map_x[cnt] = j;
+                cnt ++;
             }
         }
-        loop ++;
     }
-    if (loop == total_tiles){
+   
+    if (cnt == 0){
         game_vars->game_status = LOGIC_WIN_GAME; /// very strange situation, the player wins!. Stop game in such case
         stop_snake_logic(game_vars);
+        printf("Player wins?, that should be impossible");
     }else{
-        game_vars->pFood->pos[X_COORD] = x_cand;
-        game_vars->pFood->pos[Y_COORD] = y_cand;
+        srand(time(NULL));
+        int selected_cand = rand() % cnt;
+        game_vars->pFood->pos[Y_COORD] = aux_map_y[selected_cand];
+        game_vars->pFood->pos[X_COORD] = aux_map_x[selected_cand];
     }
 }
 
@@ -228,12 +230,11 @@ int check_if_colision(logic_vars_t *vars){
     
     length = get_length(vars);
     
-    for(i = (HEAD+1); i < length; i++){
+    for(i = 1; i < length; i++){
         if(pSnake[0].polar_pos[X_COORD] == pSnake[i].polar_pos[X_COORD]){
-            if(pSnake[0].polar_pos[Y_COORD] == (pSnake[i].polar_pos[Y_COORD])){
+            if(pSnake[0].polar_pos[Y_COORD] == pSnake[i].polar_pos[Y_COORD]){
                 x_col = COLISION;
                 y_col = COLISION;
-              
             }
         }
 
