@@ -7,7 +7,7 @@
 #include "utils.h"
 
 
-//**** Main allegro event handler ****/ 
+/// Main  event handler 
 void handle_events(logic_vars_t* vars , full_graphic_content * content){
 
     ALLEGRO_EVENT ev;
@@ -24,12 +24,13 @@ void handle_events(logic_vars_t* vars , full_graphic_content * content){
         }else if(ev.type == ALLEGRO_EVENT_KEY_DOWN) {
             handle_key_press( vars , content, &ev ); 
             
-        }else if(ev.type == ALLEGRO_EVENT_DISPLAY_RESIZE){
+        }else if(ev.type == ALLEGRO_EVENT_DISPLAY_RESIZE){ // Screen resizes
             update_positions(content);
         }
     }
     
 }
+/// How game reacts in the different states
 void update_game( logic_vars_t* game_data , full_graphic_content* content ){
     
     ALLEGRO_MOUSE_STATE state;
@@ -86,13 +87,11 @@ void set_scoreboard_to_grey(full_graphic_content *content){
 }
 void handle_start_game( logic_vars_t *game_data,full_graphic_content *content){
     set_snake_game_size( game_data , content->intial_menu->width_config_ui->value , content->intial_menu->height_config_ui->value);
-    //set_speed( game_data , get_speed_from_difficulty(content->intial_menu->diff_ui->value)  );
     set_game_difficulty(game_data , content->intial_menu->diff_ui->value);
     
     start_snake_logic(game_data); // start game
     update_scoreboard(game_data,content); // start scoreboard
     
-    // printf("Game started %f %f\n",(double)game_data->speed,(double)game_data->game_status);
 }
 void handle_key_press( logic_vars_t * vars , full_graphic_content *content , ALLEGRO_EVENT *ev){
     
@@ -142,9 +141,6 @@ void update_pc_graphic_screen( logic_vars_t* game_data , full_graphic_content* c
             draw_game(game_data,content);
         break;
         case GAME_OVER:
-            
-           
-            
             draw_game(game_data,content);
             
             if (content->time_counter < BLINK_TIME){
@@ -188,22 +184,7 @@ void draw_game( logic_vars_t* game_vars, full_graphic_content* content){
     length = get_length(game_vars); // get actual snake length
     snake_node_t *pSnake = game_vars->pSnake;
     
-    
-    ///// Only A test
-    /*for (i = 0;i < game_vars->world_height;i++){
-        for (j = 0;j < game_vars->world_width;j++){
-            if ( game_vars->used_tiles[ i ][ j ] ){
-                al_draw_filled_rectangle(
-                start_x + j*mult_x, \
-                start_y + i*mult_y, \
-                start_x + (j+1)*(mult_x),\
-                start_y +(i+1)*(mult_y),\
-                SNAKE_COLOR);
-            }
-        }
-    }*/
     for(j = 0; j < length; j++){ // draws positions in buffer
-        //al_draw_bitmap(content->images->snake[j], pSnake[j].polar_pos[X_COORD]*mult_x , pSnake[j].polar_pos[Y_COORD]*mult_y, 0);
         al_draw_filled_rectangle(
                 start_x + pSnake[j].polar_pos[X_COORD]*mult_x, \
                 start_y + pSnake[j].polar_pos[Y_COORD]*mult_y, \
@@ -212,9 +193,10 @@ void draw_game( logic_vars_t* game_vars, full_graphic_content* content){
                 SNAKE_COLOR);
         
     }
-    /// draw food
+    /// draw Food
     food_t *pFood = game_vars->pFood;
     
+    /// Draw snake
     al_draw_filled_rectangle(
             start_x + pFood->pos[X_COORD]*mult_x,\
             start_y + pFood->pos[Y_COORD]*mult_y,\
@@ -222,11 +204,11 @@ void draw_game( logic_vars_t* game_vars, full_graphic_content* content){
             start_y + (pFood->pos[Y_COORD]+1)*mult_y,\
             FOOD_COLOR);
     
+    /// Draw map borders
     al_draw_filled_rectangle(start_x,start_y-BORDER_SIZE,start_x+game_width+BORDER_SIZE,start_y,BORDER_COLOR);
     al_draw_filled_rectangle(start_x+game_width,start_y ,start_x+game_width+BORDER_SIZE,start_y+game_height+BORDER_SIZE,BORDER_COLOR);
     al_draw_filled_rectangle(start_x-BORDER_SIZE,start_y+game_height,start_x+game_width,start_y+game_height+BORDER_SIZE,BORDER_COLOR);
     al_draw_filled_rectangle(start_x-BORDER_SIZE,start_y-BORDER_SIZE,start_x,start_y+game_height,BORDER_COLOR);
     
-   // al_draw_bitmap(food, pFood->pos[X_COORD], pFood->pos[Y_COORD], 0);
 }
 

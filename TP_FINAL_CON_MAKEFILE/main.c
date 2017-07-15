@@ -1,11 +1,3 @@
-#include <stdio.h>
-#include <time.h>
-#include <allegro5/allegro.h>
-#include "config.h"
-#include "snake_logic.h"
-#include "snake_pc.h"
-#include "snake_graphic_base.h"
- 
 /*
  * Snake, PC version: 
  * Ariel Nowik
@@ -26,6 +18,14 @@
  * There is no risk of memory leak as OS takes all allocated memory back when exit(1) is called
  * https://stackoverflow.com/questions/10588014/what-happens-to-the-malloced-memory-when-exit1-is-encountered
  */
+
+#include <stdio.h>
+#include <time.h>
+#include <allegro5/allegro.h>
+#include "config.h"
+#include "snake_logic.h"
+#include "snake_pc.h"
+#include "snake_graphic_base.h"
 
 
 int main(void){

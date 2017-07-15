@@ -3,9 +3,9 @@
 // Here all basic graphical structures, like button, reg_box (a counter with two buttons), shown_text, are written
 // There are lots of functions to work easily with this kind of graphcs, and to avoid repetition.
 
-
 #ifndef UI_H
 #define UI_H
+
 
 
 #include <allegro5/allegro_font.h>

@@ -6,6 +6,7 @@
 #define SIZE_DISTANCE 40
 
 
+
 //// Create a dynamic button with two surfaces (one for each state)
 button_t *init_button( ALLEGRO_BITMAP* surface_a , ALLEGRO_BITMAP* surface_b ,cursor_handler_t* cursor ,int x ,int y ){ /// create a dinamic button
     button_t *new_button = malloc(sizeof(button_t));

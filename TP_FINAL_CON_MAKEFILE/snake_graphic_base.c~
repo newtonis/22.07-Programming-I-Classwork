@@ -139,29 +139,6 @@ void init_snake_pc(full_graphic_content *content){
     init_scoreboard(content);
 }
 
-//**** Main allegro event handler ****/ 
-void handle_events(logic_vars_t* vars , full_graphic_content * content){
-
-    ALLEGRO_EVENT ev;
-    if( al_get_next_event(content->event_queue, &ev) ){ 
-	if(ev.type == ALLEGRO_EVENT_TIMER){
-            if (ev.timer.source == content->timer_a){  /// Logical timer, updated one time per 1/FPS_A
-                content->time_counter += 1.0f/FPS_A; // we add the period, so we incrase the right amount
-                update_game( vars , content); 
-            }else if(ev.timer.source == content->timer_b){ /// graphic timer
-                update_pc_graphic_screen( vars , content );
-            }
-        }else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE){
-            content->do_exit = true;
-        }else if(ev.type == ALLEGRO_EVENT_KEY_DOWN) {
-            handle_key_press( vars , content, &ev ); 
-            
-        }else if(ev.type == ALLEGRO_EVENT_DISPLAY_RESIZE){
-            update_positions(content);
-        }
-    }
-    
-}
 
 
 void destroy_graphic_base(full_graphic_content * content){
@@ -287,8 +264,8 @@ void destroy_scoreboard(full_graphic_content *content){
 }
 
 
-
-void update_positions(full_graphic_content* content){ /// when screen resizes
+/// when screen resizes
+void update_positions(full_graphic_content* content){ 
     double screen_width  = (double)al_get_display_width(content->display);
     double screen_height = (double)al_get_display_height(content->display);
     

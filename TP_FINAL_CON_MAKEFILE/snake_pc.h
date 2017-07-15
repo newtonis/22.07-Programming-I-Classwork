@@ -1,3 +1,14 @@
+/*** 
+snake_pc.h: In this file a part user interaction is handled
+The criteria was to here write the front-end actualization (menu->game)
+
+There are some mixes with snake_graphic_base.c but, the idea is to write
+all things that change frecuently in snake_pc.h and all things that
+tend to be more static in snake_graphic_base.c 
+***/
+
+
+
 #ifndef SNAKE_PC_H
 #define SNAKE_PC_H
 
@@ -10,11 +21,6 @@
 
 #define BLACK al_map_rgb(0,0,0)
 
-/*** 
-snake_pc.h: In this file a part user interaction is handled
-The criteria was to here write the front-end actualization (menu->game)
- 
-***/
 
 
 /// Handle all front-end events

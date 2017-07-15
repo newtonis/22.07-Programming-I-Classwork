@@ -264,8 +264,8 @@ void destroy_scoreboard(full_graphic_content *content){
 }
 
 
-
-void update_positions(full_graphic_content* content){ /// when screen resizes
+/// when screen resizes, we need to update all objects positions
+void update_positions(full_graphic_content* content){ 
     double screen_width  = (double)al_get_display_width(content->display);
     double screen_height = (double)al_get_display_height(content->display);
     

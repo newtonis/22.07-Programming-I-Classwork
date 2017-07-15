@@ -1,3 +1,11 @@
+//// In this file all structures that handle game front end (graphics, events) are declared
+
+/*** 
+snake_graphic_base.h: In this file we handle all graphic intializations, destructions, 
+and how the different graphical objects are drawn (Their position is relative to the screen size).
+
+***/
+
 
 #ifndef SNAKE_GRAPHIC_BASE_H
 #define SNAKE_GRAPHIC_BASE_H
@@ -6,16 +14,9 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
 #include "config.h"
-#include "interface.h"
 #include "ui.h"
 
-//// In this file all structures that handle game front end (graphics, events) are declared
 
-/*** 
-snake_graphic_base.h: In this file we handle all graphic intializations, destructions, 
-and how the different graphical objects are drawn (Their position is relative to the screen size).
-
-***/
 
  //// front end different status moments
 enum {INITIAL_MENU , PLAY , GAME_OVER};
