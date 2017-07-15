@@ -208,7 +208,7 @@ void draw_game( logic_vars_t* game_vars, full_graphic_content* content){
     al_draw_filled_rectangle(start_x,start_y-BORDER_SIZE,start_x+game_width+BORDER_SIZE,start_y,BORDER_COLOR);
     al_draw_filled_rectangle(start_x+game_width,start_y ,start_x+game_width+BORDER_SIZE,start_y+game_height+BORDER_SIZE,BORDER_COLOR);
     al_draw_filled_rectangle(start_x-BORDER_SIZE,start_y+game_height,start_x+game_width,start_y+game_height+BORDER_SIZE,BORDER_COLOR);
-    al_draw_filled_rectangle(start_x-BORDER_SIZE,start_y-BORDER_SIZE,start_x,start_y+game_width,BORDER_COLOR);
+    al_draw_filled_rectangle(start_x-BORDER_SIZE,start_y-BORDER_SIZE,start_x,start_y+game_height,BORDER_COLOR);
     
    // al_draw_bitmap(food, pFood->pos[X_COORD], pFood->pos[Y_COORD], 0);
 }
