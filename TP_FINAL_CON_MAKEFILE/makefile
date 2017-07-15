@@ -16,7 +16,7 @@ ui.o:	ui.c ui.h utils.o config.h
 
 
 snake_version_rpi: main_rpi.o 
-	gcc main_rpi.o rpi_hard.o snake_rpi.o snake_logic.o joydrv.o termlib.o disdrv.o -o snake_rpi_exec
+	gcc main_rpi.o rpi_hard.o snake_rpi.o snake_logic.o rpi_lib/joydrv.o rpi_lib/termlib.o rpi_lib/disdrv.o -o snake_rpi_exec
 
 main_rpi.o: main.c rpi_hard.o snake_rpi.o snake_logic.o
 	gcc -c main_rpi.c
@@ -32,9 +32,7 @@ snake_logic.o: snake_logic.c snake_logic.h utils.o config.h
 utils.o: utils.c utils.h
 	gcc -c utils.c
 	
-clean_pc_version:
-	rm main.o snake_graphic_base.o snake_logic.o snake_pc.o ui.o utils.o
+clean:
+	rm *.o
 
-clean_rpi_version:
-	rm main_rpi.o rpi_hard.o snake_rpi.o snake_logic.o utils.o
 
