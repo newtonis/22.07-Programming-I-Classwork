@@ -1,3 +1,13 @@
+//////////////////////////////////
+//// DISPLAY MESSAGES LIBRARY ////
+//// ------------------------ ////////////////////////////////////////
+//// This library contains all words and number matrix to be used ////
+//// for the display of the rpi version. There's a basic clean    ////
+//// display matrix for general use, three complete matrix of     ////
+//// difficulty number selection for blinking, a matrix as a      ////
+//// welcome message, and a matrix for game over purposes.        ////
+//// The individual numbers are for score showing purposes.       ////
+//////////////////////////////////////////////////////////////////////
 #ifndef DISP_MSGS_H
 #define DISP_MSGS_H
 
