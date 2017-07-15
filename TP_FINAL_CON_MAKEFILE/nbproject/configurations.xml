@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="100">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <itemPath>config.h</itemPath>
+      <itemPath>snake_graphic_base.h</itemPath>
+      <itemPath>snake_logic.h</itemPath>
+      <itemPath>snake_pc.h</itemPath>
+      <itemPath>ui.h</itemPath>
+      <itemPath>utils.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <itemPath>main.c</itemPath>
+      <itemPath>snake_graphic_base.c</itemPath>
+      <itemPath>snake_logic.c</itemPath>
+      <itemPath>snake_pc.c</itemPath>
+      <itemPath>ui.c</itemPath>
+      <itemPath>utils.c</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+    <itemPath>flecha_abajo.png</itemPath>
+    <itemPath>flecha_arriba.png</itemPath>
+    <itemPath>fonts</itemPath>
+    <itemPath>game_over.png</itemPath>
+    <itemPath>game_points.txt</itemPath>
+    <itemPath>lento.png</itemPath>
+    <itemPath>medio.png</itemPath>
+    <itemPath>rapido.png</itemPath>
+    <itemPath>start.png</itemPath>
+    <itemPath>start_b.png</itemPath>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="1">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerOptionItem>`pkg-config --libs allegro-5.0`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_acodec-5.0`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_audio-5.0`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_color-5.0`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_dialog-5.0`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_font-5.0`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_image-5.0`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_main-5.0`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_memfile-5.0`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_physfs-5.0`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_primitives-5.0`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs allegro_ttf-5.0`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+      <item path="config.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="flecha_abajo.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="flecha_arriba.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="fonts" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="game_over.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="game_points.txt" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="lento.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="main.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="medio.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="rapido.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="snake_graphic_base.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="snake_graphic_base.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="snake_logic.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="snake_logic.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="snake_pc.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="snake_pc.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="start.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="start_b.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ui.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="ui.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="utils.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="utils.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Release" type="1">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+      </compileType>
+      <item path="config.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="flecha_abajo.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="flecha_arriba.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="fonts" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="game_over.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="game_points.txt" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="lento.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="main.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="medio.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="rapido.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="snake_graphic_base.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="snake_graphic_base.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="snake_logic.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="snake_logic.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="snake_pc.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="snake_pc.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="start.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="start_b.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ui.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="ui.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="utils.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="utils.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>

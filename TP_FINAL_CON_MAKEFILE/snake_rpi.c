@@ -1,0 +1,234 @@
+#include "config_rpi.h"
+#include "snake_rpi.h"
+#include "rpi_hard.h"
+#include "disp_msgs.h"
+
+#define EYE 15
+
+// get_snake_food_pos: writes into matrix the actual positions
+static void get_snake_food_pos(logic_vars_t *pLogic);
+
+// update_game_display: updates snake into display
+static void update_game_display(logic_vars_t *pLogic);
+
+static char disp_buffer[MAX_DISP][MAX_DISP]={
+    {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},  
+    {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+    {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+    {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+    {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+    {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+    {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+    {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+    {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+    {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+    {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+    {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+    {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+    {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+    {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+    {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'}}; 
+
+void mode_change(disp_fragment_t *pFrag, int mode){
+    int i;
+    for(i = 0; i < MAX_MODES; i++){
+        if(i == mode){
+            (pFrag[mode]).status = BLINK_ON;
+        }else{
+            (pFrag[i]).status = BLINK_OFF;
+        }
+    }
+
+}
+
+void mode_fsm(game_control_t *pControl){
+    
+    switch(pControl->mode){
+    case EASY:
+        if(((pControl->joy_coordinates1.y) > JOY_THRESHOLD)&&(pControl->joy_flag == FALSE)){
+            pControl->joy_flag = TRUE;
+            pControl->mode = MED;
+            mode_change(pControl->num_frag, pControl->mode);
+
+        }
+        if(((pControl->joy_coordinates1.y) < -JOY_THRESHOLD)&&(pControl->joy_flag == FALSE)){
+            pControl->joy_flag = TRUE;
+            pControl->mode = HARD;
+            mode_change(pControl->num_frag, pControl->mode);
+
+        }
+    break;    
+    case MED:
+        if(((pControl->joy_coordinates1.y) > JOY_THRESHOLD)&&(pControl->joy_flag == FALSE)){
+            pControl->joy_flag = TRUE;
+            pControl->mode = HARD;
+            mode_change(pControl->num_frag, pControl->mode);
+
+        }
+        if(((pControl->joy_coordinates1.y) < -JOY_THRESHOLD)&&(pControl->joy_flag == FALSE)){
+            pControl->joy_flag = TRUE;
+            pControl->mode = EASY;
+            mode_change(pControl->num_frag, pControl->mode);
+
+        }
+    break;    
+    case HARD:
+        if(((pControl->joy_coordinates1.y) > JOY_THRESHOLD)&&(pControl->joy_flag == FALSE)){
+            pControl->joy_flag = TRUE;
+            pControl->mode = EASY;
+
+             mode_change(pControl->num_frag, pControl->mode);
+        }
+        if(((pControl->joy_coordinates1.y) < -JOY_THRESHOLD)&&(pControl->joy_flag == FALSE)){
+            pControl->joy_flag = TRUE;
+            pControl->mode = MED;
+            mode_change(pControl->num_frag, pControl->mode);
+
+        }
+    break;
+    }
+    if(((pControl->joy_coordinates1.y) < JOY_AXES_MAX)&&((pControl->joy_coordinates1.y) > -JOY_AXES_MIN)){
+        pControl->joy_flag = FALSE;
+    }
+
+    if(((pControl->joy_coordinates1.y) < JOY_AXES_MIN)&&((pControl->joy_coordinates1.y) > -JOY_AXES_MAX)){
+        pControl->joy_flag = FALSE;
+    }
+
+
+    if (pControl->joy_switch1 == J_NOPRESS){
+        pControl->switch_flag = FALSE;
+
+    }
+    if ((pControl->switch_flag == FALSE) && ((pControl->joy_switch1) != J_NOPRESS)){
+        pControl->switch_flag = TRUE;
+        display_clear();
+        reset_txt_fsm();
+        pControl->status = INIT_GAME; 
+
+    }
+
+}
+
+void refresh_welcome_display(time_blink_t *pClock, logic_vars_t *pLogic, game_control_t *pControl){
+    pClock->end = clock();
+    pClock->total = (double)((((pClock->end) - (pClock->start))*EYE)/ (CLOCKS_PER_SEC));
+    if(pClock->total >= 1){
+       pClock->start = pClock->end;
+       print_welcome(get_highscore(pLogic));
+       refresh_joy(pControl);
+    }
+    
+    if (pControl->joy_switch1 == J_NOPRESS){
+        pControl->switch_flag = FALSE;
+
+    }   
+    
+    if ((pControl->switch_flag == FALSE) && ((pControl->joy_switch1) != J_NOPRESS)){
+        pControl->status = MENU;
+        display_clear();
+        reset_txt_fsm();
+        pControl->switch_flag = TRUE;
+    }   
+}
+
+void refresh_menu_display(time_blink_t *pClock, game_control_t *pControl){
+    pClock->end = clock();
+    pClock->total = (double)((((pClock->end) - (pClock->start))*EYE)/ (CLOCKS_PER_SEC));
+    if(pClock->total >= 1){
+       pClock->start = pClock->end;
+       update_menu_op(pControl->num_frag);
+       refresh_joy(pControl);
+    }
+    
+}
+
+static void update_game_display(logic_vars_t *pLogic){
+    
+    turn_leds(disp_buffer, POINT_ON, D_OFF); // turn off previus points 
+    clear_matrix(disp_buffer); 
+    get_snake_food_pos(pLogic); // copy new positions
+    turn_leds(disp_buffer, POINT_ON, D_ON);
+    
+    display_update();
+}
+
+static void get_snake_food_pos(logic_vars_t *pLogic){
+    
+    int length = get_length(pLogic); // get actual length
+    int i, x_pos, y_pos;
+    
+    // now we get the actual snake pos
+    for(i = 0; i < length; i++){
+        x_pos = (int)(pLogic->pSnake[i].polar_pos[X_COORD]);
+        y_pos = (int)(pLogic->pSnake[i].polar_pos[Y_COORD]);
+        disp_buffer[x_pos][y_pos] = POINT_ON;
+    }
+    
+    // and the food position
+    x_pos = (int)(pLogic->pFood->pos[X_COORD]);
+    y_pos = (int)(pLogic->pFood->pos[Y_COORD]);
+    disp_buffer[x_pos][y_pos] = POINT_ON;
+}
+
+void process_snake_move(game_control_t *pControl){
+    
+    int new_dir, x_coord, y_coord;
+    
+    new_dir = pControl->direction; // previus direction
+    
+    refresh_joy(pControl); // get new joystick data
+    x_coord = pControl->joy_coordinates1.x;
+    y_coord = pControl->joy_coordinates1.y;
+    
+    if((y_coord < JOY_AXES_MAX)&&(y_coord > -JOY_AXES_MAX)&&(x_coord > JOY_THRESHOLD)){
+        new_dir = LOGIC_KEY_RIGHT;
+    }
+    else if((y_coord < JOY_AXES_MAX)&&(y_coord > -JOY_AXES_MAX)&&(x_coord < -JOY_THRESHOLD)){
+        new_dir = LOGIC_KEY_LEFT;
+    }
+    else if((x_coord < JOY_AXES_MAX)&&(x_coord > -JOY_AXES_MAX)&&(y_coord > JOY_THRESHOLD)){
+        new_dir = LOGIC_KEY_DOWN;
+    }
+    else if((x_coord < JOY_AXES_MAX)&&(x_coord > -JOY_AXES_MAX)&&(y_coord < -JOY_THRESHOLD)){
+        new_dir = LOGIC_KEY_UP;
+    }
+    
+    pControl->direction = new_dir;
+}
+
+void process_snake_status(game_control_t *pControl, logic_vars_t *pLogic){
+
+    if(pControl->snake_status == ALIVE){
+        update_game_display(pLogic);
+    }
+    else if(pControl->snake_status == DEAD){
+        pControl->status = END;
+        stop_snake_logic(pLogic);
+        clear_matrix(basic_disp);
+        display_clear();
+    }
+
+}
+
+void refresh_points_display(time_blink_t *pClock, logic_vars_t *pLogic, game_control_t *pControl){
+    pClock->end = clock();
+    pClock->total = (double)((((pClock->end) - (pClock->start))*EYE)/ (CLOCKS_PER_SEC));
+    if(pClock->total >= 1){
+       pClock->start = pClock->end;
+       print_score(pLogic->points);
+       refresh_joy(pControl);
+    }
+    
+    if (pControl->joy_switch1 == J_NOPRESS){
+        pControl->switch_flag = FALSE;
+
+    }
+    
+    if ((pControl->switch_flag == FALSE) && ((pControl->joy_switch1) != J_NOPRESS)){
+        pControl->status = START;
+        reset_txt_fsm();
+        display_clear();
+        pControl->switch_flag = TRUE;
+    }  
+}
