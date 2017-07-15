@@ -20,12 +20,6 @@ void init_snake_pc(full_graphic_content *content){
     
     content->redraw = false;
     content->do_exit = false; 
- 
-    snake_node_t snake_H[MAX_LENGTH]; // initial snake
-    snake_node_t *pHead = snake_H; // pointer to snake
-        
-    food_t gameFood; // food in game
-    food_t *pGameFood = &gameFood; // pointer to food struct
         
     if(!al_init()) {
 	fprintf(stderr, "failed to initialize allegro!\n");
@@ -49,40 +43,10 @@ void init_snake_pc(full_graphic_content *content){
 	exit(1);
     }
         
-    for(i = 0; i < MAX_LENGTH; i++){ // snake create
-        content->images->snake[i] = al_create_bitmap(CUADRADITO_SIZE, CUADRADITO_SIZE);
-        if(!content->images->snake[i]) {
-            fprintf(stderr, "failed to create snake bitmap!\n");
-            al_destroy_timer(content->timer_a);
-            al_destroy_timer(content->timer_b);
-
-            while(i >= 0){
-                al_destroy_bitmap(content->images->snake[i]);
-                i--;
-            }
-            exit(1);
-        }
-    }
-        
-    content->images->food = al_create_bitmap(CUADRADITO_SIZE, CUADRADITO_SIZE); // food create
-    if(!content->images->food){
-        fprintf(stderr, "failed to create food bitmap!\n");
-        al_destroy_timer(content->timer_a);
-	al_destroy_timer(content->timer_b);
-
-        al_destroy_bitmap(content->images->snake[i]);
-        exit(1);
-    }
-    
+   
     content->event_queue = al_create_event_queue();
     if(!content->event_queue) {
 	fprintf(stderr, "failed to create event_queue!\n");
-        for(i = 0; i < MAX_LENGTH; i++){ // snake destroy
-            al_destroy_bitmap(content->images->snake[i]);
-        }
-        al_destroy_bitmap(content->images->food);
-	al_destroy_timer(content->timer_a);
-	al_destroy_timer(content->timer_a);
 	exit(1);
     }
  
@@ -91,18 +55,11 @@ void init_snake_pc(full_graphic_content *content){
     
     if(!content->display) {
 	fprintf(stderr, "failed to create display!\n");
-	al_destroy_timer(content->timer_a);
-	al_destroy_timer(content->timer_b);
-	for(i = 0; i < MAX_LENGTH; i++){ // snake destroy
-            al_destroy_bitmap(content->images->snake[i]);
-        }
-        al_destroy_bitmap(content->images->food);
-	al_destroy_event_queue(content->event_queue);
         exit(1);
     }
 	
   
-    
+ 
     al_set_target_bitmap(al_get_backbuffer(content->display));
   
     al_register_event_source(content->event_queue, al_get_display_event_source(content->display));
@@ -142,10 +99,7 @@ void init_snake_pc(full_graphic_content *content){
 
 
 void destroy_graphic_base(full_graphic_content * content){
-    int i;
-    for(i = 0; i < MAX_LENGTH; i++){ // snake destroy
-        al_destroy_bitmap(content->images->snake[i]);
-    }
+
     al_destroy_timer(content->timer_a);
     al_destroy_timer(content->timer_b);
     al_destroy_bitmap(content->images->food);

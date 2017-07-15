@@ -26,7 +26,7 @@
 #include "snake_logic.h"
 #include "snake_pc.h"
 #include "snake_graphic_base.h"
-
+#include "sound.h"
 
 int main(void){
     full_graphic_content content; /// Initialize the front-end variables
@@ -35,6 +35,12 @@ int main(void){
     
     content.images = &plot_basic_vars; /// Insert images and fonts into front-end variables
     content.fonts = &fonts;
+    
+    music_vars_t music; /// Initialize music
+    al_audio_init(&music);
+  
+    content.audio_state=0;
+    content.last_audio_state = -1;
 
     init_snake_pc(&content); /// Start snake-front-end system. We need to give the initializer the front end variables
     
@@ -44,7 +50,7 @@ int main(void){
     while(!content.do_exit){ 
         
         handle_events(logic , &content );
-        
+        handle_audio (&content, &music);
     }
     /// Destroy dynamic memory
     destroy_game(logic);

@@ -5,7 +5,7 @@
 #include "config.h"
 #include "snake_graphic_base.h"
 #include "utils.h"
-
+#include "sound.h"
 
 /// Main  event handler 
 void handle_events(logic_vars_t* vars , full_graphic_content * content){
@@ -44,10 +44,13 @@ void update_game( logic_vars_t* game_data , full_graphic_content* content ){
             if (status){
                 content->front_end_status = PLAY;
                 handle_start_game( game_data , content );
+                content->audio_state=content->intial_menu->diff_ui->value;
+                
             }
             update_reg_box(content->intial_menu->width_config_ui);
             update_reg_box(content->intial_menu->height_config_ui);
             update_reg_box(content->intial_menu->diff_ui);
+            
         break;
         
         case PLAY:
@@ -57,6 +60,8 @@ void update_game( logic_vars_t* game_data , full_graphic_content* content ){
             }else if(status == DEAD){
                 set_scoreboard_to_white(content);
                 content->front_end_status = GAME_OVER;
+                
+ 	    content->audio_state=GAME_OVER_AUDIO;
             }
         break;
         case GAME_OVER:
@@ -64,6 +69,7 @@ void update_game( logic_vars_t* game_data , full_graphic_content* content ){
             if (status){
                 set_scoreboard_to_grey(content);
                 content->front_end_status = INITIAL_MENU;
+                content->audio_state = MENU_AUDIO;
             }
         break;
     }
@@ -87,13 +93,11 @@ void set_scoreboard_to_grey(full_graphic_content *content){
 }
 void handle_start_game( logic_vars_t *game_data,full_graphic_content *content){
     set_snake_game_size( game_data , content->intial_menu->width_config_ui->value , content->intial_menu->height_config_ui->value);
-    //set_speed( game_data , get_speed_from_difficulty(content->intial_menu->diff_ui->value)  );
     set_game_difficulty(game_data , content->intial_menu->diff_ui->value);
     
     start_snake_logic(game_data); // start game
     update_scoreboard(game_data,content); // start scoreboard
     
-    // printf("Game started %f %f\n",(double)game_data->speed,(double)game_data->game_status);
 }
 void handle_key_press( logic_vars_t * vars , full_graphic_content *content , ALLEGRO_EVENT *ev){
     

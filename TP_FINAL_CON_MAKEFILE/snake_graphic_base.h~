@@ -1,3 +1,11 @@
+//// In this file all structures that handle game front end (graphics, events) are declared
+
+/*** 
+snake_graphic_base.h: In this file we handle all graphic intializations, destructions, 
+and how the different graphical objects are drawn (Their position is relative to the screen size).
+
+***/
+
 
 #ifndef SNAKE_GRAPHIC_BASE_H
 #define SNAKE_GRAPHIC_BASE_H
@@ -8,13 +16,7 @@
 #include "config.h"
 #include "ui.h"
 
-//// In this file all structures that handle game front end (graphics, events) are declared
 
-/*** 
-snake_graphic_base.h: In this file we handle all graphic intializations, destructions, 
-and how the different graphical objects are drawn (Their position is relative to the screen size).
-
-***/
 
  //// front end different status moments
 enum {INITIAL_MENU , PLAY , GAME_OVER};
@@ -33,7 +35,6 @@ typedef struct{
     ALLEGRO_BITMAP *arr_up_2 , *arr_down_2;
     ALLEGRO_BITMAP *game_over;
     ALLEGRO_BITMAP *easy , *medium , *hard;
-    ALLEGRO_BITMAP *snake[MAX_LENGTH];
     ALLEGRO_BITMAP *food;
     ALLEGRO_BITMAP *start_button_image , *start_button_image_b;
     ALLEGRO_BITMAP *restart_image , *restart_image_b;
@@ -90,6 +91,7 @@ typedef struct{
     int front_end_status; // for the front-end FSM
 
     double time_counter; // count seconds
+    int audio_state;
 }full_graphic_content;
 
 // Start graphic system

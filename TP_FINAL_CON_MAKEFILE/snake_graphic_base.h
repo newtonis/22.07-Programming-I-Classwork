@@ -35,7 +35,6 @@ typedef struct{
     ALLEGRO_BITMAP *arr_up_2 , *arr_down_2;
     ALLEGRO_BITMAP *game_over;
     ALLEGRO_BITMAP *easy , *medium , *hard;
-    ALLEGRO_BITMAP *snake[MAX_LENGTH];
     ALLEGRO_BITMAP *food;
     ALLEGRO_BITMAP *start_button_image , *start_button_image_b;
     ALLEGRO_BITMAP *restart_image , *restart_image_b;
@@ -92,6 +91,8 @@ typedef struct{
     int front_end_status; // for the front-end FSM
 
     double time_counter; // count seconds
+    int audio_state;
+    int last_audio_state;
 }full_graphic_content;
 
 // Start graphic system

@@ -5,7 +5,7 @@
 #include "config.h"
 #include "snake_graphic_base.h"
 #include "utils.h"
-
+#include "sound.h"
 
 /// Main  event handler 
 void handle_events(logic_vars_t* vars , full_graphic_content * content){
@@ -44,10 +44,13 @@ void update_game( logic_vars_t* game_data , full_graphic_content* content ){
             if (status){
                 content->front_end_status = PLAY;
                 handle_start_game( game_data , content );
+                content->audio_state=content->intial_menu->diff_ui->value;
+                
             }
             update_reg_box(content->intial_menu->width_config_ui);
             update_reg_box(content->intial_menu->height_config_ui);
             update_reg_box(content->intial_menu->diff_ui);
+            
         break;
         
         case PLAY:
@@ -57,6 +60,7 @@ void update_game( logic_vars_t* game_data , full_graphic_content* content ){
             }else if(status == DEAD){
                 set_scoreboard_to_white(content);
                 content->front_end_status = GAME_OVER;
+ 	        content->audio_state=GAME_OVER_AUDIO;
             }
         break;
         case GAME_OVER:
@@ -64,6 +68,7 @@ void update_game( logic_vars_t* game_data , full_graphic_content* content ){
             if (status){
                 set_scoreboard_to_grey(content);
                 content->front_end_status = INITIAL_MENU;
+                content->audio_state = MENU_AUDIO;
             }
         break;
     }
