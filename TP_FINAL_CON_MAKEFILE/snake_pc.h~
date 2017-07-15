@@ -13,7 +13,6 @@
 /*** 
 snake_pc.h: In this file a part user interaction is handled
 The criteria was to here write the front-end actualization (menu->game)
- 
 ***/
 
 

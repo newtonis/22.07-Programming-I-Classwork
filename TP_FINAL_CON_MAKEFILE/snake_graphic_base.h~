@@ -110,8 +110,7 @@ static void destroy_menu(full_graphic_content *content);
 static void destroy_images(images_t* images);
 static void destroy_fonts(fonts_t* fonts);
 static void destroy_scoreboard(full_graphic_content *content);
-
 // load image, or , if it could not be loaded, crash program.
-static ALLEGRO_BITMAP* load_or_crash(const char *filename); 
 
+static ALLEGRO_BITMAP* load_or_crash(const char *filename); 
 #endif

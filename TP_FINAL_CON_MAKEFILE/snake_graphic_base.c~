@@ -189,9 +189,6 @@ void load_images(images_t* images){
     images->arr_up    = load_or_crash("flecha_arriba.png");
     images->arr_up_2  = load_or_crash("flecha_arriba_2.png");
     
-    images->easy      = load_or_crash("lento.png");
-    images->medium    = load_or_crash("medio.png");
-    images->hard      = load_or_crash("rapido.png");
     images->start_button_image = load_or_crash("start.png");
     images->start_button_image_b = load_or_crash("start_b.png");
     
