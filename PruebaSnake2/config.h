@@ -38,6 +38,7 @@ enum {FALSE, TRUE};
 #define FOOD_COLOR al_map_rgb(100,255,255)
 #define LIGHT_BOX_COLOR al_map_rgb(100,100,100)
 #define GAME_OVER_COLOR al_map_rgb(200,200,255)
+#define BORDER_COLOR al_map_rgb(100,100,255)
 
 #define START_BUTTON_CORR 100
 
@@ -78,5 +79,6 @@ enum {FALSE, TRUE};
 #define BLINK_TIME 0.8
 #define TOTAL_PERIOD_TIME 1.0
 
+#define BORDER_SIZE 10
 #endif /* CONFIG_H */
 

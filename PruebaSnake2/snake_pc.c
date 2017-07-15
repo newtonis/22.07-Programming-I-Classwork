@@ -153,16 +153,19 @@ void draw_game( logic_vars_t* game_vars, full_graphic_content* content){
     int screen_height = al_get_display_height(content->display);
     
     
-    double sz_x = (double)screen_width / (double)game_vars->world_width;
-    double sz_y = (double)screen_height / (double)game_vars->world_height;
+    double sz_x = ((double)screen_width - BORDER_SIZE*2) / (double)game_vars->world_width;
+    double sz_y = ((double)screen_height - BORDER_SIZE*2) / (double)game_vars->world_height;
     
     /// This calculation is to make all snake tiles to be squares.
     double mult_x = min(sz_x , sz_y);
     double mult_y = min(sz_x,  sz_y);
     
+    double game_width = mult_x*game_vars->world_width;
+    double game_height = mult_y*game_vars->world_height;
+    
     /// Center game screen position
-    double start_x = (double)screen_width/2-mult_x*game_vars->world_width/2;
-    double start_y = (double)screen_height/2-mult_y*game_vars->world_height/2;
+    double start_x = (double)screen_width/2-game_width/2;
+    double start_y = (double)screen_height/2-game_height/2;
     
     int i,j, length;
     length = get_length(game_vars); // get actual snake length
@@ -201,6 +204,12 @@ void draw_game( logic_vars_t* game_vars, full_graphic_content* content){
             start_x + (pFood->pos[X_COORD]+1)*mult_x,\
             start_y + (pFood->pos[Y_COORD]+1)*mult_y,\
             FOOD_COLOR);
+    
+    al_draw_filled_rectangle(start_x,start_y-BORDER_SIZE,start_x+game_width+BORDER_SIZE,start_y,BORDER_COLOR);
+    al_draw_filled_rectangle(start_x+game_width,start_y ,start_x+game_width+BORDER_SIZE,start_y+game_height+BORDER_SIZE,BORDER_COLOR);
+    al_draw_filled_rectangle(start_x-BORDER_SIZE,start_y+game_height,start_x+game_width,start_y+game_height+BORDER_SIZE,BORDER_COLOR);
+    al_draw_filled_rectangle(start_x-BORDER_SIZE,start_y-BORDER_SIZE,start_x,start_y+game_width,BORDER_COLOR);
+    
    // al_draw_bitmap(food, pFood->pos[X_COORD], pFood->pos[Y_COORD], 0);
 }
 
