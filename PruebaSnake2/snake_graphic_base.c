@@ -262,10 +262,10 @@ void init_scoreboard(full_graphic_content *content){
         exit(1);
     }
     content->scoreboard->score_text = init_show_text("Score: ",LIGHT_BOX_COLOR,content->fonts->iso_big_text,SCREEN_W/2,SCREEN_H/2-DISTANCE_SCOREBOARD_Y);
-    content->scoreboard->high_score = init_show_text("Highscore: ",LIGHT_BOX_COLOR,content->fonts->iso_big_text,SCREEN_W/4,SCREEN_H/2+DISTANCE_SCOREBOARD_Y);
+    content->scoreboard->high_score = init_show_text("Highscore: ",LIGHT_BOX_COLOR,content->fonts->iso_big_text,SCREEN_W/8*3,SCREEN_H/2+DISTANCE_SCOREBOARD_Y);
 
     content->scoreboard->score_number_text = init_show_text("",LIGHT_BOX_COLOR,content->fonts->iso_big_text,SCREEN_W/2+DISTANCE_SCOREBOARD_X,SCREEN_H/2-DISTANCE_SCOREBOARD_Y);
-    content->scoreboard->high_score_number_text = init_show_text("",LIGHT_BOX_COLOR,content->fonts->iso_big_text,SCREEN_W/4+DISTANCE_HIGHSCORE_X,SCREEN_H/2+DISTANCE_SCOREBOARD_Y);
+    content->scoreboard->high_score_number_text = init_show_text("",LIGHT_BOX_COLOR,content->fonts->iso_big_text,SCREEN_W/8*3+DISTANCE_HIGHSCORE_X,SCREEN_H/2+DISTANCE_SCOREBOARD_Y);
     
     content->scoreboard->score_number_text->text = malloc(sizeof(char)*5); // this text MUST BE dynamic, because it changes .
     content->scoreboard->high_score_number_text->text = malloc(sizeof(char)*5);
@@ -313,9 +313,9 @@ void update_positions(full_graphic_content* content){ /// when screen resizes
 
     //// Scoreboard
     update_show_text_position(content->scoreboard->score_text,screen_width/2,screen_height/2-DISTANCE_SCOREBOARD_Y);
-    update_show_text_position(content->scoreboard->high_score,screen_width/4,screen_height/2+DISTANCE_SCOREBOARD_Y);
+    update_show_text_position(content->scoreboard->high_score,screen_width/8*3,screen_height/2+DISTANCE_SCOREBOARD_Y);
     update_show_text_position(content->scoreboard->score_number_text,screen_width/2+DISTANCE_SCOREBOARD_X,screen_height/2-DISTANCE_SCOREBOARD_Y);
-    update_show_text_position(content->scoreboard->high_score_number_text,screen_width/4+DISTANCE_HIGHSCORE_X,screen_height/2+DISTANCE_SCOREBOARD_Y);
+    update_show_text_position(content->scoreboard->high_score_number_text,screen_width/8*3+DISTANCE_HIGHSCORE_X,screen_height/2+DISTANCE_SCOREBOARD_Y);
     update_show_text_position(content->scoreboard->game_over_text,screen_width/2,screen_height/8);
     
     update_button_position(content->scoreboard->restart_button,screen_width/2,screen_height/6*5);
