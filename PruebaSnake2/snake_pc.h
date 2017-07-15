@@ -11,6 +11,8 @@
 #define BLACK al_map_rgb(0,0,0)
 
 
+void handle_events(logic_vars_t* vars , full_graphic_content * content);
+
 /// Update game calculations in general 
 void update_game( logic_vars_t* game_data , full_graphic_content* content );
 

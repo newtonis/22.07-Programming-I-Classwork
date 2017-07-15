@@ -85,7 +85,6 @@ typedef struct{
 }full_graphic_content;
 
 void init_snake_pc(full_graphic_content *content);
-void handle_events(logic_vars_t* vars , full_graphic_content * content );
 void destroy_graphic_base(full_graphic_content * content);
 void update_positions(full_graphic_content* content); // update graphic elements position when screen resizes
 
