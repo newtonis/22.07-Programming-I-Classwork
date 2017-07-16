@@ -25,5 +25,7 @@ void handle_audio(full_graphic_content* content, music_vars_t * music);
 
 void reset_fsm(music_vars_t* music, int *p2state);
 
+void destroy_music_vars(music_vars_t *music);
+
 #endif /* SOUND_H */
 
