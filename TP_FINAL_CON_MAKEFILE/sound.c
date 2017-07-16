@@ -11,7 +11,7 @@ void al_audio_init(music_vars_t * music){
         music->audio_instances[i]=NULL; 
     }
     
-    music->pt2str[MENU_AUDIO]="menu.wav";
+    music->pt2str[MENU_AUDIO]="menu2.wav";
     music->pt2str[SLOW_AUDIO]="slow.wav";
     music->pt2str[NORMAL_AUDIO]="normal.wav";
     music->pt2str[FAST_AUDIO]="fast.wav";
