@@ -102,7 +102,7 @@ void destroy_graphic_base(full_graphic_content * content){
 
     al_destroy_timer(content->timer_a);
     al_destroy_timer(content->timer_b);
-    al_destroy_bitmap(content->images->food);
+    
     al_destroy_display(content->display);
     
     destroy_handler(content->cursor_handler);
@@ -134,10 +134,6 @@ void destroy_images(images_t* images){
     al_destroy_bitmap(images->arr_up);
     al_destroy_bitmap(images->start_button_image);
     al_destroy_bitmap(images->snake_logo);
-
-    
-    
-    
     
 }
 /*** Create all user interface elements ***/
