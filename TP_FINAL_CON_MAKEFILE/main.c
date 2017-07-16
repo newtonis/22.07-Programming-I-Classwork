@@ -54,6 +54,9 @@ int main(void){
     }
     /// Destroy dynamic memory
     destroy_game(logic);
+    
     destroy_graphic_base(&content);
+   
+    destroy_music_vars(&music);
     return 0;
 }

@@ -11,7 +11,7 @@ void al_audio_init(music_vars_t * music){
         music->audio_instances[i]=NULL; 
     }
     
-    music->pt2str[MENU_AUDIO]="menu.wav";
+    music->pt2str[MENU_AUDIO]="menu2.wav";
     music->pt2str[SLOW_AUDIO]="slow.wav";
     music->pt2str[NORMAL_AUDIO]="normal.wav";
     music->pt2str[FAST_AUDIO]="fast.wav";
@@ -34,8 +34,7 @@ void al_audio_init(music_vars_t * music){
 
     int l;
     for(l=0;l<CANT_AUDIO_TRACKS;l++){
-        
-        printf("%s",music->pt2str[l]);
+       
         music->audio_samples[l] = al_load_sample(music->pt2str[l]);
         
         if(!music->audio_samples[l]){
@@ -113,6 +112,18 @@ void handle_audio(full_graphic_content* content, music_vars_t * music ){
         }
         
         
+        
+        
+        
     
+}
+void destroy_music_vars(music_vars_t *music){
+    
+    for(int l=0;l<CANT_AUDIO_TRACKS;l++){
+
+        al_destroy_sample(music->audio_samples[l]);
+        al_destroy_sample_instance(music->audio_instances[l]);
+        
+    }
 }
  
