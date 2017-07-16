@@ -38,6 +38,7 @@ typedef struct{
     ALLEGRO_BITMAP *food;
     ALLEGRO_BITMAP *start_button_image , *start_button_image_b;
     ALLEGRO_BITMAP *restart_image , *restart_image_b;
+    ALLEGRO_BITMAP *snake_logo;
 }images_t;
 
 /// All structures for the menu

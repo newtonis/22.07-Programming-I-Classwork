@@ -125,6 +125,8 @@ void load_images(images_t* images){
     
     images->restart_image   = load_or_crash("restart.png");
     images->restart_image_b = load_or_crash("restart_b.png");
+
+    images->snake_logo = load_or_crash("snake_logo.png");
     
 }
 void destroy_images(images_t* images){
@@ -135,6 +137,7 @@ void destroy_images(images_t* images){
     al_destroy_bitmap(images->medium);
     al_destroy_bitmap(images->hard);
     al_destroy_bitmap(images->start_button_image);
+    al_destroy_bitmap(images->snake_logo);
 }
 /*** Create all user interface elements ***/
 void init_menu(full_graphic_content *content){

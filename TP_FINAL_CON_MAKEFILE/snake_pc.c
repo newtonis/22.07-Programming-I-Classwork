@@ -125,6 +125,7 @@ void update_pc_graphic_screen( logic_vars_t* game_data , full_graphic_content* c
     /// Graphical front-end machine (here we draw everything!)
     switch (content->front_end_status){
         case INITIAL_MENU:
+            al_draw_bitmap(content->images->snake_logo, (SCREEN_W/2)-100, (SCREEN_H/2)-110, 0);
             draw_button(content->intial_menu->play_button);
             draw_reg_box(content->intial_menu->width_config_ui);
             draw_reg_box(content->intial_menu->height_config_ui);
