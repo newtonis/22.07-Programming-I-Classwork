@@ -132,10 +132,6 @@ void load_images(images_t* images){
 void destroy_images(images_t* images){
     al_destroy_bitmap(images->arr_down);
     al_destroy_bitmap(images->arr_up);
-    al_destroy_bitmap(images->game_over);
-    al_destroy_bitmap(images->easy);
-    al_destroy_bitmap(images->medium);
-    al_destroy_bitmap(images->hard);
     al_destroy_bitmap(images->start_button_image);
     al_destroy_bitmap(images->snake_logo);
 }
