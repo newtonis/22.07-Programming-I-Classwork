@@ -134,6 +134,11 @@ void destroy_images(images_t* images){
     al_destroy_bitmap(images->arr_up);
     al_destroy_bitmap(images->start_button_image);
     al_destroy_bitmap(images->snake_logo);
+
+    
+    
+    
+    
 }
 /*** Create all user interface elements ***/
 void init_menu(full_graphic_content *content){
