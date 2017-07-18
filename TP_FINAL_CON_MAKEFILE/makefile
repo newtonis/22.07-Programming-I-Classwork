@@ -1,8 +1,30 @@
+#FINAL TP - MAKEFILE
+#This makefile was made in order to simplify the compilation of the snake.
+#(Check if there is an update directly from the object files).
+#The project itself is divided in two diferent versions, the pc and the rpi one.
+#To compile we need to access to the terminal first and execute the following commands
+#
+#if the pc version is wanted execute:
+#make snake_version_pc 
+#then execute
+#./snake
+#
+#if the rpi version is wanted execute:
+#make snake_version_rpi
+#then execute
+#./snake_rpi
+#
+#if there is a need to remove all the object files execute:
+#make clean
+#note: the important object files are stored in a separated directory
+
 snake_version_pc: main.o
 	gcc main.o snake_graphic_base.o snake_logic.o snake_pc.o ui.o utils.o sound.o -o snake `pkg-config --libs allegro-5.0` `pkg-config --libs allegro_font-5.0` `pkg-config --libs allegro_image-5.0` `pkg-config --libs allegro_primitives-5.0` `pkg-config --libs allegro_ttf-5.0` `pkg-config --libs allegro_audio-5.0` `pkg-config --libs allegro_acodec-5.0`
 
+
 main.o: main.c snake_logic.o snake_pc.o snake_graphic_base.o sound.o config.h
 	gcc -c main.c
+
 snake_graphic_base.o: snake_graphic_base.c snake_graphic_base.h  ui.o config.h
 	gcc -c snake_graphic_base.c
 
@@ -11,6 +33,8 @@ sound.o: sound.c sound.h
 
 snake_pc.o: snake_pc.c snake_pc.h snake_graphic_base.o utils.o config.h
 	gcc -c snake_pc.c
+
+
 ui.o:	ui.c ui.h utils.o config.h
 	gcc -c ui.c
 
