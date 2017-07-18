@@ -40,18 +40,18 @@ void update_game( logic_vars_t* game_data , full_graphic_content* content ){
     switch (content->front_end_status){ 
         case INITIAL_MENU:
 
-            status = update_button(content->intial_menu->play_button);
+            status = update_button(content->initial_menu->play_button);
             if (status){
                 content->front_end_status = PLAY;
                 handle_start_game( game_data , content );
                 
                 //we set up the audio based on the difficult value
-                content->audio_state=content->intial_menu->diff_ui->value; 
+                content->audio_state=content->initial_menu->diff_ui->value; 
                 
             }
-            update_reg_box(content->intial_menu->width_config_ui);
-            update_reg_box(content->intial_menu->height_config_ui);
-            update_reg_box(content->intial_menu->diff_ui);
+            update_reg_box(content->initial_menu->width_config_ui);
+            update_reg_box(content->initial_menu->height_config_ui);
+            update_reg_box(content->initial_menu->diff_ui);
             
         break;
         
@@ -93,8 +93,8 @@ void set_scoreboard_to_grey(full_graphic_content *content){
     set_show_text_color(content->scoreboard->score_text,LIGHT_BOX_COLOR);
 }
 void handle_start_game( logic_vars_t *game_data,full_graphic_content *content){
-    set_snake_game_size( game_data , content->intial_menu->width_config_ui->value , content->intial_menu->height_config_ui->value);
-    set_game_difficulty(game_data , content->intial_menu->diff_ui->value);
+    set_snake_game_size( game_data , content->initial_menu->width_config_ui->value , content->initial_menu->height_config_ui->value);
+    set_game_difficulty(game_data , content->initial_menu->diff_ui->value);
     
     start_snake_logic(game_data); // start game
     update_scoreboard(game_data,content); // start scoreboard
@@ -128,15 +128,15 @@ void update_pc_graphic_screen( logic_vars_t* game_data , full_graphic_content* c
     switch (content->front_end_status){
         case INITIAL_MENU:
             al_draw_bitmap(content->images->snake_logo, (SCREEN_W/2)-100, (SCREEN_H/2)-110, 0);
-            draw_button(content->intial_menu->play_button);
-            draw_reg_box(content->intial_menu->width_config_ui);
-            draw_reg_box(content->intial_menu->height_config_ui);
-            draw_reg_box(content->intial_menu->diff_ui);
+            draw_button(content->initial_menu->play_button);
+            draw_reg_box(content->initial_menu->width_config_ui);
+            draw_reg_box(content->initial_menu->height_config_ui);
+            draw_reg_box(content->initial_menu->diff_ui);
             
-            draw_show_text(content->intial_menu->text_config_size);
-            draw_show_text(content->intial_menu->extra_text_config);
-            draw_show_text(content->intial_menu->title_text);
-            draw_show_text(content->intial_menu->diff_text);
+            draw_show_text(content->initial_menu->text_config_size);
+            draw_show_text(content->initial_menu->extra_text_config);
+            draw_show_text(content->initial_menu->title_text);
+            draw_show_text(content->initial_menu->diff_text);
             
         break;
         case PLAY:

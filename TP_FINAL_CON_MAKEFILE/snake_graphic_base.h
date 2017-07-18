@@ -16,8 +16,6 @@ and how the different graphical objects are drawn (Their position is relative to
 #include "config.h"
 #include "ui.h"
 
-
-
  //// front end different status moments
 enum {INITIAL_MENU , PLAY , GAME_OVER};
 
@@ -79,7 +77,7 @@ typedef struct{
     bool do_exit; 
 
     images_t *images;
-    initial_menu_vars_t *intial_menu; /// variables for initial menu
+    initial_menu_vars_t *initial_menu; /// variables for initial menu
     scoreboard_vars_t *scoreboard;
     
     fonts_t* fonts;

@@ -143,10 +143,10 @@ void destroy_images(images_t* images){
 }
 /*** Create all user interface elements ***/
 void init_menu(full_graphic_content *content){
-    //content->intial_menu->play_button = init_button( NULL , NULL );
+    //content->initial_menu->play_button = init_button( NULL , NULL );
     
-    content->intial_menu = malloc(sizeof(initial_menu_vars_t));
-    if (!content->intial_menu){
+    content->initial_menu = malloc(sizeof(initial_menu_vars_t));
+    if (!content->initial_menu){
         fprintf(stderr,"Could not allocate memory");
         exit(1);
     }
@@ -158,33 +158,33 @@ void init_menu(full_graphic_content *content){
         content->images->arr_down_2
     };
     
-    content->intial_menu->play_button = init_button(content->images->start_button_image , content->images->start_button_image_b, content->cursor_handler, SCREEN_W / 2 , SCREEN_H - START_BUTTON_CORR);
+    content->initial_menu->play_button = init_button(content->images->start_button_image , content->images->start_button_image_b, content->cursor_handler, SCREEN_W / 2 , SCREEN_H - START_BUTTON_CORR);
     
    
-    content->intial_menu->width_config_ui = init_reg_box(arr_box_images, content->cursor_handler,content->fonts->iso_text,SCREEN_W/8*1,SCREEN_H/2,DEFAULT_WIDTH,MIN_TABLE_WIDTH,MAX_TABLE_WIDTH);
-    content->intial_menu->height_config_ui = init_reg_box(arr_box_images, content->cursor_handler, content->fonts->iso_text,SCREEN_W/4,SCREEN_H/2,DEFAULT_HEIGHT,MIN_TABLE_HEIGHT,MAX_TABLE_HEIGHT);
-    content->intial_menu->diff_ui = init_reg_box(arr_box_images, content->cursor_handler, content->fonts->iso_text,SCREEN_W/4*3,SCREEN_H/2,DEFAULT_DIFFICULTY,MIN_DIFF,MAX_DIFF);
+    content->initial_menu->width_config_ui = init_reg_box(arr_box_images, content->cursor_handler,content->fonts->iso_text,SCREEN_W/8*1,SCREEN_H/2,DEFAULT_WIDTH,MIN_TABLE_WIDTH,MAX_TABLE_WIDTH);
+    content->initial_menu->height_config_ui = init_reg_box(arr_box_images, content->cursor_handler, content->fonts->iso_text,SCREEN_W/4,SCREEN_H/2,DEFAULT_HEIGHT,MIN_TABLE_HEIGHT,MAX_TABLE_HEIGHT);
+    content->initial_menu->diff_ui = init_reg_box(arr_box_images, content->cursor_handler, content->fonts->iso_text,SCREEN_W/4*3,SCREEN_H/2,DEFAULT_DIFFICULTY,MIN_DIFF,MAX_DIFF);
     
     
-    content->intial_menu->text_config_size = init_show_text(MAP_SIZE_TEXT,BOX_COLOR,content->fonts->iso_text,SCREEN_W/16*3,SCREEN_H/2-TEXT_CONF_DISTANCE);
-    content->intial_menu->extra_text_config = init_show_text("X",BOX_COLOR,content->fonts->iso_text,SCREEN_W/16*3,SCREEN_H/2-DEF_SZ/2);
-    content->intial_menu->title_text = init_show_text(GAME_TITLE_TEXT,BOX_COLOR,content->fonts->iso_title,SCREEN_W/2,TITLE_DISTANCE_Y);
-    content->intial_menu->diff_text = init_show_text(DIFF_TEXT,BOX_COLOR,content->fonts->iso_text,SCREEN_W/4*3,SCREEN_H/2-TEXT_CONF_DISTANCE);
+    content->initial_menu->text_config_size = init_show_text(MAP_SIZE_TEXT,BOX_COLOR,content->fonts->iso_text,SCREEN_W/16*3,SCREEN_H/2-TEXT_CONF_DISTANCE);
+    content->initial_menu->extra_text_config = init_show_text("X",BOX_COLOR,content->fonts->iso_text,SCREEN_W/16*3,SCREEN_H/2-DEF_SZ/2);
+    content->initial_menu->title_text = init_show_text(GAME_TITLE_TEXT,BOX_COLOR,content->fonts->iso_title,SCREEN_W/2,TITLE_DISTANCE_Y);
+    content->initial_menu->diff_text = init_show_text(DIFF_TEXT,BOX_COLOR,content->fonts->iso_text,SCREEN_W/4*3,SCREEN_H/2-TEXT_CONF_DISTANCE);
     
     
 }
 
 void destroy_menu(full_graphic_content *content){
-    destroy_button(content->intial_menu->play_button);
-    destroy_reg_box(content->intial_menu->width_config_ui);
-    destroy_reg_box(content->intial_menu->height_config_ui);
+    destroy_button(content->initial_menu->play_button);
+    destroy_reg_box(content->initial_menu->width_config_ui);
+    destroy_reg_box(content->initial_menu->height_config_ui);
     
-    destroy_text(content->intial_menu->text_config_size);
-    destroy_text(content->intial_menu->extra_text_config);
-    destroy_text(content->intial_menu->title_text);
-    destroy_text(content->intial_menu->diff_text);
+    destroy_text(content->initial_menu->text_config_size);
+    destroy_text(content->initial_menu->extra_text_config);
+    destroy_text(content->initial_menu->title_text);
+    destroy_text(content->initial_menu->diff_text);
     
-    free(content->intial_menu);
+    free(content->initial_menu);
 }
 void init_scoreboard(full_graphic_content *content){
     content->scoreboard = malloc(sizeof(scoreboard_vars_t));
@@ -230,16 +230,16 @@ void update_positions(full_graphic_content* content){
     
     
     //// Initial Menu
-    update_show_text_position(content->intial_menu->title_text,screen_width/2,TITLE_DISTANCE_Y);
-    update_show_text_position(content->intial_menu->text_config_size,screen_width/16*3,screen_height/2-TEXT_CONF_DISTANCE);
-    update_show_text_position(content->intial_menu->diff_text,screen_width/4*3,screen_height/2-TEXT_CONF_DISTANCE);
-    update_show_text_position(content->intial_menu->extra_text_config,screen_width/16*3,screen_height/2-DEF_SZ/2);
+    update_show_text_position(content->initial_menu->title_text,screen_width/2,TITLE_DISTANCE_Y);
+    update_show_text_position(content->initial_menu->text_config_size,screen_width/16*3,screen_height/2-TEXT_CONF_DISTANCE);
+    update_show_text_position(content->initial_menu->diff_text,screen_width/4*3,screen_height/2-TEXT_CONF_DISTANCE);
+    update_show_text_position(content->initial_menu->extra_text_config,screen_width/16*3,screen_height/2-DEF_SZ/2);
     
-    update_button_position(content->intial_menu->play_button,screen_width/2,screen_height-START_BUTTON_CORR);
+    update_button_position(content->initial_menu->play_button,screen_width/2,screen_height-START_BUTTON_CORR);
     
-    update_reg_box_position(content->intial_menu->width_config_ui,screen_width/8,screen_height/2);
-    update_reg_box_position(content->intial_menu->height_config_ui,screen_width/4,screen_height/2);
-    update_reg_box_position(content->intial_menu->diff_ui,screen_width/4*3,screen_height/2);
+    update_reg_box_position(content->initial_menu->width_config_ui,screen_width/8,screen_height/2);
+    update_reg_box_position(content->initial_menu->height_config_ui,screen_width/4,screen_height/2);
+    update_reg_box_position(content->initial_menu->diff_ui,screen_width/4*3,screen_height/2);
     
 
     //// Scoreboard
