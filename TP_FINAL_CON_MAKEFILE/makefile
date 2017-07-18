@@ -12,7 +12,7 @@
 #if the rpi version is wanted execute:
 #make snake_version_rpi
 #then execute
-#./snake_rpi
+#./snake_rpi_exec
 #
 #if there is a need to remove all the object files execute:
 #make clean
