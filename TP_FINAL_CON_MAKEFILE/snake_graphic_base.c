@@ -94,6 +94,11 @@ void init_snake_pc(full_graphic_content *content){
     
     /// init scoreboard
     init_scoreboard(content);
+    
+    ///init audio states
+    
+    content->audio_state=0;
+    content->last_audio_state = -1;
 }
 
 

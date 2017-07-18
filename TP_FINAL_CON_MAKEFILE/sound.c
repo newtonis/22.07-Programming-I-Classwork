@@ -11,11 +11,13 @@ void al_audio_init(music_vars_t * music){
         music->audio_instances[i]=NULL; 
     }
     
+    // these are the audios which will be played 
     music->pt2str[MENU_AUDIO]="menu2.wav";
     music->pt2str[SLOW_AUDIO]="slow.wav";
     music->pt2str[NORMAL_AUDIO]="normal.wav";
     music->pt2str[FAST_AUDIO]="fast.wav";
     music->pt2str[GAME_OVER_AUDIO]="game_over.wav";
+    
     
     
     if(!al_install_audio()){
@@ -107,15 +109,10 @@ void handle_audio(full_graphic_content* content, music_vars_t * music ){
                     al_stop_samples();
                     al_play_sample(music->audio_samples[GAME_OVER_AUDIO], 1.0, 0.0,1.0,ALLEGRO_PLAYMODE_ONCE,NULL);
                 }
-                //deberia haber un delay quiza o recien cuando se aprieta el boton de restart
                 break;
         }
         
         
-        
-        
-        
-    
 }
 void destroy_music_vars(music_vars_t *music){
     

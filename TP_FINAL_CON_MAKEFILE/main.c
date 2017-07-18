@@ -38,9 +38,6 @@ int main(void){
     
     music_vars_t music; /// Initialize music
     al_audio_init(&music);
-  
-    content.audio_state=0;
-    content.last_audio_state = -1;
 
     init_snake_pc(&content); /// Start snake-front-end system. We need to give the initializer the front end variables
     

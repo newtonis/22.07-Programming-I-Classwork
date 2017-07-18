@@ -39,12 +39,14 @@ void update_game( logic_vars_t* game_data , full_graphic_content* content ){
     /// Main front end Machine
     switch (content->front_end_status){ 
         case INITIAL_MENU:
-            //al_get_mouse_state(&state);
+
             status = update_button(content->intial_menu->play_button);
             if (status){
                 content->front_end_status = PLAY;
                 handle_start_game( game_data , content );
-                content->audio_state=content->intial_menu->diff_ui->value;
+                
+                //we set up the audio based on the difficult value
+                content->audio_state=content->intial_menu->diff_ui->value; 
                 
             }
             update_reg_box(content->intial_menu->width_config_ui);
